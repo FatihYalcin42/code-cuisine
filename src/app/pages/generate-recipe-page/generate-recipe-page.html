@@ -21,10 +21,28 @@
 <main class="generate-page-content" aria-label="Generate recipe page">
   <div class="generate-panels">
     <section class="ingredient-panel" aria-labelledby="ingredient-panel-title">
-      <label class="ingredient-label" id="ingredient-panel-title" for="ingredient-input">
-        Ingredient:
-      </label>
-      <input class="ingredient-input" id="ingredient-input" type="text" />
+      <div class="ingredient-panel-header">
+        <label class="ingredient-label" id="ingredient-panel-title" for="ingredient-input">
+          Ingredient:
+        </label>
+
+        <div class="serving-size">
+          <label class="serving-size-label" for="serving-size-input">Serving size</label>
+        </div>
+      </div>
+
+      <div class="ingredient-panel-controls">
+        <input class="ingredient-input" id="ingredient-input" type="text" />
+
+        <div class="serving-size-controls">
+          <input class="serving-size-input" id="serving-size-input" type="text" value="100" />
+          <button class="serving-size-unit" type="button">gram</button>
+        </div>
+
+        <button class="ingredient-add" type="button" aria-label="Add ingredient">
+          <img src="/Icons/add_2.svg" width="24" height="24" alt="" aria-hidden="true" />
+        </button>
+      </div>
     </section>
 
     <section class="ingredient-list-panel" aria-label="List of your ingredients"></section>

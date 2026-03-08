@@ -106,8 +106,35 @@
   padding: 25px 24px;
 }
 
+.ingredient-panel-header,
+.ingredient-panel-controls {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  align-items: start;
+  column-gap: 24px;
+}
+
+.ingredient-panel-controls {
+  grid-template-columns: 300px 1fr 24px;
+  align-items: center;
+}
+
 .ingredient-label {
   margin: 0;
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.serving-size {
+  justify-self: start;
+}
+
+.serving-size-label {
   color: #10310b;
   font-family: 'Quicksand', sans-serif;
   font-size: 20px;
@@ -133,6 +160,66 @@
 
 .ingredient-input:focus {
   box-shadow: 0 0 0 2px rgb(30 85 21 / 18%);
+}
+
+.serving-size-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.serving-size-input,
+.serving-size-unit {
+  box-sizing: border-box;
+  height: 36px;
+  border: 0;
+  border-radius: 48px;
+  background: rgb(250 240 230 / 80%);
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.serving-size-input {
+  width: 61px;
+  padding: 3px 15px;
+  text-align: center;
+  outline: none;
+}
+
+.serving-size-input:focus {
+  box-shadow: 0 0 0 2px rgb(30 85 21 / 18%);
+}
+
+.serving-size-unit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  padding: 0 5px;
+  gap: 4px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.ingredient-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.ingredient-add img {
+  display: block;
 }
 
 .ingredient-list-panel {
@@ -189,8 +276,18 @@
     min-height: auto;
   }
 
+  .ingredient-panel-header,
+  .ingredient-panel-controls {
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+  }
+
   .ingredient-input {
     width: 100%;
+  }
+
+  .serving-size-controls {
+    justify-self: start;
   }
 
   .ingredient-list-panel {
