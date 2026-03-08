@@ -1,6 +1,13 @@
 import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+interface IngredientEntry {
+  id: number;
+  name: string;
+  amount: string;
+  unit: string;
+}
+
 @Component({
   selector: 'app-generate-recipe-page',
   imports: [RouterLink],
@@ -10,9 +17,17 @@ import { RouterLink } from '@angular/router';
 export class GenerateRecipePageComponent {
   protected readonly selectedUnit = signal('gram');
   protected readonly isUnitMenuOpen = signal(false);
+  protected readonly ingredientName = signal('');
+  protected readonly servingSizeValue = signal('');
+  protected readonly ingredientEntries = signal<IngredientEntry[]>([]);
   private readonly unitOptions = ['gram', 'ml', 'piece'];
+  private readonly editingEntryId = signal<number | null>(null);
+  private nextEntryId = 1;
   protected readonly availableUnits = computed(() =>
     this.unitOptions.filter((unit) => unit !== this.selectedUnit()),
+  );
+  protected readonly ingredientNameSuggestions = computed(() =>
+    this.ingredientEntries().map((entry) => entry.name),
   );
 
   /** Toggles the serving-size unit dropdown. */
@@ -23,6 +38,81 @@ export class GenerateRecipePageComponent {
   /** Selects a serving-size unit and closes the dropdown. */
   protected selectUnit(unit: string): void {
     this.selectedUnit.set(unit);
+    this.isUnitMenuOpen.set(false);
+  }
+
+  /** Stores the current ingredient name input value. */
+  protected updateIngredientName(value: string): void {
+    this.ingredientName.set(value);
+  }
+
+  /** Stores the current serving-size input value. */
+  protected updateServingSizeValue(value: string): void {
+    this.servingSizeValue.set(value);
+  }
+
+  /** Adds a new ingredient entry or updates the currently edited one. */
+  protected addIngredient(): void {
+    const name = this.ingredientName().trim();
+    const amount = this.servingSizeValue().trim();
+
+    if (!name || !amount) {
+      return;
+    }
+
+    const editingEntryId = this.editingEntryId();
+    const entry: IngredientEntry = {
+      id: editingEntryId ?? this.nextEntryId++,
+      name,
+      amount,
+      unit: this.selectedUnit(),
+    };
+
+    if (editingEntryId === null) {
+      this.ingredientEntries.update((entries) => [...entries, entry]);
+    } else {
+      this.ingredientEntries.update((entries) =>
+        entries.map((currentEntry) => (currentEntry.id === editingEntryId ? entry : currentEntry)),
+      );
+    }
+
+    this.resetIngredientForm();
+  }
+
+  /** Loads an ingredient entry back into the form for editing. */
+  protected editIngredient(entry: IngredientEntry): void {
+    this.ingredientName.set(entry.name);
+    this.servingSizeValue.set(entry.amount);
+    this.selectedUnit.set(entry.unit);
+    this.editingEntryId.set(entry.id);
+    this.isUnitMenuOpen.set(false);
+  }
+
+  /** Removes an ingredient entry from the generated list. */
+  protected deleteIngredient(entryId: number): void {
+    this.ingredientEntries.update((entries) =>
+      entries.filter((currentEntry) => currentEntry.id !== entryId),
+    );
+
+    if (this.editingEntryId() === entryId) {
+      this.resetIngredientForm();
+    }
+  }
+
+  /** Formats the entry amount for the list on the right side. */
+  protected formatIngredientAmount(entry: IngredientEntry): string {
+    if (entry.unit === 'piece') {
+      return entry.amount;
+    }
+
+    return `${entry.amount}${entry.unit === 'gram' ? 'g' : 'ml'}`;
+  }
+
+  /** Clears the input state after adding, updating, or deleting an edited item. */
+  private resetIngredientForm(): void {
+    this.ingredientName.set('');
+    this.servingSizeValue.set('');
+    this.editingEntryId.set(null);
     this.isUnitMenuOpen.set(false);
   }
 }

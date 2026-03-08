@@ -306,8 +306,23 @@
   display: grid;
   align-content: start;
   width: 478px;
-  height: 209px;
+  min-height: 209px;
   padding: 24px;
+}
+
+.ingredient-suggestions {
+  display: grid;
+  gap: 8px;
+}
+
+.ingredient-suggestion {
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 20px;
 }
 
 .ingredient-list-title {
@@ -319,6 +334,84 @@
   font-weight: 500;
   letter-spacing: 0;
   line-height: 20px;
+}
+
+.ingredient-list {
+  display: grid;
+  gap: 4px;
+  margin-top: 20px;
+}
+
+.ingredient-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 12px;
+  background: transparent;
+  transition: background-color 160ms ease;
+}
+
+@media (hover: hover) {
+  .ingredient-list-item:hover {
+    background: rgb(250 240 230 / 80%);
+  }
+}
+
+.ingredient-list-copy {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.ingredient-list-bullet,
+.ingredient-list-amount,
+.ingredient-list-name {
+  flex: 0 0 auto;
+}
+
+.ingredient-list-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ingredient-list-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+
+.ingredient-list-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.ingredient-list-action img {
+  display: block;
+}
+
+@media (hover: hover) {
+  .ingredient-list-action:hover {
+    opacity: 0.72;
+  }
 }
 
 @media (max-width: 768px) {

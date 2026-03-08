@@ -32,10 +32,24 @@
       </div>
 
       <div class="ingredient-panel-controls">
-        <input class="ingredient-input" id="ingredient-input" type="text" />
+        <input
+          class="ingredient-input"
+          id="ingredient-input"
+          type="text"
+          [value]="ingredientName()"
+          (input)="updateIngredientName($any($event.target).value)"
+        />
 
         <div class="serving-size-controls">
-          <input class="serving-size-input" id="serving-size-input" type="text" placeholder="100" />
+          <input
+            class="serving-size-input"
+            id="serving-size-input"
+            type="text"
+            placeholder="100"
+            inputmode="numeric"
+            [value]="servingSizeValue()"
+            (input)="updateServingSizeValue($any($event.target).value)"
+          />
 
           <div class="serving-size-dropdown">
             <button
@@ -69,14 +83,56 @@
           </div>
         </div>
 
-        <button class="ingredient-add" type="button" aria-label="Add ingredient">
+        <button class="ingredient-add" type="button" aria-label="Add ingredient" (click)="addIngredient()">
           <img src="/Icons/add_2.svg" width="24" height="24" alt="" aria-hidden="true" />
         </button>
       </div>
+
+      @if (ingredientNameSuggestions().length > 0) {
+        <div class="ingredient-suggestions" aria-label="Ingredient suggestions">
+          @for (name of ingredientNameSuggestions(); track $index) {
+            <span class="ingredient-suggestion">{{ name }}</span>
+          }
+        </div>
+      }
     </section>
 
     <section class="ingredient-list-panel" aria-labelledby="ingredient-list-title">
       <h2 class="ingredient-list-title" id="ingredient-list-title">List of your Ingredients</h2>
+
+      @if (ingredientEntries().length > 0) {
+        <div class="ingredient-list" aria-label="Added ingredients">
+          @for (entry of ingredientEntries(); track entry.id) {
+            <div class="ingredient-list-item">
+              <div class="ingredient-list-copy">
+                <span class="ingredient-list-bullet" aria-hidden="true">•</span>
+                <span class="ingredient-list-amount">{{ formatIngredientAmount(entry) }}</span>
+                <span class="ingredient-list-name">{{ entry.name }}</span>
+              </div>
+
+              <div class="ingredient-list-actions">
+                <button
+                  class="ingredient-list-action"
+                  type="button"
+                  aria-label="Edit ingredient"
+                  (click)="editIngredient(entry)"
+                >
+                  <img src="/Icons/Frame%20975.svg" alt="" aria-hidden="true" />
+                </button>
+
+                <button
+                  class="ingredient-list-action"
+                  type="button"
+                  aria-label="Delete ingredient"
+                  (click)="deleteIngredient(entry.id)"
+                >
+                  <img src="/Icons/delete.svg" alt="" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
     </section>
   </div>
 </main>
