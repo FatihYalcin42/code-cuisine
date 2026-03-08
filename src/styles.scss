@@ -6,9 +6,10 @@ body {
 
 body {
   background: #396039;
+  overflow: hidden;
 }
 
 app-root {
   display: block;
-  min-height: 100dvh;
+  height: 100dvh;
 }
