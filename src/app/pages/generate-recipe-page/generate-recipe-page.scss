@@ -238,7 +238,7 @@
   z-index: 2;
   display: grid;
   width: max-content;
-  gap: 8px;
+  gap: 6px;
   padding: 0;
   background: transparent;
   box-shadow: none;
@@ -248,10 +248,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  height: auto;
+  justify-self: start;
+  min-height: 22px;
   min-width: 0;
-  padding: 0;
-  border-radius: 0;
+  padding: 0 10px;
+  border-radius: 48px;
   background: transparent;
   color: #10310b;
   font-family: 'Quicksand', sans-serif;
@@ -261,13 +262,27 @@
   letter-spacing: 0;
   line-height: 10px;
   cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    opacity 160ms ease;
 }
 
-.serving-size-menu-item:hover,
 .serving-size-menu-item:focus-visible {
-  background: transparent;
+  background: rgb(250 240 230 / 80%);
   outline: none;
-  opacity: 0.72;
+}
+
+@media (hover: hover) {
+  .serving-size-menu-item:hover,
+  .serving-size-menu-item:focus-visible {
+    background: rgb(250 240 230 / 80%);
+    outline: none;
+    opacity: 1;
+  }
+}
+
+.serving-size-menu-item:active {
+  opacity: 0.88;
 }
 
 .ingredient-add {
