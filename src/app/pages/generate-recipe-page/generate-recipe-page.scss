@@ -109,13 +109,14 @@
 .ingredient-panel-header {
   display: flex;
   align-items: flex-start;
-  gap: 56px;
+  width: 100%;
 }
 
 .ingredient-panel-controls {
   display: flex;
   align-items: center;
   gap: 8px;
+  width: 100%;
 }
 
 .ingredient-label {
@@ -130,7 +131,8 @@
 }
 
 .serving-size {
-  justify-self: start;
+  width: 141px;
+  margin-left: auto;
 }
 
 .serving-size-label {
@@ -162,15 +164,11 @@
   box-shadow: 0 0 0 2px rgb(30 85 21 / 18%);
 }
 
-.serving-size {
-  margin-left: 0;
-}
-
 .serving-size-controls {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-left: 56px;
+  margin-left: auto;
 }
 
 .serving-size-input,
@@ -290,6 +288,7 @@
   .ingredient-panel-controls {
     display: grid;
     gap: 16px;
+    width: auto;
   }
 
   .ingredient-input {
