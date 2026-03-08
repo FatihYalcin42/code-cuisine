@@ -1,0 +1,229 @@
+:host {
+  display: block;
+  position: relative;
+  height: 100dvh;
+  background: #396039;
+  overflow: hidden;
+}
+
+.site-header {
+  position: absolute;
+  top: 40px;
+  left: 68px;
+  z-index: 2;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 142px;
+  height: 48px;
+}
+
+.brand-mark-media {
+  display: block;
+  width: 142px;
+  height: 48px;
+  pointer-events: none;
+}
+
+.brand-mark-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 142px;
+  height: 48px;
+  color: #f5f5dc;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.page-shell {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 100dvh;
+  padding: 218px 40px 40px 65px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-copy {
+  display: grid;
+  gap: 0;
+  width: min(100%, 760px);
+  position: relative;
+  z-index: 1;
+}
+
+.hero-kicker {
+  margin: 0;
+  width: min(100%, 755px);
+  color: #f5f5dc;
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(2rem, 4.2vw, 48px);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.hero-title {
+  margin: 0;
+  color: #f5f5dc;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: clamp(3.6rem, 8vw, 104px);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.hero-title-accent {
+  font: inherit;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  margin-top: 64px;
+  width: 183px;
+  height: 60px;
+  padding: 16px 26px;
+  gap: 10px;
+  box-sizing: border-box;
+  appearance: none;
+  border: none;
+  background: #faf0e6;
+  color: #008000;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+  transform-origin: center;
+}
+
+@media (hover: hover) {
+  .hero-cta:hover {
+    transform: scale(1.04);
+    background: #eadbc8;
+    box-shadow: 0 12px 24px rgb(0 0 0 / 12%);
+  }
+}
+
+.hero-cta:focus-visible {
+  transform: scale(1.04);
+  background: #eadbc8;
+  box-shadow: 0 0 0 3px rgb(250 240 230 / 28%);
+}
+
+.hero-cta:active {
+  transform: scale(1.02);
+}
+
+.hero-prompt {
+  width: 342px;
+  height: 34px;
+  margin: 0;
+  color: #faf0e6;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.04;
+}
+
+.hero-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  position: fixed;
+  left: 65px;
+  bottom: 72px;
+  width: max-content;
+  max-width: calc(100vw - 130px);
+  z-index: 3;
+}
+
+.hero-cookbook-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #faf0e6;
+  text-decoration: none;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.hero-cookbook-link img {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.hero-visual {
+  position: absolute;
+  top: -100px;
+  right: 0;
+  width: 420px;
+  height: 1002px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    top: 24px;
+    left: 20px;
+  }
+
+  .brand-mark,
+  .brand-mark-media,
+  .brand-mark-fallback {
+    width: 118px;
+    height: auto;
+  }
+
+  .page-shell {
+    padding: 64px 20px 32px;
+  }
+
+  .hero-copy {
+    gap: 0;
+  }
+
+  .hero-title {
+    margin-top: 0;
+  }
+
+  .hero-cta {
+    margin-top: 48px;
+  }
+
+  .hero-links {
+    position: static;
+    gap: 1rem;
+    margin-top: 32px;
+  }
+
+  .hero-visual {
+    display: none;
+  }
+}

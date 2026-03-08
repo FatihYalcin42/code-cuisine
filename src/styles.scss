@@ -5,11 +5,11 @@ body {
 }
 
 body {
-  background: #396039;
-  overflow: hidden;
+  min-height: 100dvh;
+  overflow-x: hidden;
 }
 
 app-root {
   display: block;
-  height: 100dvh;
+  min-height: 100dvh;
 }
