@@ -221,7 +221,10 @@
 .serving-size-unit-arrow {
   display: block;
   flex: 0 0 auto;
+  width: 10px;
+  height: 5px;
   transition: transform 180ms ease;
+  transform-origin: center;
 }
 
 .serving-size-unit-open .serving-size-unit-arrow {
