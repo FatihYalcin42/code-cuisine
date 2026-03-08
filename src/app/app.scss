@@ -126,10 +126,12 @@
   align-items: center;
   gap: 2rem;
   flex-wrap: wrap;
-  position: absolute;
+  position: fixed;
   left: 65px;
   bottom: 72px;
-  z-index: 1;
+  width: max-content;
+  max-width: calc(100vw - 130px);
+  z-index: 3;
 }
 
 .hero-cookbook-link {
