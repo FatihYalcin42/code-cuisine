@@ -249,18 +249,18 @@
   align-items: center;
   justify-content: flex-start;
   justify-self: start;
-  min-height: 18px;
+  min-height: 16px;
   min-width: 0;
-  padding: 0 6px;
+  padding: 0 4px;
   border-radius: 48px;
   background: transparent;
   color: #10310b;
   font-family: 'Quicksand', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 500;
   letter-spacing: 0;
-  line-height: 10px;
+  line-height: 9px;
   cursor: pointer;
   transition:
     background-color 160ms ease,
@@ -268,14 +268,14 @@
 }
 
 .serving-size-menu-item:focus-visible {
-  background: rgb(250 240 230 / 45%);
+  background: rgb(250 240 230 / 80%);
   outline: none;
 }
 
 @media (hover: hover) {
   .serving-size-menu-item:hover,
   .serving-size-menu-item:focus-visible {
-    background: rgb(250 240 230 / 45%);
+    background: rgb(250 240 230 / 80%);
     outline: none;
     opacity: 1;
   }
