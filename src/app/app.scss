@@ -38,7 +38,42 @@
 }
 
 .page-shell {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
   min-height: calc(100dvh - 80px);
+  padding: 112px 40px 40px;
+}
+
+.hero-copy {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.hero-kicker {
+  width: min(100%, 755px);
+  color: #f5f5dc;
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(2rem, 4.2vw, 48px);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.hero-title {
+  margin: 0;
+  color: #f5f5dc;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: clamp(3.6rem, 8vw, 104px);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.hero-title-accent {
+  font: inherit;
 }
 
 @media (max-width: 768px) {
@@ -51,5 +86,13 @@
   .brand-mark-fallback {
     width: 118px;
     height: auto;
+  }
+
+  .page-shell {
+    padding: 72px 20px 32px;
+  }
+
+  .hero-copy {
+    gap: 1rem;
   }
 }
