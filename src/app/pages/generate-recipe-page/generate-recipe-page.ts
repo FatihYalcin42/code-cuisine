@@ -48,15 +48,24 @@ export class GenerateRecipePageComponent {
 
   /** Stores the current serving-size input value. */
   protected updateServingSizeValue(value: string): void {
-    this.servingSizeValue.set(value);
+    const digitsOnlyValue = value.replaceAll(/\D/g, '');
+
+    if (!digitsOnlyValue) {
+      this.servingSizeValue.set('');
+      return;
+    }
+
+    const normalizedValue = Math.max(1, Number.parseInt(digitsOnlyValue, 10));
+    this.servingSizeValue.set(String(normalizedValue));
   }
 
   /** Adds a new ingredient entry or updates the currently edited one. */
   protected addIngredient(): void {
     const name = this.ingredientName().trim();
     const amount = this.servingSizeValue().trim();
+    const amountNumber = Number.parseInt(amount, 10);
 
-    if (!name || !amount) {
+    if (!name || !amount || Number.isNaN(amountNumber) || amountNumber < 1) {
       return;
     }
 
@@ -64,7 +73,7 @@ export class GenerateRecipePageComponent {
     const entry: IngredientEntry = {
       id: editingEntryId ?? this.nextEntryId++,
       name,
-      amount,
+      amount: String(amountNumber),
       unit: this.selectedUnit(),
     };
 

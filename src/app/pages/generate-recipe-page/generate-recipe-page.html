@@ -47,6 +47,9 @@
             type="text"
             placeholder="100"
             inputmode="numeric"
+            pattern="[0-9]*"
+            min="1"
+            autocomplete="off"
             [value]="servingSizeValue()"
             (input)="updateServingSizeValue($any($event.target).value)"
           />
