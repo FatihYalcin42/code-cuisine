@@ -323,6 +323,8 @@
   font-weight: 500;
   letter-spacing: 0;
   line-height: 20px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .ingredient-list-title {
@@ -361,7 +363,8 @@
 
 .ingredient-list-copy {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex: 1 1 auto;
   gap: 12px;
   min-width: 0;
   color: #10310b;
@@ -380,9 +383,10 @@
 }
 
 .ingredient-list-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  flex: 1 1 auto;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .ingredient-list-actions {

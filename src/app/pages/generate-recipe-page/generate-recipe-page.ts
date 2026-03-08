@@ -43,7 +43,7 @@ export class GenerateRecipePageComponent {
 
   /** Stores the current ingredient name input value. */
   protected updateIngredientName(value: string): void {
-    this.ingredientName.set(value);
+    this.ingredientName.set(value.slice(0, 40));
   }
 
   /** Stores the current serving-size input value. */

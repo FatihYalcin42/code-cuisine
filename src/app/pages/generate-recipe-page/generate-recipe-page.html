@@ -36,6 +36,7 @@
           class="ingredient-input"
           id="ingredient-input"
           type="text"
+          maxlength="40"
           [value]="ingredientName()"
           (input)="updateIngredientName($any($event.target).value)"
         />
