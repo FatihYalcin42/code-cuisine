@@ -126,7 +126,10 @@
   align-items: center;
   gap: 2rem;
   flex-wrap: wrap;
-  margin-top: 48px;
+  position: absolute;
+  left: 65px;
+  bottom: 72px;
+  z-index: 1;
 }
 
 .hero-cookbook-link {
@@ -189,6 +192,7 @@
   }
 
   .hero-links {
+    position: static;
     gap: 1rem;
     margin-top: 32px;
   }
