@@ -1,0 +1,55 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: #396039;
+}
+
+.site-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 32px 40px 0;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 142px;
+  height: 48px;
+}
+
+.brand-mark-media {
+  display: block;
+  width: 142px;
+  height: 48px;
+  pointer-events: none;
+}
+
+.brand-mark-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 142px;
+  height: 48px;
+  color: #f5f5dc;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.page-shell {
+  min-height: calc(100dvh - 80px);
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    padding: 24px 20px 0;
+  }
+
+  .brand-mark,
+  .brand-mark-media,
+  .brand-mark-fallback {
+    width: 118px;
+    height: auto;
+  }
+}
