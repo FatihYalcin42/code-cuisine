@@ -36,7 +36,37 @@
 
         <div class="serving-size-controls">
           <input class="serving-size-input" id="serving-size-input" type="text" placeholder="100" />
-          <button class="serving-size-unit" type="button">gram</button>
+
+          <div class="serving-size-dropdown">
+            <button
+              class="serving-size-unit"
+              [class.serving-size-unit-open]="isUnitMenuOpen()"
+              type="button"
+              (click)="toggleUnitMenu()"
+              [attr.aria-expanded]="isUnitMenuOpen()"
+              aria-haspopup="listbox"
+            >
+              <span>{{ selectedUnit() }}</span>
+              <img
+                class="serving-size-unit-arrow"
+                src="/Icons/arrow_drop_down.svg"
+                width="24"
+                height="24"
+                alt=""
+                aria-hidden="true"
+              />
+            </button>
+
+            @if (isUnitMenuOpen()) {
+              <div class="serving-size-menu" role="listbox" aria-label="Serving size unit options">
+                @for (unit of availableUnits(); track unit) {
+                  <button class="serving-size-menu-item" type="button" (click)="selectUnit(unit)">
+                    {{ unit }}
+                  </button>
+                }
+              </div>
+            }
+          </div>
         </div>
 
         <button class="ingredient-add" type="button" aria-label="Add ingredient">

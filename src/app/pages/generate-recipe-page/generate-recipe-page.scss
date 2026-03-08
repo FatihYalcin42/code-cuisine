@@ -172,7 +172,8 @@
 }
 
 .serving-size-input,
-.serving-size-unit {
+.serving-size-unit,
+.serving-size-menu-item {
   box-sizing: border-box;
   height: 36px;
   border: 0;
@@ -205,12 +206,57 @@
 .serving-size-unit {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 72px;
   padding: 0 5px;
   gap: 4px;
   appearance: none;
   cursor: pointer;
+}
+
+.serving-size-dropdown {
+  position: relative;
+}
+
+.serving-size-unit-arrow {
+  display: block;
+  flex: 0 0 auto;
+  transition: transform 180ms ease;
+}
+
+.serving-size-unit-open .serving-size-unit-arrow {
+  transform: rotate(180deg);
+}
+
+.serving-size-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 2;
+  display: grid;
+  min-width: 72px;
+  width: max-content;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 16px;
+  background: #faf0e6;
+  box-shadow: 0 10px 24px rgb(16 49 11 / 12%);
+}
+
+.serving-size-menu-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 72px;
+  padding: 0 12px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.serving-size-menu-item:hover,
+.serving-size-menu-item:focus-visible {
+  background: rgb(57 96 57 / 12%);
+  outline: none;
 }
 
 .ingredient-add {
