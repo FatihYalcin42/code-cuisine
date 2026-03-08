@@ -90,6 +90,33 @@
   gap: 24px;
 }
 
+.generate-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 64px;
+}
+
+.next-step-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 162px;
+  height: 62px;
+  padding: 16px 26px;
+  gap: 10px;
+  border: 0;
+  background: #396039;
+  color: #faf0e6;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+}
+
 .ingredient-panel,
 .ingredient-list-panel {
   box-sizing: border-box;
@@ -478,6 +505,10 @@
 
   .generate-panels {
     grid-template-columns: 1fr;
+  }
+
+  .generate-actions {
+    margin-top: 32px;
   }
 
   .ingredient-panel,
