@@ -107,6 +107,29 @@
   line-height: 1;
   text-align: center;
   cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+  transform-origin: center;
+}
+
+@media (hover: hover) {
+  .hero-cta:hover {
+    transform: scale(1.04);
+    background: #eadbc8;
+    box-shadow: 0 12px 24px rgb(0 0 0 / 12%);
+  }
+}
+
+.hero-cta:focus-visible {
+  transform: scale(1.04);
+  background: #eadbc8;
+  box-shadow: 0 0 0 3px rgb(250 240 230 / 28%);
+}
+
+.hero-cta:active {
+  transform: scale(1.02);
 }
 
 .hero-prompt {
