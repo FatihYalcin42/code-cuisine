@@ -233,12 +233,12 @@
 
 .serving-size-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 4px);
   left: 0;
   z-index: 2;
   display: grid;
   width: max-content;
-  gap: 6px;
+  gap: 2px;
   padding: 0;
   background: transparent;
   box-shadow: none;
@@ -249,9 +249,9 @@
   align-items: center;
   justify-content: flex-start;
   justify-self: start;
-  min-height: 22px;
+  min-height: 18px;
   min-width: 0;
-  padding: 0 10px;
+  padding: 0 6px;
   border-radius: 48px;
   background: transparent;
   color: #10310b;
@@ -268,21 +268,21 @@
 }
 
 .serving-size-menu-item:focus-visible {
-  background: rgb(250 240 230 / 80%);
+  background: rgb(250 240 230 / 45%);
   outline: none;
 }
 
 @media (hover: hover) {
   .serving-size-menu-item:hover,
   .serving-size-menu-item:focus-visible {
-    background: rgb(250 240 230 / 80%);
+    background: rgb(250 240 230 / 45%);
     outline: none;
     opacity: 1;
   }
 }
 
 .serving-size-menu-item:active {
-  opacity: 0.88;
+  opacity: 0.92;
 }
 
 .ingredient-add {
