@@ -93,6 +93,9 @@
 .generate-actions {
   display: flex;
   justify-content: flex-end;
+  width: min(100%, 1079px);
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 64px;
 }
 
