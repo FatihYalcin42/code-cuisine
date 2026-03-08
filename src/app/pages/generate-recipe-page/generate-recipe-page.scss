@@ -231,9 +231,22 @@
 }
 
 .ingredient-list-panel {
+  display: grid;
+  align-content: start;
   width: 478px;
   height: 209px;
   padding: 24px;
+}
+
+.ingredient-list-title {
+  margin: 0;
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 20px;
 }
 
 @media (max-width: 768px) {
