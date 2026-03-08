@@ -20,6 +20,9 @@ export class GenerateRecipePageComponent {
   protected readonly ingredientName = signal('');
   protected readonly servingSizeValue = signal('');
   protected readonly ingredientEntries = signal<IngredientEntry[]>([]);
+  protected readonly formFeedback = signal('');
+  protected readonly hasIngredientNameError = signal(false);
+  protected readonly hasServingSizeError = signal(false);
   private readonly unitOptions = ['gram', 'ml', 'piece'];
   private readonly editingEntryId = signal<number | null>(null);
   private nextEntryId = 1;
@@ -29,6 +32,7 @@ export class GenerateRecipePageComponent {
   protected readonly ingredientNameSuggestions = computed(() =>
     this.ingredientEntries().map((entry) => entry.name),
   );
+  protected readonly hasFormFeedback = computed(() => this.formFeedback().length > 0);
 
   /** Toggles the serving-size unit dropdown. */
   protected toggleUnitMenu(): void {
@@ -44,6 +48,11 @@ export class GenerateRecipePageComponent {
   /** Stores the current ingredient name input value. */
   protected updateIngredientName(value: string): void {
     this.ingredientName.set(value.slice(0, 40));
+    this.hasIngredientNameError.set(false);
+
+    if (this.hasFormFeedback()) {
+      this.clearFormFeedback();
+    }
   }
 
   /** Stores the current serving-size input value. */
@@ -52,11 +61,17 @@ export class GenerateRecipePageComponent {
 
     if (!digitsOnlyValue) {
       this.servingSizeValue.set('');
+      this.hasServingSizeError.set(false);
       return;
     }
 
     const normalizedValue = Math.max(1, Number.parseInt(digitsOnlyValue, 10));
     this.servingSizeValue.set(String(normalizedValue));
+    this.hasServingSizeError.set(false);
+
+    if (this.hasFormFeedback()) {
+      this.clearFormFeedback();
+    }
   }
 
   /** Adds a new ingredient entry or updates the currently edited one. */
@@ -64,8 +79,20 @@ export class GenerateRecipePageComponent {
     const name = this.ingredientName().trim();
     const amount = this.servingSizeValue().trim();
     const amountNumber = Number.parseInt(amount, 10);
+    const isIngredientNameMissing = !name;
+    const isServingSizeInvalid = !amount || Number.isNaN(amountNumber) || amountNumber < 1;
 
-    if (!name || !amount || Number.isNaN(amountNumber) || amountNumber < 1) {
+    this.hasIngredientNameError.set(isIngredientNameMissing);
+    this.hasServingSizeError.set(isServingSizeInvalid);
+
+    if (isIngredientNameMissing || isServingSizeInvalid) {
+      if (isIngredientNameMissing && isServingSizeInvalid) {
+        this.formFeedback.set('Please enter an ingredient and a serving size of at least 1.');
+      } else if (isIngredientNameMissing) {
+        this.formFeedback.set('Please enter an ingredient.');
+      } else {
+        this.formFeedback.set('Please enter a serving size of at least 1.');
+      }
       return;
     }
 
@@ -123,5 +150,13 @@ export class GenerateRecipePageComponent {
     this.servingSizeValue.set('');
     this.editingEntryId.set(null);
     this.isUnitMenuOpen.set(false);
+    this.clearFormFeedback();
+  }
+
+  /** Clears transient validation feedback and field error states. */
+  private clearFormFeedback(): void {
+    this.formFeedback.set('');
+    this.hasIngredientNameError.set(false);
+    this.hasServingSizeError.set(false);
   }
 }

@@ -34,6 +34,7 @@
       <div class="ingredient-panel-controls">
         <input
           class="ingredient-input"
+          [class.ingredient-input-invalid]="hasIngredientNameError()"
           id="ingredient-input"
           type="text"
           maxlength="40"
@@ -44,6 +45,7 @@
         <div class="serving-size-controls">
           <input
             class="serving-size-input"
+            [class.serving-size-input-invalid]="hasServingSizeError()"
             id="serving-size-input"
             type="text"
             placeholder="100"
@@ -91,6 +93,14 @@
           <img src="/Icons/add_2.svg" width="24" height="24" alt="" aria-hidden="true" />
         </button>
       </div>
+
+      <p
+        class="ingredient-feedback"
+        [class.ingredient-feedback-visible]="hasFormFeedback()"
+        aria-live="polite"
+      >
+        {{ formFeedback() }}
+      </p>
 
       @if (ingredientNameSuggestions().length > 0) {
         <div class="ingredient-suggestions" aria-label="Ingredient suggestions">
