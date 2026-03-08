@@ -43,11 +43,15 @@
   justify-content: flex-start;
   min-height: calc(100dvh - 80px);
   padding: 112px 40px 40px;
+  position: relative;
+  overflow: hidden;
 }
 
 .hero-copy {
   display: grid;
   gap: 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-kicker {
@@ -76,6 +80,17 @@
   font: inherit;
 }
 
+.hero-visual {
+  position: absolute;
+  top: -42px;
+  right: 0;
+  width: 480px;
+  height: 1145px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
 @media (max-width: 768px) {
   .site-header {
     padding: 24px 20px 0;
@@ -94,5 +109,9 @@
 
   .hero-copy {
     gap: 1rem;
+  }
+
+  .hero-visual {
+    display: none;
   }
 }
