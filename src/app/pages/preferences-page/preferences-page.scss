@@ -264,6 +264,27 @@
   white-space: nowrap;
 }
 
+.preferences-generate-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+  transform-origin: center;
+}
+
+.preferences-generate-button img {
+  display: block;
+  width: min(100%, 351px);
+  height: auto;
+}
+
 @media (hover: hover) {
   .preferences-back-link:hover,
   .preferences-back-link:focus-visible {
@@ -287,6 +308,17 @@
   .preferences-chip.preferences-chip-selected:focus-visible {
     background: rgb(57 96 57 / 20%);
   }
+
+  .preferences-generate-button:hover {
+    transform: scale(1.04);
+    box-shadow: 0 12px 24px rgb(0 0 0 / 12%);
+  }
+}
+
+.preferences-generate-button:focus-visible {
+  transform: scale(1.04);
+  box-shadow: 0 0 0 3px rgb(250 240 230 / 28%);
+  outline: none;
 }
 
 @media (max-width: 768px) {
