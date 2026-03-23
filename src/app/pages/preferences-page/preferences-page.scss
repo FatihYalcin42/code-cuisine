@@ -169,12 +169,37 @@
 }
 
 .preferences-panel {
+  display: grid;
   box-sizing: border-box;
+  align-content: start;
+  gap: 40px;
   width: min(100%, 721px);
   min-height: 412px;
   padding: 32px 24px;
   border-radius: 20px;
   background: rgb(57 96 57 / 20%);
+}
+
+.preferences-panel-section-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preferences-panel-section-heading img {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.preferences-panel-title {
+  margin: 0;
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
 }
 
 @media (hover: hover) {
