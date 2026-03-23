@@ -168,6 +168,15 @@
   line-height: 1;
 }
 
+.preferences-panel {
+  box-sizing: border-box;
+  width: min(100%, 721px);
+  min-height: 412px;
+  padding: 32px 24px;
+  border-radius: 20px;
+  background: rgb(57 96 57 / 20%);
+}
+
 @media (hover: hover) {
   .preferences-back-link:hover,
   .preferences-back-link:focus-visible {
@@ -223,5 +232,10 @@
 
   .preference-unit {
     font-size: 20px;
+  }
+
+  .preferences-panel {
+    width: 100%;
+    min-height: 320px;
   }
 }
