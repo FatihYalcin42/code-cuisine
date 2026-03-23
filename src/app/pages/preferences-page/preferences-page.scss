@@ -272,11 +272,7 @@
   border: 0;
   background: transparent;
   cursor: pointer;
-  transition:
-    transform 180ms ease,
-    background-color 180ms ease,
-    box-shadow 180ms ease;
-  transform-origin: center;
+  transition: filter 180ms ease;
 }
 
 .preferences-generate-button img {
@@ -310,14 +306,12 @@
   }
 
   .preferences-generate-button:hover {
-    transform: scale(1.04);
-    box-shadow: 0 12px 24px rgb(0 0 0 / 12%);
+    filter: brightness(0.82);
   }
 }
 
 .preferences-generate-button:focus-visible {
-  transform: scale(1.04);
-  box-shadow: 0 0 0 3px rgb(250 240 230 / 28%);
+  filter: brightness(0.82);
   outline: none;
 }
 
