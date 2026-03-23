@@ -118,6 +118,18 @@
   line-height: 1;
   text-align: center;
   cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+@media (hover: hover) {
+  .next-step-button:hover {
+    background: #055e05;
+  }
+}
+
+.next-step-button:focus-visible {
+  background: #055e05;
+  outline: none;
 }
 
 .ingredient-panel,

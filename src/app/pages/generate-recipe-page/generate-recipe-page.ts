@@ -33,6 +33,7 @@ export class GenerateRecipePageComponent {
     this.ingredientEntries().map((entry) => entry.name),
   );
   protected readonly hasFormFeedback = computed(() => this.formFeedback().length > 0);
+  protected readonly canShowNextStepButton = computed(() => this.ingredientEntries().length >= 2);
 
   /** Toggles the serving-size unit dropdown. */
   protected toggleUnitMenu(): void {
