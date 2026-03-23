@@ -89,17 +89,38 @@
 
         <div class="preferences-chip-grid preferences-chip-grid-cooking">
           <div class="preferences-chip-option">
-            <span class="preferences-chip">Quick</span>
+            <button
+              class="preferences-chip"
+              [class.preferences-chip-selected]="selectedCookingTime() === 'Quick'"
+              type="button"
+              (click)="selectCookingTime('Quick')"
+            >
+              Quick
+            </button>
             <span class="preferences-chip-caption">ab to 20min</span>
           </div>
 
           <div class="preferences-chip-option">
-            <span class="preferences-chip">Medium</span>
+            <button
+              class="preferences-chip"
+              [class.preferences-chip-selected]="selectedCookingTime() === 'Medium'"
+              type="button"
+              (click)="selectCookingTime('Medium')"
+            >
+              Medium
+            </button>
             <span class="preferences-chip-caption">25-40min</span>
           </div>
 
           <div class="preferences-chip-option">
-            <span class="preferences-chip">Complex</span>
+            <button
+              class="preferences-chip"
+              [class.preferences-chip-selected]="selectedCookingTime() === 'Complex'"
+              type="button"
+              (click)="selectCookingTime('Complex')"
+            >
+              Complex
+            </button>
             <span class="preferences-chip-caption">over 45min</span>
           </div>
         </div>
@@ -112,12 +133,54 @@
         </div>
 
         <div class="preferences-chip-grid preferences-chip-grid-tags">
-          <span class="preferences-chip">German</span>
-          <span class="preferences-chip">Italian</span>
-          <span class="preferences-chip">Indian</span>
-          <span class="preferences-chip">Japanese</span>
-          <span class="preferences-chip">Gourmet</span>
-          <span class="preferences-chip">Fusion</span>
+          <button
+            class="preferences-chip"
+            [class.preferences-chip-selected]="selectedCuisine() === 'German'"
+            type="button"
+            (click)="selectCuisine('German')"
+          >
+            German
+          </button>
+          <button
+            class="preferences-chip"
+            [class.preferences-chip-selected]="selectedCuisine() === 'Italian'"
+            type="button"
+            (click)="selectCuisine('Italian')"
+          >
+            Italian
+          </button>
+          <button
+            class="preferences-chip"
+            [class.preferences-chip-selected]="selectedCuisine() === 'Indian'"
+            type="button"
+            (click)="selectCuisine('Indian')"
+          >
+            Indian
+          </button>
+          <button
+            class="preferences-chip"
+            [class.preferences-chip-selected]="selectedCuisine() === 'Japanese'"
+            type="button"
+            (click)="selectCuisine('Japanese')"
+          >
+            Japanese
+          </button>
+          <button
+            class="preferences-chip"
+            [class.preferences-chip-selected]="selectedCuisine() === 'Gourmet'"
+            type="button"
+            (click)="selectCuisine('Gourmet')"
+          >
+            Gourmet
+          </button>
+          <button
+            class="preferences-chip"
+            [class.preferences-chip-selected]="selectedCuisine() === 'Fusion'"
+            type="button"
+            (click)="selectCuisine('Fusion')"
+          >
+            Fusion
+          </button>
         </div>
       </section>
 
@@ -128,10 +191,38 @@
         </div>
 
         <div class="preferences-chip-grid preferences-chip-grid-tags">
-          <span class="preferences-chip">Vegetarian</span>
-          <span class="preferences-chip">Vegan</span>
-          <span class="preferences-chip">Keto</span>
-          <span class="preferences-chip">No preferences</span>
+          <button
+            class="preferences-chip"
+            [class.preferences-chip-selected]="selectedDietPreference() === 'Vegetarian'"
+            type="button"
+            (click)="selectDietPreference('Vegetarian')"
+          >
+            Vegetarian
+          </button>
+          <button
+            class="preferences-chip"
+            [class.preferences-chip-selected]="selectedDietPreference() === 'Vegan'"
+            type="button"
+            (click)="selectDietPreference('Vegan')"
+          >
+            Vegan
+          </button>
+          <button
+            class="preferences-chip"
+            [class.preferences-chip-selected]="selectedDietPreference() === 'Keto'"
+            type="button"
+            (click)="selectDietPreference('Keto')"
+          >
+            Keto
+          </button>
+          <button
+            class="preferences-chip"
+            [class.preferences-chip-selected]="selectedDietPreference() === 'No preferences'"
+            type="button"
+            (click)="selectDietPreference('No preferences')"
+          >
+            No preferences
+          </button>
         </div>
       </section>
     </section>

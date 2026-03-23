@@ -10,6 +10,9 @@ import { RouterLink } from '@angular/router';
 export class PreferencesPageComponent {
   protected readonly portions = signal(2);
   protected readonly persons = signal(1);
+  protected readonly selectedCookingTime = signal<string | null>(null);
+  protected readonly selectedCuisine = signal<string | null>(null);
+  protected readonly selectedDietPreference = signal<string | null>(null);
 
   protected decreasePortions(): void {
     this.portions.update((value) => Math.max(1, value - 1));
@@ -25,5 +28,17 @@ export class PreferencesPageComponent {
 
   protected increasePersons(): void {
     this.persons.update((value) => value + 1);
+  }
+
+  protected selectCookingTime(option: string): void {
+    this.selectedCookingTime.set(option);
+  }
+
+  protected selectCuisine(option: string): void {
+    this.selectedCuisine.set(option);
+  }
+
+  protected selectDietPreference(option: string): void {
+    this.selectedDietPreference.set(option);
   }
 }

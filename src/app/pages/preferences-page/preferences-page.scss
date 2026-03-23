@@ -233,6 +233,7 @@
   height: 28px;
   padding: 6px 12px;
   box-sizing: border-box;
+  border: 0;
   border-radius: 30px;
   background: #faf0e6;
   color: #1e5515;
@@ -244,6 +245,12 @@
   line-height: 20px;
   text-align: center;
   white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.preferences-chip-selected {
+  background: rgb(57 96 57 / 20%);
 }
 
 .preferences-chip-caption {
@@ -268,6 +275,17 @@
     transform: scale(1.04);
     opacity: 0.82;
     outline: none;
+  }
+
+  .preferences-chip:hover,
+  .preferences-chip:focus-visible {
+    background: #fae0c6;
+    outline: none;
+  }
+
+  .preferences-chip.preferences-chip-selected:hover,
+  .preferences-chip.preferences-chip-selected:focus-visible {
+    background: rgb(57 96 57 / 20%);
   }
 }
 
