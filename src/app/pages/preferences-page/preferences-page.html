@@ -81,20 +81,59 @@
     </div>
 
     <section class="preferences-panel" aria-label="Preferences options">
-      <div class="preferences-panel-section-heading">
-        <img src="/Icons/schedule.svg" width="30" height="30" alt="" aria-hidden="true" />
-        <h2 class="preferences-panel-title">Cooking time:</h2>
-      </div>
+      <section class="preferences-panel-section" aria-labelledby="cooking-time-title">
+        <div class="preferences-panel-section-heading">
+          <img src="/Icons/schedule.svg" width="30" height="30" alt="" aria-hidden="true" />
+          <h2 class="preferences-panel-title" id="cooking-time-title">Cooking time:</h2>
+        </div>
 
-      <div class="preferences-panel-section-heading">
-        <img src="/Icons/public.svg" width="30" height="30" alt="" aria-hidden="true" />
-        <h2 class="preferences-panel-title">Cuisine</h2>
-      </div>
+        <div class="preferences-chip-grid preferences-chip-grid-cooking">
+          <div class="preferences-chip-option">
+            <span class="preferences-chip">Quick</span>
+            <span class="preferences-chip-caption">ab to 20min</span>
+          </div>
 
-      <div class="preferences-panel-section-heading">
-        <img src="/Icons/fork_spoon.svg" width="30" height="30" alt="" aria-hidden="true" />
-        <h2 class="preferences-panel-title">Diet preferences</h2>
-      </div>
+          <div class="preferences-chip-option">
+            <span class="preferences-chip">Medium</span>
+            <span class="preferences-chip-caption">25-40min</span>
+          </div>
+
+          <div class="preferences-chip-option">
+            <span class="preferences-chip">Complex</span>
+            <span class="preferences-chip-caption">over 45min</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="preferences-panel-section" aria-labelledby="cuisine-title">
+        <div class="preferences-panel-section-heading">
+          <img src="/Icons/public.svg" width="30" height="30" alt="" aria-hidden="true" />
+          <h2 class="preferences-panel-title" id="cuisine-title">Cuisine</h2>
+        </div>
+
+        <div class="preferences-chip-grid preferences-chip-grid-tags">
+          <span class="preferences-chip">German</span>
+          <span class="preferences-chip">Italian</span>
+          <span class="preferences-chip">Indian</span>
+          <span class="preferences-chip">Japanese</span>
+          <span class="preferences-chip">Gourmet</span>
+          <span class="preferences-chip">Fusion</span>
+        </div>
+      </section>
+
+      <section class="preferences-panel-section" aria-labelledby="diet-preferences-title">
+        <div class="preferences-panel-section-heading">
+          <img src="/Icons/fork_spoon.svg" width="30" height="30" alt="" aria-hidden="true" />
+          <h2 class="preferences-panel-title" id="diet-preferences-title">Diet preferences</h2>
+        </div>
+
+        <div class="preferences-chip-grid preferences-chip-grid-tags">
+          <span class="preferences-chip">Vegetarian</span>
+          <span class="preferences-chip">Vegan</span>
+          <span class="preferences-chip">Keto</span>
+          <span class="preferences-chip">No preferences</span>
+        </div>
+      </section>
     </section>
   </section>
 </main>

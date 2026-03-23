@@ -180,6 +180,12 @@
   background: rgb(57 96 57 / 20%);
 }
 
+.preferences-panel-section {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
 .preferences-panel-section-heading {
   display: inline-flex;
   align-items: center;
@@ -200,6 +206,55 @@
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1;
+}
+
+.preferences-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 20px 28px;
+}
+
+.preferences-chip-grid-cooking {
+  gap: 16px 28px;
+}
+
+.preferences-chip-option {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+.preferences-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 83px;
+  height: 28px;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  border-radius: 30px;
+  background: #faf0e6;
+  color: #1e5515;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 20px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.preferences-chip-caption {
+  color: #1e5515;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 10px;
+  white-space: nowrap;
 }
 
 @media (hover: hover) {
@@ -262,5 +317,18 @@
   .preferences-panel {
     width: 100%;
     min-height: 320px;
+  }
+
+  .preferences-panel-section {
+    gap: 14px;
+  }
+
+  .preferences-chip-grid,
+  .preferences-chip-grid-cooking {
+    gap: 14px 16px;
+  }
+
+  .preferences-chip {
+    font-size: 18px;
   }
 }
