@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
 })
 export class PreferencesPageComponent {
   protected readonly portions = signal(2);
-  protected readonly persons = signal(2);
+  protected readonly persons = signal(1);
 
   protected decreasePortions(): void {
     this.portions.update((value) => Math.max(1, value - 1));

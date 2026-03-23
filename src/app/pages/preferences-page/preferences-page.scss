@@ -68,8 +68,8 @@
 .preferences-shell {
   display: grid;
   justify-items: center;
-  gap: 56px;
-  width: min(100%, 960px);
+  gap: 120px;
+  width: min(100%, 1160px);
   margin: 0 auto;
 }
 
@@ -87,19 +87,17 @@
 
 .preferences-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px;
-  width: 100%;
+  grid-template-columns: repeat(2, max-content);
+  align-items: start;
+  gap: 120px;
+  justify-content: center;
+  width: auto;
 }
 
-.preference-card {
+.preference-group {
   display: grid;
-  justify-items: center;
-  gap: 28px;
-  min-height: 272px;
-  padding: 36px 28px;
-  border-radius: 28px;
-  background: rgb(57 96 57 / 20%);
+  justify-items: start;
+  gap: 40px;
 }
 
 .preference-label {
@@ -111,13 +109,13 @@
   font-weight: 500;
   letter-spacing: 0;
   line-height: 20px;
-  text-align: center;
+  text-align: left;
 }
 
 .preference-stepper {
   display: inline-flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
 }
 
 .preference-icon-button {
@@ -143,16 +141,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 54px;
-  height: 44px;
-  padding: 0 14px;
-  border-radius: 14px;
-  background: rgb(57 96 57 / 20%);
+  min-width: 40px;
+  height: 40px;
+  padding: 0 10px;
+  background: rgb(57 96 57 / 12%);
   color: #10310b;
   font-family: 'Quicksand', sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0;
   line-height: 1;
 }
@@ -161,11 +158,11 @@
   margin: 0;
   color: #10310b;
   font-family: 'Quicksand', sans-serif;
-  font-size: 20px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 500;
   letter-spacing: 0;
-  line-height: 20px;
+  line-height: 1;
 }
 
 @media (hover: hover) {
@@ -205,19 +202,25 @@
   }
 
   .preferences-shell {
-    gap: 40px;
+    gap: 56px;
   }
 
   .preferences-grid {
     grid-template-columns: 1fr;
+    gap: 56px;
+    width: 100%;
   }
 
-  .preference-card {
-    min-height: 232px;
-    padding: 28px 20px;
+  .preference-group {
+    gap: 28px;
   }
 
   .preference-stepper {
     gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .preference-unit {
+    font-size: 20px;
   }
 }

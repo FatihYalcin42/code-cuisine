@@ -21,7 +21,7 @@
     <h1 class="preferences-title" id="preferences-title">Choose your preferences</h1>
 
     <div class="preferences-grid">
-      <section class="preference-card" aria-labelledby="portions-title">
+      <section class="preference-group" aria-labelledby="portions-title">
         <h2 class="preference-label" id="portions-title">How many portions you need?</h2>
 
         <div class="preference-stepper" aria-label="Portions selector">
@@ -36,6 +36,8 @@
 
           <span class="preference-count-box" aria-live="polite">{{ portions() }}</span>
 
+          <p class="preference-unit">Portions</p>
+
           <button
             class="preference-icon-button"
             type="button"
@@ -45,11 +47,9 @@
             <img src="/Icons/Plus.svg" width="28" height="28" alt="" aria-hidden="true" />
           </button>
         </div>
-
-        <p class="preference-unit">Portions</p>
       </section>
 
-      <section class="preference-card" aria-labelledby="persons-title">
+      <section class="preference-group" aria-labelledby="persons-title">
         <h2 class="preference-label" id="persons-title">How many are cooking?</h2>
 
         <div class="preference-stepper" aria-label="Persons selector">
@@ -64,6 +64,8 @@
 
           <span class="preference-count-box" aria-live="polite">{{ persons() }}</span>
 
+          <p class="preference-unit">Person</p>
+
           <button
             class="preference-icon-button"
             type="button"
@@ -73,8 +75,6 @@
             <img src="/Icons/Plus.svg" width="28" height="28" alt="" aria-hidden="true" />
           </button>
         </div>
-
-        <p class="preference-unit">Persons</p>
       </section>
     </div>
   </section>
