@@ -55,7 +55,9 @@
             min="1"
             autocomplete="off"
             [value]="servingSizeValue()"
+            (beforeinput)="restrictServingSizeInput($event)"
             (input)="updateServingSizeValue($any($event.target).value)"
+            (paste)="blockInvalidServingSizePaste($event)"
           />
 
           <div class="serving-size-dropdown">

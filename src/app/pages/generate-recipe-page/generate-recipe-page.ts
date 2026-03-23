@@ -72,6 +72,26 @@ export class GenerateRecipePageComponent {
     }
   }
 
+  /** Blocks non-numeric text input before it reaches the serving-size field. */
+  protected restrictServingSizeInput(event: InputEvent): void {
+    if (!event.data || event.inputType.startsWith('delete')) {
+      return;
+    }
+
+    if (!/^\d+$/.test(event.data)) {
+      event.preventDefault();
+    }
+  }
+
+  /** Prevents pasting values that contain anything other than digits. */
+  protected blockInvalidServingSizePaste(event: ClipboardEvent): void {
+    const pastedText = event.clipboardData?.getData('text') ?? '';
+
+    if (!/^\d+$/.test(pastedText)) {
+      event.preventDefault();
+    }
+  }
+
   /** Adds a new ingredient entry or updates the currently edited one. */
   protected addIngredient(): void {
     const name = this.ingredientName().trim();
