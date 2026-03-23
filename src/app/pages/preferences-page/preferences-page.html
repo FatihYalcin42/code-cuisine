@@ -231,7 +231,7 @@
       class="preferences-generate-button"
       type="button"
       aria-label="Generate a recipe"
-      routerLink="/loading"
+      (click)="generateRecipe()"
     >
       <img
         src="/Icons/generate-recept.svg"
@@ -243,3 +243,36 @@
     </button>
   </section>
 </main>
+
+@if (isQuantityPopupOpen()) {
+  <div class="preferences-popup-backdrop" (click)="closeQuantityPopup()">
+    <section
+      class="preferences-popup"
+      aria-labelledby="preferences-popup-title"
+      aria-modal="true"
+      role="dialog"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        class="preferences-popup-close"
+        type="button"
+        aria-label="Close popup"
+        (click)="closeQuantityPopup()"
+      >
+        ×
+      </button>
+
+      <h2 class="preferences-popup-title" id="preferences-popup-title">Ups! Not quite enough...</h2>
+
+      <p class="preferences-popup-copy">
+        It looks like some ingredient quantities aren’t sufficient for your selected servings.
+        Please add or adjust quantities and try again.
+      </p>
+
+      <button class="preferences-popup-link" type="button" (click)="goBackToIngredients()">
+        <span>Go back to ingredients</span>
+        <span aria-hidden="true">→</span>
+      </button>
+    </section>
+  </div>
+}
