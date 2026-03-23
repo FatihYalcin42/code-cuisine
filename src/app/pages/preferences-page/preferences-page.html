@@ -1,0 +1,81 @@
+<header class="preferences-header">
+  <a class="preferences-brand" routerLink="/" aria-label="Back to home page">
+    <object
+      class="preferences-brand-media"
+      data="/Icons/Capa_green.svg?v=1"
+      type="image/svg+xml"
+      aria-label="Code-a-Cuisine"
+    >
+      <span class="preferences-brand-fallback">Code a Cuisine</span>
+    </object>
+  </a>
+
+  <a class="preferences-back-link" routerLink="/generate-recipe" aria-label="Back to ingredients">
+    <img src="/Icons/Arrow%2011.svg" width="22" height="15" alt="" aria-hidden="true" />
+    <span>Ingredients</span>
+  </a>
+</header>
+
+<main class="preferences-page" aria-label="Preferences page">
+  <section class="preferences-shell" aria-labelledby="preferences-title">
+    <h1 class="preferences-title" id="preferences-title">Choose your preferences</h1>
+
+    <div class="preferences-grid">
+      <section class="preference-card" aria-labelledby="portions-title">
+        <h2 class="preference-label" id="portions-title">How many portions you need?</h2>
+
+        <div class="preference-stepper" aria-label="Portions selector">
+          <button
+            class="preference-icon-button"
+            type="button"
+            aria-label="Decrease portions"
+            (click)="decreasePortions()"
+          >
+            <img src="/Icons/Minus.svg" width="28" height="28" alt="" aria-hidden="true" />
+          </button>
+
+          <span class="preference-count-box" aria-live="polite">{{ portions() }}</span>
+
+          <button
+            class="preference-icon-button"
+            type="button"
+            aria-label="Increase portions"
+            (click)="increasePortions()"
+          >
+            <img src="/Icons/Plus.svg" width="28" height="28" alt="" aria-hidden="true" />
+          </button>
+        </div>
+
+        <p class="preference-unit">Portions</p>
+      </section>
+
+      <section class="preference-card" aria-labelledby="persons-title">
+        <h2 class="preference-label" id="persons-title">How many are cooking?</h2>
+
+        <div class="preference-stepper" aria-label="Persons selector">
+          <button
+            class="preference-icon-button"
+            type="button"
+            aria-label="Decrease persons"
+            (click)="decreasePersons()"
+          >
+            <img src="/Icons/Minus.svg" width="28" height="28" alt="" aria-hidden="true" />
+          </button>
+
+          <span class="preference-count-box" aria-live="polite">{{ persons() }}</span>
+
+          <button
+            class="preference-icon-button"
+            type="button"
+            aria-label="Increase persons"
+            (click)="increasePersons()"
+          >
+            <img src="/Icons/Plus.svg" width="28" height="28" alt="" aria-hidden="true" />
+          </button>
+        </div>
+
+        <p class="preference-unit">Persons</p>
+      </section>
+    </div>
+  </section>
+</main>
