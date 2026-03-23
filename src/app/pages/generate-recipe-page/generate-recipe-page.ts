@@ -1,12 +1,9 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-
-interface IngredientEntry {
-  id: number;
-  name: string;
-  amount: string;
-  unit: string;
-}
+import {
+  IngredientDraftStateService,
+  IngredientEntry,
+} from '../../services/ingredient-draft-state.service';
 
 @Component({
   selector: 'app-generate-recipe-page',
@@ -15,17 +12,17 @@ interface IngredientEntry {
   styleUrl: './generate-recipe-page.scss',
 })
 export class GenerateRecipePageComponent {
+  private readonly ingredientDraftState = inject(IngredientDraftStateService);
   protected readonly selectedUnit = signal('gram');
   protected readonly isUnitMenuOpen = signal(false);
   protected readonly ingredientName = signal('');
   protected readonly servingSizeValue = signal('');
-  protected readonly ingredientEntries = signal<IngredientEntry[]>([]);
+  protected readonly ingredientEntries = this.ingredientDraftState.ingredientEntries;
   protected readonly formFeedback = signal('');
   protected readonly hasIngredientNameError = signal(false);
   protected readonly hasServingSizeError = signal(false);
   private readonly unitOptions = ['gram', 'ml', 'piece'];
   private readonly editingEntryId = signal<number | null>(null);
-  private nextEntryId = 1;
   protected readonly availableUnits = computed(() =>
     this.unitOptions.filter((unit) => unit !== this.selectedUnit()),
   );
@@ -98,18 +95,15 @@ export class GenerateRecipePageComponent {
     }
 
     const editingEntryId = this.editingEntryId();
-    const entry: IngredientEntry = {
-      id: editingEntryId ?? this.nextEntryId++,
-      name,
-      amount: String(amountNumber),
-      unit: this.selectedUnit(),
-    };
 
     if (editingEntryId === null) {
-      this.ingredientEntries.update((entries) => [...entries, entry]);
+      this.ingredientDraftState.addIngredient(name, String(amountNumber), this.selectedUnit());
     } else {
-      this.ingredientEntries.update((entries) =>
-        entries.map((currentEntry) => (currentEntry.id === editingEntryId ? entry : currentEntry)),
+      this.ingredientDraftState.updateIngredient(
+        editingEntryId,
+        name,
+        String(amountNumber),
+        this.selectedUnit(),
       );
     }
 
@@ -127,9 +121,7 @@ export class GenerateRecipePageComponent {
 
   /** Removes an ingredient entry from the generated list. */
   protected deleteIngredient(entryId: number): void {
-    this.ingredientEntries.update((entries) =>
-      entries.filter((currentEntry) => currentEntry.id !== entryId),
-    );
+    this.ingredientDraftState.deleteIngredient(entryId);
 
     if (this.editingEntryId() === entryId) {
       this.resetIngredientForm();
