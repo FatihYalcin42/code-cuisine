@@ -55,7 +55,7 @@ export class GenerateRecipePageComponent {
 
   /** Stores the current serving-size input value. */
   protected updateServingSizeValue(value: string): void {
-    const digitsOnlyValue = value.replaceAll(/\D/g, '');
+    const digitsOnlyValue = value.replaceAll(/\D/g, '').slice(0, 4);
 
     if (!digitsOnlyValue) {
       this.servingSizeValue.set('');
