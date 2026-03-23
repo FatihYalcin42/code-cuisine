@@ -74,10 +74,12 @@
 }
 
 .preferences-title {
+  width: min(100%, 335px);
+  min-height: 35px;
   margin: 0;
   color: #10310b;
   font-family: 'Quicksand', sans-serif;
-  font-size: 28px;
+  font-size: clamp(1.5rem, 2.2vw, 28px);
   font-style: normal;
   font-weight: 600;
   letter-spacing: 0;
