@@ -48,6 +48,7 @@
   justify-items: center;
   align-content: center;
   width: min(100%, 520px);
+  gap: 24px;
 }
 
 .loading-title {
@@ -106,6 +107,99 @@
   }
 }
 
+.loading-result,
+.loading-error {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  max-width: 420px;
+  text-align: center;
+}
+
+.loading-result-label,
+.loading-result-meta,
+.loading-error-message,
+.loading-action-link,
+.loading-action-button {
+  margin: 0;
+  color: #faf0e6;
+  font-family: 'Quicksand', sans-serif;
+  font-style: normal;
+}
+
+.loading-result-label,
+.loading-result-meta {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.loading-result-title {
+  margin: 0;
+  color: #faf0e6;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.loading-result-description,
+.loading-error-message {
+  margin: 0;
+  color: #faf0e6;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.loading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.loading-action-button,
+.loading-action-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  border-radius: 999px;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.loading-action-button {
+  border: 0;
+  background: #faf0e6;
+  color: #1e5515;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.loading-action-button:hover {
+  background: #fae0c6;
+}
+
+.loading-action-link {
+  border: 1px solid rgb(250 240 230 / 45%);
+  color: #faf0e6;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.loading-action-link:hover {
+  background: rgb(250 240 230 / 10%);
+}
+
 @media (max-width: 768px) {
   .loading-header {
     padding: 24px 20px 0;
@@ -124,5 +218,15 @@
 
   .loading-content {
     width: 100%;
+  }
+
+  .loading-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .loading-action-button,
+  .loading-action-link {
+    width: min(100%, 280px);
   }
 }

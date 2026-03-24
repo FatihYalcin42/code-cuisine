@@ -13,13 +13,38 @@
 
 <main class="loading-page" aria-label="Loading page">
   <section class="loading-content" aria-labelledby="loading-title">
-    <h1 class="loading-title" id="loading-title">
-      <span>Generating</span>
-      <span class="loading-title-dots" aria-hidden="true">
-        <span class="loading-title-dot">.</span>
-        <span class="loading-title-dot">.</span>
-        <span class="loading-title-dot">.</span>
-      </span>
-    </h1>
+    @if (canShowLoader()) {
+      <h1 class="loading-title" id="loading-title">
+        <span>Generating</span>
+        <span class="loading-title-dots" aria-hidden="true">
+          <span class="loading-title-dot">.</span>
+          <span class="loading-title-dot">.</span>
+          <span class="loading-title-dot">.</span>
+        </span>
+      </h1>
+    }
+
+    @if (generationStatus() === 'success' && generatedRecipe(); as recipe) {
+      <div class="loading-result" aria-live="polite">
+        <p class="loading-result-label">Recipe generated</p>
+        <h2 class="loading-result-title">{{ recipe.title }}</h2>
+        <p class="loading-result-description">{{ recipe.description }}</p>
+        <p class="loading-result-meta">{{ recipe.prepTime }}</p>
+      </div>
+    }
+
+    @if (generationStatus() === 'error') {
+      <div class="loading-error" aria-live="assertive">
+        <p class="loading-error-message">
+          {{ generationErrorMessage() ?? 'The recipe could not be generated.' }}
+        </p>
+        <div class="loading-actions">
+          <button class="loading-action-button" type="button" (click)="retryGeneration()">
+            Try again
+          </button>
+          <a class="loading-action-link" routerLink="/preferences">Back to preferences</a>
+        </div>
+      </div>
+    }
   </section>
 </main>

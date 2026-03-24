@@ -1,6 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { IngredientDraftStateService } from '../../services/ingredient-draft-state.service';
+import {
+  RecipeGenerationRequest,
+  RecipeGenerationService,
+} from '../../services/recipe-generation.service';
 
 @Component({
   selector: 'app-preferences-page',
@@ -10,6 +14,7 @@ import { IngredientDraftStateService } from '../../services/ingredient-draft-sta
 })
 export class PreferencesPageComponent {
   private readonly ingredientDraftState = inject(IngredientDraftStateService);
+  private readonly recipeGeneration = inject(RecipeGenerationService);
   private readonly router = inject(Router);
   protected readonly portions = signal(2);
   protected readonly persons = signal(1);
@@ -52,6 +57,7 @@ export class PreferencesPageComponent {
       return;
     }
 
+    this.recipeGeneration.queueRecipeGeneration(this.buildRecipeRequest());
     await this.router.navigateByUrl('/loading');
   }
 
@@ -87,5 +93,22 @@ export class PreferencesPageComponent {
     }, 0);
 
     return availableServingCapacity < selectedPortions;
+  }
+
+  private buildRecipeRequest(): RecipeGenerationRequest {
+    return {
+      ingredients: this.ingredientDraftState.ingredientEntries().map((entry) => ({
+        name: entry.name,
+        amount: Number.parseInt(entry.amount, 10),
+        unit: entry.unit,
+      })),
+      preferences: {
+        portions: this.portions(),
+        persons: this.persons(),
+        cookingTime: this.selectedCookingTime(),
+        cuisine: this.selectedCuisine(),
+        diet: this.selectedDietPreference(),
+      },
+    };
   }
 }
