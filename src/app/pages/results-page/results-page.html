@@ -27,37 +27,39 @@
 
   </section>
 
-  @if (generatedRecipe(); as recipe) {
+  @if (generatedRecipes().length) {
     <section class="results-cards" aria-label="Generated recipe cards">
-      <article class="recipe-card">
-        <div class="recipe-card-top">
-          <div class="recipe-card-label">
-            <img src="/Icons/icon.svg" width="24" height="24" alt="" aria-hidden="true" />
-            <span>Recipe 1</span>
-          </div>
-
-          <div class="recipe-card-time">
-            <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
-            <span>Cooking time: {{ recipe.prepTime }}</span>
-          </div>
-        </div>
-
-        <div class="recipe-card-body">
-          <h2 class="recipe-card-title">{{ recipe.title }}</h2>
-          <p class="recipe-card-description">{{ recipe.description }}</p>
-
-          @if (recipe.ingredients.length) {
-            <div class="recipe-card-section">
-              <h3 class="recipe-card-section-title">Ingredients</h3>
-              <ul class="recipe-card-list">
-                @for (ingredient of recipe.ingredients; track ingredient) {
-                  <li>{{ ingredient }}</li>
-                }
-              </ul>
+      @for (recipe of generatedRecipes(); track $index) {
+        <article class="recipe-card">
+          <div class="recipe-card-top">
+            <div class="recipe-card-label">
+              <img src="/Icons/icon.svg" width="24" height="24" alt="" aria-hidden="true" />
+              <span>Recipe {{ $index + 1 }}</span>
             </div>
-          }
-        </div>
-      </article>
+
+            <div class="recipe-card-time">
+              <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
+              <span>Cooking time: {{ recipe.prepTime }}</span>
+            </div>
+          </div>
+
+          <div class="recipe-card-body">
+            <h2 class="recipe-card-title">{{ recipe.title }}</h2>
+            <p class="recipe-card-description">{{ recipe.description }}</p>
+
+            @if (recipe.ingredients.length) {
+              <div class="recipe-card-section">
+                <h3 class="recipe-card-section-title">Ingredients</h3>
+                <ul class="recipe-card-list">
+                  @for (ingredient of recipe.ingredients; track ingredient) {
+                    <li>{{ ingredient }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+        </article>
+      }
     </section>
   } @else {
     <section class="results-cards results-cards-empty" aria-live="polite">

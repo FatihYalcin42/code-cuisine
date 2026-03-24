@@ -31,6 +31,11 @@ export interface GeneratedRecipe {
 
 interface RecipeGenerationSuccessResponse {
   success: true;
+  recipes: GeneratedRecipe[];
+}
+
+interface LegacyRecipeGenerationSuccessResponse {
+  success: true;
   recipe: GeneratedRecipe;
 }
 
@@ -44,6 +49,7 @@ interface RecipeGenerationErrorResponse {
 
 type RecipeGenerationResponse =
   | RecipeGenerationSuccessResponse
+  | LegacyRecipeGenerationSuccessResponse
   | RecipeGenerationErrorResponse;
 
 type RecipeGenerationStatus = 'idle' | 'loading' | 'success' | 'error';
@@ -54,14 +60,14 @@ export class RecipeGenerationService {
   private readonly webhookUrl = '/api/generate-recipe';
 
   readonly generationStatus = signal<RecipeGenerationStatus>('idle');
-  readonly generatedRecipe = signal<GeneratedRecipe | null>(null);
+  readonly generatedRecipes = signal<GeneratedRecipe[]>([]);
   readonly generationErrorMessage = signal<string | null>(null);
   readonly pendingRequest = signal<RecipeGenerationRequest | null>(null);
   readonly hasPendingRequest = computed(() => this.pendingRequest() !== null);
 
   queueRecipeGeneration(request: RecipeGenerationRequest): void {
     this.pendingRequest.set(request);
-    this.generatedRecipe.set(null);
+    this.generatedRecipes.set([]);
     this.generationErrorMessage.set(null);
     this.generationStatus.set('idle');
   }
@@ -88,17 +94,26 @@ export class RecipeGenerationService {
       );
 
       if (!response.success) {
-        this.generatedRecipe.set(null);
+        this.generatedRecipes.set([]);
         this.generationStatus.set('error');
         this.generationErrorMessage.set(response.error.message);
         return;
       }
 
-      this.generatedRecipe.set(response.recipe);
+      const recipes = 'recipes' in response ? response.recipes : [response.recipe];
+
+      if (!recipes.length) {
+        this.generatedRecipes.set([]);
+        this.generationStatus.set('error');
+        this.generationErrorMessage.set('No recipes were returned.');
+        return;
+      }
+
+      this.generatedRecipes.set(recipes);
       this.generationStatus.set('success');
       this.pendingRequest.set(null);
     } catch {
-      this.generatedRecipe.set(null);
+      this.generatedRecipes.set([]);
       this.generationStatus.set('error');
       this.generationErrorMessage.set(
         'The recipe service is not reachable right now. Please try again.',
@@ -107,7 +122,7 @@ export class RecipeGenerationService {
   }
 
   resetGenerationState(): void {
-    this.generatedRecipe.set(null);
+    this.generatedRecipes.set([]);
     this.generationErrorMessage.set(null);
     this.generationStatus.set('idle');
   }

@@ -10,5 +10,5 @@ import { RecipeGenerationService } from '../../services/recipe-generation.servic
 })
 export class ResultsPageComponent {
   protected readonly recipeGeneration = inject(RecipeGenerationService);
-  protected readonly generatedRecipe = this.recipeGeneration.generatedRecipe;
+  protected readonly generatedRecipes = this.recipeGeneration.generatedRecipes;
 }

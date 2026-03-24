@@ -24,12 +24,13 @@
       </h1>
     }
 
-    @if (generationStatus() === 'success' && generatedRecipe(); as recipe) {
+    @if (generationStatus() === 'success' && hasGeneratedRecipes()) {
       <div class="loading-result" aria-live="polite">
-        <p class="loading-result-label">Recipe generated</p>
-        <h2 class="loading-result-title">{{ recipe.title }}</h2>
-        <p class="loading-result-description">{{ recipe.description }}</p>
-        <p class="loading-result-meta">{{ recipe.prepTime }}</p>
+        <p class="loading-result-label">Recipes generated</p>
+        <h2 class="loading-result-title">{{ generatedRecipes().length }} recipes ready</h2>
+        <p class="loading-result-description">
+          Your recipe ideas are ready and will open in the results view.
+        </p>
       </div>
     }
 
