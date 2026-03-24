@@ -19,6 +19,14 @@
         We took what you have and let our AI do the thinking. Here is the recipe generated from
         your ingredients.
       </p>
+
+      @if (selectedPreferenceTags().length) {
+        <div class="results-preference-tags" aria-label="Selected preferences">
+          @for (tag of selectedPreferenceTags(); track tag) {
+            <span class="results-preference-tag">{{ tag }}</span>
+          }
+        </div>
+      }
     </div>
 
     <div class="results-visual" aria-hidden="true">

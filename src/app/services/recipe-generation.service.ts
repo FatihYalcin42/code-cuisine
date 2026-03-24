@@ -64,12 +64,14 @@ export class RecipeGenerationService {
   readonly generationStatus = signal<RecipeGenerationStatus>('idle');
   readonly generatedRecipes = signal<GeneratedRecipe[]>([]);
   readonly selectedRecipe = signal<GeneratedRecipe | null>(null);
+  readonly lastUsedPreferences = signal<RecipeGenerationPreferences | null>(null);
   readonly generationErrorMessage = signal<string | null>(null);
   readonly pendingRequest = signal<RecipeGenerationRequest | null>(null);
   readonly hasPendingRequest = computed(() => this.pendingRequest() !== null);
 
   queueRecipeGeneration(request: RecipeGenerationRequest): void {
     this.pendingRequest.set(request);
+    this.lastUsedPreferences.set(request.preferences);
     this.generatedRecipes.set([]);
     this.selectedRecipe.set(null);
     this.generationErrorMessage.set(null);
