@@ -63,6 +63,7 @@ export class RecipeGenerationService {
 
   readonly generationStatus = signal<RecipeGenerationStatus>('idle');
   readonly generatedRecipes = signal<GeneratedRecipe[]>([]);
+  readonly selectedRecipe = signal<GeneratedRecipe | null>(null);
   readonly generationErrorMessage = signal<string | null>(null);
   readonly pendingRequest = signal<RecipeGenerationRequest | null>(null);
   readonly hasPendingRequest = computed(() => this.pendingRequest() !== null);
@@ -70,6 +71,7 @@ export class RecipeGenerationService {
   queueRecipeGeneration(request: RecipeGenerationRequest): void {
     this.pendingRequest.set(request);
     this.generatedRecipes.set([]);
+    this.selectedRecipe.set(null);
     this.generationErrorMessage.set(null);
     this.generationStatus.set('idle');
   }
@@ -94,6 +96,7 @@ export class RecipeGenerationService {
       const recipes = buildMockRecipes(request);
 
       this.generatedRecipes.set(recipes);
+      this.selectedRecipe.set(null);
       this.generationStatus.set('success');
       this.pendingRequest.set(null);
       return;
@@ -121,6 +124,7 @@ export class RecipeGenerationService {
       }
 
       this.generatedRecipes.set(recipes);
+      this.selectedRecipe.set(null);
       this.generationStatus.set('success');
       this.pendingRequest.set(null);
     } catch {
@@ -134,8 +138,13 @@ export class RecipeGenerationService {
 
   resetGenerationState(): void {
     this.generatedRecipes.set([]);
+    this.selectedRecipe.set(null);
     this.generationErrorMessage.set(null);
     this.generationStatus.set('idle');
+  }
+
+  selectRecipe(recipe: GeneratedRecipe): void {
+    this.selectedRecipe.set(recipe);
   }
 }
 

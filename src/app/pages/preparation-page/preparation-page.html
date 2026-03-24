@@ -1,0 +1,66 @@
+<header class="preparation-header">
+  <div class="preparation-header-branding">
+    <a class="preparation-brand" routerLink="/" aria-label="Back to home page">
+      <object
+        class="preparation-brand-media"
+        data="/Icons/Capa_2.svg?v=1"
+        type="image/svg+xml"
+        aria-label="Code-a-Cuisine"
+      >
+        <span class="preparation-brand-fallback">Code a Cuisine</span>
+      </object>
+    </a>
+
+    <a class="preparation-back-link" routerLink="/results" aria-label="Back to results">
+      <img src="/Icons/Arrow 11.svg" width="24" height="24" alt="" aria-hidden="true" />
+      <span>Back to results</span>
+    </a>
+  </div>
+</header>
+
+<main class="preparation-page" aria-label="Preparation page">
+  @if (selectedRecipe(); as recipe) {
+    <section class="preparation-shell" aria-labelledby="preparation-title">
+      <div class="preparation-intro">
+        <p class="preparation-kicker">Selected recipe</p>
+        <h1 class="preparation-title" id="preparation-title">{{ recipe.title }}</h1>
+        <p class="preparation-description">{{ recipe.description }}</p>
+
+        <div class="preparation-meta">
+          <div class="preparation-meta-item">
+            <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
+            <span>Cooking time: {{ recipe.prepTime }}</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="preparation-card" aria-labelledby="ingredients-title">
+        <h2 class="preparation-card-title" id="ingredients-title">Ingredients</h2>
+        <ul class="preparation-list">
+          @for (ingredient of recipe.ingredients; track ingredient) {
+            <li>{{ ingredient }}</li>
+          }
+        </ul>
+      </section>
+
+      <section class="preparation-card" aria-labelledby="steps-title">
+        <h2 class="preparation-card-title" id="steps-title">Preparation</h2>
+        <ol class="preparation-steps">
+          @for (step of recipe.steps; track step) {
+            <li>{{ step }}</li>
+          }
+        </ol>
+      </section>
+    </section>
+  } @else {
+    <section class="preparation-shell">
+      <section class="preparation-card preparation-card-empty" aria-live="polite">
+        <h1 class="preparation-card-title">No recipe selected</h1>
+        <p class="preparation-description">
+          Choose one of the recipe cards on the results page to open the preparation view.
+        </p>
+        <a class="preparation-empty-link" routerLink="/results">Back to results</a>
+      </section>
+    </section>
+  }
+</main>
