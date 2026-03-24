@@ -32,15 +32,32 @@
       </div>
 
       <div class="ingredient-panel-controls">
-        <input
-          class="ingredient-input"
-          [class.ingredient-input-invalid]="hasIngredientNameError()"
-          id="ingredient-input"
-          type="text"
-          maxlength="40"
-          [value]="ingredientName()"
-          (input)="updateIngredientName($any($event.target).value)"
-        />
+        <div class="ingredient-input-shell">
+          <input
+            class="ingredient-input"
+            [class.ingredient-input-invalid]="hasIngredientNameError()"
+            id="ingredient-input"
+            type="text"
+            maxlength="40"
+            [value]="ingredientName()"
+            (input)="updateIngredientName($any($event.target).value)"
+            autocomplete="off"
+          />
+
+          @if (highlightedIngredientSuggestions().length > 0) {
+            <div class="ingredient-autocomplete" aria-label="Ingredient autocomplete suggestions">
+              @for (ingredient of highlightedIngredientSuggestions(); track ingredient) {
+                <button
+                  class="ingredient-autocomplete-item"
+                  type="button"
+                  (click)="applyIngredientSuggestion(ingredient)"
+                >
+                  {{ ingredient }}
+                </button>
+              }
+            </div>
+          }
+        </div>
 
         <div class="serving-size-controls">
           <input

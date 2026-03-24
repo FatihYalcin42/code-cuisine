@@ -5,6 +5,45 @@ import {
   IngredientEntry,
 } from '../../services/ingredient-draft-state.service';
 
+const KNOWN_INGREDIENTS = [
+  'apple',
+  'avocado',
+  'basil',
+  'beans',
+  'beef',
+  'bell pepper',
+  'broccoli',
+  'butter',
+  'carrot',
+  'cheese',
+  'chicken',
+  'chili',
+  'cucumber',
+  'egg',
+  'flour',
+  'garlic',
+  'ginger',
+  'lemon',
+  'lettuce',
+  'milk',
+  'mushroom',
+  'olive oil',
+  'onion',
+  'pasta',
+  'potato',
+  'rice',
+  'salmon',
+  'salt',
+  'shrimp',
+  'spinach',
+  'tomato',
+  'tuna',
+  'yogurt',
+  'zucchini',
+];
+
+const BLOCKED_INGREDIENT_WORDS = ['asdf', 'awas', 'qwertz', 'qwerty', 'test', 'xyz'];
+
 @Component({
   selector: 'app-generate-recipe-page',
   imports: [RouterLink],
@@ -21,6 +60,15 @@ export class GenerateRecipePageComponent {
   protected readonly formFeedback = signal('');
   protected readonly hasIngredientNameError = signal(false);
   protected readonly hasServingSizeError = signal(false);
+  protected readonly highlightedIngredientSuggestions = computed(() => {
+    const query = this.ingredientName().trim().toLowerCase();
+
+    if (query.length < 2) {
+      return [];
+    }
+
+    return KNOWN_INGREDIENTS.filter((ingredient) => ingredient.includes(query)).slice(0, 6);
+  });
   private readonly unitOptions = ['gram', 'ml', 'piece'];
   private readonly editingEntryId = signal<number | null>(null);
   protected readonly availableUnits = computed(() =>
@@ -45,7 +93,12 @@ export class GenerateRecipePageComponent {
 
   /** Stores the current ingredient name input value. */
   protected updateIngredientName(value: string): void {
-    this.ingredientName.set(value.slice(0, 40));
+    const normalizedValue = value
+      .replaceAll(/[^a-zA-Z\s-]/g, '')
+      .replaceAll(/\s+/g, ' ')
+      .slice(0, 40);
+
+    this.ingredientName.set(normalizedValue);
     this.hasIngredientNameError.set(false);
 
     if (this.hasFormFeedback()) {
@@ -98,16 +151,21 @@ export class GenerateRecipePageComponent {
     const amount = this.servingSizeValue().trim();
     const amountNumber = Number.parseInt(amount, 10);
     const isIngredientNameMissing = !name;
+    const isIngredientNameInvalid = !isIngredientNameMissing && !this.isValidIngredientName(name);
     const isServingSizeInvalid = !amount || Number.isNaN(amountNumber) || amountNumber < 1;
 
-    this.hasIngredientNameError.set(isIngredientNameMissing);
+    this.hasIngredientNameError.set(isIngredientNameMissing || isIngredientNameInvalid);
     this.hasServingSizeError.set(isServingSizeInvalid);
 
-    if (isIngredientNameMissing || isServingSizeInvalid) {
+    if (isIngredientNameMissing || isIngredientNameInvalid || isServingSizeInvalid) {
       if (isIngredientNameMissing && isServingSizeInvalid) {
         this.formFeedback.set('Please enter an ingredient and a serving size of at least 1.');
+      } else if (isIngredientNameInvalid && isServingSizeInvalid) {
+        this.formFeedback.set('Please enter a real ingredient and a serving size of at least 1.');
       } else if (isIngredientNameMissing) {
         this.formFeedback.set('Please enter an ingredient.');
+      } else if (isIngredientNameInvalid) {
+        this.formFeedback.set('Please enter a real ingredient from the suggestions.');
       } else {
         this.formFeedback.set('Please enter a serving size of at least 1.');
       }
@@ -128,6 +186,15 @@ export class GenerateRecipePageComponent {
     }
 
     this.resetIngredientForm();
+  }
+
+  protected applyIngredientSuggestion(ingredient: string): void {
+    this.ingredientName.set(ingredient);
+    this.hasIngredientNameError.set(false);
+
+    if (this.hasFormFeedback()) {
+      this.clearFormFeedback();
+    }
   }
 
   /** Loads an ingredient entry back into the form for editing. */
@@ -164,6 +231,24 @@ export class GenerateRecipePageComponent {
     this.editingEntryId.set(null);
     this.isUnitMenuOpen.set(false);
     this.clearFormFeedback();
+  }
+
+  private isValidIngredientName(name: string): boolean {
+    const normalizedName = name.trim().toLowerCase();
+
+    if (normalizedName.length < 2) {
+      return false;
+    }
+
+    if (!/^[a-zA-Z\s-]+$/.test(name)) {
+      return false;
+    }
+
+    if (BLOCKED_INGREDIENT_WORDS.includes(normalizedName)) {
+      return false;
+    }
+
+    return KNOWN_INGREDIENTS.includes(normalizedName);
   }
 
   /** Clears transient validation feedback and field error states. */
