@@ -45,17 +45,6 @@
 
           <div class="recipe-card-body">
             <h2 class="recipe-card-title">{{ recipe.title }}</h2>
-
-            @if (recipe.ingredients.length) {
-              <div class="recipe-card-section">
-                <h3 class="recipe-card-section-title">Ingredients</h3>
-                <ul class="recipe-card-list">
-                  @for (ingredient of recipe.ingredients; track ingredient) {
-                    <li>{{ ingredient }}</li>
-                  }
-                </ul>
-              </div>
-            }
           </div>
 
           <button class="recipe-card-view-button" type="button" (click)="viewRecipe(recipe)">
