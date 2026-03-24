@@ -211,6 +211,43 @@
   align-content: center;
 }
 
+.results-cta-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 48px;
+}
+
+.results-cta-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 16px 26px;
+  box-sizing: border-box;
+  color: #faf0e6;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 20px;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: background-color 160ms ease;
+}
+
+.results-cta-link img {
+  display: block;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+}
+
+.results-cta-link:hover {
+  background: rgb(250 224 198 / 20%);
+}
+
 @media (max-width: 1024px) {
   .results-shell {
     grid-template-columns: 1fr;
@@ -222,6 +259,10 @@
   }
 
   .results-cards {
+    justify-content: center;
+  }
+
+  .results-cta-row {
     justify-content: center;
   }
 }
@@ -253,6 +294,16 @@
   .results-cards {
     grid-template-columns: 1fr;
     margin-top: 32px;
+  }
+
+  .results-cta-row {
+    margin-top: 32px;
+    justify-content: flex-start;
+  }
+
+  .results-cta-link {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .recipe-card {
