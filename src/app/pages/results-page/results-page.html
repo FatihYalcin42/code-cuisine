@@ -60,9 +60,15 @@
       </article>
     </section>
   } @else {
-    <section class="results-empty" aria-live="polite">
-      <p>No recipe has been generated yet.</p>
-      <a class="results-empty-link" routerLink="/preferences">Back to preferences</a>
+    <section class="results-cards results-cards-empty" aria-live="polite">
+      <article class="recipe-card recipe-card-empty">
+        <div class="recipe-card-body">
+          <h2 class="recipe-card-title">No recipe yet</h2>
+          <p class="recipe-card-description">
+            No recipe has been generated yet. Go back to preferences and start a new request.
+          </p>
+        </div>
+      </article>
     </section>
   }
 </main>
