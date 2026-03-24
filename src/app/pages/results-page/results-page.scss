@@ -156,11 +156,12 @@
 .recipe-card-title {
   margin: 0;
   color: #10310b;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: clamp(1.75rem, 2vw, 2.25rem);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 32px;
   font-style: normal;
-  font-weight: 700;
-  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
 }
 
 .recipe-card-description {
