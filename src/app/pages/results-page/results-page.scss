@@ -1,7 +1,9 @@
 :host {
   display: block;
   min-height: 100dvh;
-  background: #396039;
+  background:
+    radial-gradient(circle at top right, rgb(250 240 230 / 18%), transparent 32%),
+    linear-gradient(180deg, #396039 0%, #31522f 100%);
 }
 
 .results-header {
@@ -89,6 +91,150 @@
   border-radius: 20px;
 }
 
+.results-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 411px));
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.recipe-card {
+  display: grid;
+  align-content: start;
+  width: min(100%, 411px);
+  min-height: 338px;
+  padding: 32px 24px;
+  gap: 48px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  background: #dbe0db;
+  box-shadow: 0 24px 48px rgb(16 49 11 / 18%);
+}
+
+.recipe-card-top {
+  display: grid;
+  gap: 16px;
+}
+
+.recipe-card-label,
+.recipe-card-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.recipe-card-label img,
+.recipe-card-time img {
+  flex: 0 0 auto;
+}
+
+.recipe-card-label span {
+  color: #1e5515;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.recipe-card-time span {
+  color: #396039;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+
+.recipe-card-body {
+  display: grid;
+  gap: 20px;
+}
+
+.recipe-card-title {
+  margin: 0;
+  color: #10310b;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: clamp(1.75rem, 2vw, 2.25rem);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.recipe-card-description {
+  margin: 0;
+  color: #2f4c2d;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.recipe-card-section {
+  display: grid;
+  gap: 12px;
+}
+
+.recipe-card-section-title {
+  margin: 0;
+  color: #1e5515;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.recipe-card-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  color: #2f4c2d;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.975rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.results-empty {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  margin-top: 48px;
+  color: #faf0e6;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.results-empty p {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.results-empty-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 22px;
+  border: 1px solid rgb(250 240 230 / 45%);
+  border-radius: 999px;
+  color: #faf0e6;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.results-empty-link:hover {
+  background: rgb(250 240 230 / 10%);
+}
+
 @media (max-width: 1024px) {
   .results-shell {
     grid-template-columns: 1fr;
@@ -97,6 +243,10 @@
 
   .results-visual {
     justify-self: center;
+  }
+
+  .results-cards {
+    justify-content: center;
   }
 }
 
@@ -122,5 +272,26 @@
 
   .results-intro {
     line-height: 1.35;
+  }
+
+  .results-cards {
+    grid-template-columns: 1fr;
+    margin-top: 32px;
+  }
+
+  .recipe-card {
+    width: 100%;
+    min-height: auto;
+    padding: 32px 24px;
+    gap: 32px;
+  }
+
+  .recipe-card-label span {
+    font-size: 22px;
+  }
+
+  .recipe-card-time span {
+    font-size: 18px;
+    line-height: 1.2;
   }
 }

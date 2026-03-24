@@ -16,13 +16,53 @@
     <div class="results-copy">
       <h1 class="results-title" id="results-title">The recipe results</h1>
       <p class="results-intro">
-        We took what you have and let our AI do the thinking. Here are 3 easy recipes you can
-        make right now!
+        We took what you have and let our AI do the thinking. Here is the recipe generated from
+        your ingredients.
       </p>
     </div>
 
     <div class="results-visual" aria-hidden="true">
       <img src="/Icons/Visual.svg" width="574" height="222" alt="" />
     </div>
+
   </section>
+
+  @if (generatedRecipe(); as recipe) {
+    <section class="results-cards" aria-label="Generated recipe cards">
+      <article class="recipe-card">
+        <div class="recipe-card-top">
+          <div class="recipe-card-label">
+            <img src="/Icons/icon.svg" width="24" height="24" alt="" aria-hidden="true" />
+            <span>Recipe 1</span>
+          </div>
+
+          <div class="recipe-card-time">
+            <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
+            <span>Cooking time: {{ recipe.prepTime }}</span>
+          </div>
+        </div>
+
+        <div class="recipe-card-body">
+          <h2 class="recipe-card-title">{{ recipe.title }}</h2>
+          <p class="recipe-card-description">{{ recipe.description }}</p>
+
+          @if (recipe.ingredients.length) {
+            <div class="recipe-card-section">
+              <h3 class="recipe-card-section-title">Ingredients</h3>
+              <ul class="recipe-card-list">
+                @for (ingredient of recipe.ingredients; track ingredient) {
+                  <li>{{ ingredient }}</li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      </article>
+    </section>
+  } @else {
+    <section class="results-empty" aria-live="polite">
+      <p>No recipe has been generated yet.</p>
+      <a class="results-empty-link" routerLink="/preferences">Back to preferences</a>
+    </section>
+  }
 </main>
