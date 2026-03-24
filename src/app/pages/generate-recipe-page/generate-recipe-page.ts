@@ -248,7 +248,25 @@ export class GenerateRecipePageComponent {
       return false;
     }
 
-    return KNOWN_INGREDIENTS.includes(normalizedName);
+    if (KNOWN_INGREDIENTS.includes(normalizedName)) {
+      return true;
+    }
+
+    if (normalizedName.length < 4) {
+      return false;
+    }
+
+    if (!normalizedName.includes(' ') && /(.)\1\1/.test(normalizedName)) {
+      return false;
+    }
+
+    const vowelMatches = normalizedName.match(/[aeiou]/g) ?? [];
+
+    if (vowelMatches.length === 0) {
+      return false;
+    }
+
+    return true;
   }
 
   /** Clears transient validation feedback and field error states. */
