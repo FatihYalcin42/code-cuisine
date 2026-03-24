@@ -51,7 +51,7 @@ type RecipeGenerationStatus = 'idle' | 'loading' | 'success' | 'error';
 @Injectable({ providedIn: 'root' })
 export class RecipeGenerationService {
   private readonly http = inject(HttpClient);
-  private readonly webhookUrl = 'http://localhost:5678/webhook/generate-recipe';
+  private readonly webhookUrl = '/api/generate-recipe';
 
   readonly generationStatus = signal<RecipeGenerationStatus>('idle');
   readonly generatedRecipe = signal<GeneratedRecipe | null>(null);

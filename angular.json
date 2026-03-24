@@ -62,7 +62,8 @@
               "buildTarget": "code-cuisine:build:production"
             },
             "development": {
-              "buildTarget": "code-cuisine:build:development"
+              "buildTarget": "code-cuisine:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
