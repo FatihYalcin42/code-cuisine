@@ -1,0 +1,126 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: #396039;
+}
+
+.results-header {
+  padding: 40px 68px 0;
+}
+
+.results-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 142px;
+  height: 48px;
+  text-decoration: none;
+}
+
+.results-brand-media {
+  display: block;
+  width: 142px;
+  height: 48px;
+  pointer-events: none;
+}
+
+.results-brand-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 142px;
+  height: 48px;
+  color: #faf0e6;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.results-page {
+  min-height: calc(100dvh - 88px);
+  padding: 48px 68px 68px;
+  box-sizing: border-box;
+}
+
+.results-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 56px;
+}
+
+.results-copy {
+  display: grid;
+  gap: 24px;
+  max-width: 640px;
+}
+
+.results-title {
+  margin: 0;
+  color: #faf0e6;
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(2.75rem, 5vw, 54px);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: clamp(3.25rem, 5.5vw, 65px);
+}
+
+.results-intro {
+  margin: 0;
+  color: #faf0e6;
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.125rem, 2.1vw, 24px);
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.results-visual {
+  width: min(100%, 574px);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.results-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+@media (max-width: 1024px) {
+  .results-shell {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .results-visual {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .results-header {
+    padding: 24px 20px 0;
+  }
+
+  .results-brand,
+  .results-brand-media,
+  .results-brand-fallback {
+    width: 118px;
+    height: auto;
+  }
+
+  .results-page {
+    padding: 32px 20px 40px;
+  }
+
+  .results-copy {
+    gap: 16px;
+  }
+
+  .results-intro {
+    line-height: 1.35;
+  }
+}
