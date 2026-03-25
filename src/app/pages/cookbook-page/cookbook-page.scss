@@ -84,7 +84,8 @@
 .cookbook-liked-heading {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
+  line-height: 1;
 }
 
 .cookbook-liked-title {
@@ -100,6 +101,10 @@
 
 .cookbook-liked-heading img {
   display: block;
+  width: 28px;
+  height: 28px;
+  margin-top: 2px;
+  flex: 0 0 auto;
 }
 
 .cookbook-liked-scroll {
@@ -133,9 +138,10 @@
 }
 
 .cookbook-liked-card-time {
-  display: inline-flex;
+  display: inline-grid;
+  grid-auto-flow: column;
   align-items: center;
-  gap: 8px;
+  gap: 3px;
   color: #396039;
   font-family: 'Quicksand', sans-serif;
   font-size: 16px;
@@ -150,6 +156,11 @@
   width: 20px;
   height: 20px;
   flex: 0 0 auto;
+  margin-top: 3px;
+}
+
+.cookbook-liked-card-time span {
+  display: block;
 }
 
 .cookbook-liked-card-likes {
