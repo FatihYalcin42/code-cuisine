@@ -80,6 +80,8 @@
 .cookbook-category-recipes {
   display: grid;
   gap: 8px;
+  width: min(100%, 980px);
+  margin: 0 auto;
 }
 
 .cookbook-category-pagination {
@@ -240,6 +242,10 @@
 
   .cookbook-category-page {
     padding: 32px 20px 40px;
+  }
+
+  .cookbook-category-recipes {
+    width: 100%;
   }
 
   .cookbook-category-row {
