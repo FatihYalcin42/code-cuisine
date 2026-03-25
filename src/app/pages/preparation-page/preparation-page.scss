@@ -366,12 +366,13 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 40px 42px;
-  width: 100%;
+  width: min(100%, 880px);
   margin: 0 auto;
 }
 
 .preparation-direction-item {
   min-width: 0;
+  max-width: 410px;
 }
 
 .preparation-direction-title-row {
@@ -426,8 +427,9 @@
   font-size: 18px;
   font-style: normal;
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.25;
   letter-spacing: 0;
+  max-width: 32ch;
 }
 
 .preparation-steps {
