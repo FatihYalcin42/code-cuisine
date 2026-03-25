@@ -85,6 +85,14 @@
   box-sizing: border-box;
 }
 
+.preparation-footer-frame {
+  min-height: 142px;
+  padding: 40px 0;
+  border-radius: 20px;
+  background: rgb(57 96 57 / 10%);
+  box-sizing: border-box;
+}
+
 .preparation-section-hero {
   width: 100%;
 }
@@ -563,6 +571,11 @@
 
   .preparation-content-frame {
     gap: 32px;
+    padding: 24px 20px;
+  }
+
+  .preparation-footer-frame {
+    min-height: auto;
     padding: 24px 20px;
   }
 
