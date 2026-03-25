@@ -104,14 +104,6 @@
         </div>
       </section>
 
-      <section class="preparation-card" aria-labelledby="steps-title">
-        <h2 class="preparation-card-title" id="steps-title">Preparation</h2>
-        <ol class="preparation-steps">
-          @for (step of recipe.steps; track step) {
-            <li>{{ step }}</li>
-          }
-        </ol>
-      </section>
     </section>
   } @else {
     <section class="preparation-shell">
