@@ -427,6 +427,33 @@
   letter-spacing: 0;
 }
 
+.preparation-ingredients-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 20px auto 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #396039;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.preparation-ingredients-toggle img {
+  display: block;
+  transition: transform 160ms ease;
+}
+
+.preparation-ingredients-toggle.is-collapsed img {
+  transform: rotate(180deg);
+}
+
 .preparation-directions-section {
   width: 100%;
 }

@@ -87,31 +87,45 @@
           <h2 class="preparation-card-title preparation-card-title-sr-only" id="ingredients-title">
             Ingredients
           </h2>
-          <div class="preparation-ingredients-grid">
-            <section class="preparation-ingredients-column" aria-labelledby="your-ingredients-title">
-              <h3 class="preparation-ingredients-heading" id="your-ingredients-title">
-                Your ingredients
-              </h3>
+          @if (!ingredientsCollapsed()) {
+            <div class="preparation-ingredients-grid">
+              <section class="preparation-ingredients-column" aria-labelledby="your-ingredients-title">
+                <h3 class="preparation-ingredients-heading" id="your-ingredients-title">
+                  Your ingredients
+                </h3>
 
-              <ul class="preparation-ingredients-list">
-                @for (ingredient of ingredientColumns().yourIngredients; track ingredient) {
-                  <li class="preparation-ingredients-item">{{ ingredient }}</li>
-                }
-              </ul>
-            </section>
+                <ul class="preparation-ingredients-list">
+                  @for (ingredient of ingredientColumns().yourIngredients; track ingredient) {
+                    <li class="preparation-ingredients-item">{{ ingredient }}</li>
+                  }
+                </ul>
+              </section>
 
-            <section class="preparation-ingredients-column" aria-labelledby="extra-ingredients-title">
-              <h3 class="preparation-ingredients-heading" id="extra-ingredients-title">
-                Extra ingredients
-              </h3>
+              <section class="preparation-ingredients-column" aria-labelledby="extra-ingredients-title">
+                <h3 class="preparation-ingredients-heading" id="extra-ingredients-title">
+                  Extra ingredients
+                </h3>
 
-              <ul class="preparation-ingredients-list">
-                @for (ingredient of ingredientColumns().extraIngredients; track ingredient) {
-                  <li class="preparation-ingredients-item">{{ ingredient }}</li>
-                }
-              </ul>
-            </section>
-          </div>
+                <ul class="preparation-ingredients-list">
+                  @for (ingredient of ingredientColumns().extraIngredients; track ingredient) {
+                    <li class="preparation-ingredients-item">{{ ingredient }}</li>
+                  }
+                </ul>
+              </section>
+            </div>
+          }
+
+          <button
+            type="button"
+            class="preparation-ingredients-toggle"
+            [class.is-collapsed]="ingredientsCollapsed()"
+            [attr.aria-expanded]="!ingredientsCollapsed()"
+            aria-controls="ingredients-title"
+            (click)="toggleIngredients()"
+          >
+            <span>{{ ingredientsCollapsed() ? 'Show ingredients' : 'Hide ingredients' }}</span>
+            <img src="/Icons/arrow_drop_down.svg" width="24" height="24" alt="" aria-hidden="true" />
+          </button>
         </section>
 
         <div class="preparation-section-hero preparation-section-hero-directions" aria-hidden="true">

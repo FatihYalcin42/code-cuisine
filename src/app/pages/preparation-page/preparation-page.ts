@@ -52,6 +52,7 @@ export class PreparationPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly source = this.route.snapshot.queryParamMap.get('from');
   protected readonly isLiked = signal(false);
+  protected readonly ingredientsCollapsed = signal(false);
   private readonly cookingPersons = computed(
     () => Math.max(1, this.recipeGeneration.lastUsedPreferences()?.persons ?? PREPARATION_PAGE_FALLBACK_PERSONS),
   );
@@ -156,6 +157,10 @@ export class PreparationPageComponent {
     if (typeof window !== 'undefined') {
       window.localStorage.setItem(this.getLikedRecipeStorageKey(recipe.title), String(nextValue));
     }
+  }
+
+  protected toggleIngredients(): void {
+    this.ingredientsCollapsed.update((value) => !value);
   }
 
   private getLikedRecipeStorageKey(recipeTitle: string): string {
