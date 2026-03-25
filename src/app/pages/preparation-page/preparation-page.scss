@@ -789,6 +789,30 @@
     align-items: center;
   }
 
+  .preparation-like-section {
+    gap: 10px;
+  }
+
+  .preparation-like-title {
+    font-size: 16px;
+  }
+
+  .preparation-like-text {
+    font-size: 14px;
+    line-height: 1.15;
+  }
+
+  .preparation-like-button {
+    width: 40px;
+    height: 40px;
+    padding: 4px;
+  }
+
+  .preparation-like-icon {
+    width: 24px;
+    height: 24px;
+  }
+
   .preparation-ingredients-heading,
   .preparation-ingredients-item {
     font-size: 20px;
@@ -801,6 +825,19 @@
   .preparation-direction-text {
     font-size: 16px;
     line-height: 1.3;
+  }
+
+  .preparation-ingredients-toggle,
+  .preparation-directions-toggle {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .preparation-ingredients-toggle img,
+  .preparation-directions-toggle img {
+    width: 20px;
+    height: 20px;
   }
 
   .preparation-meta-item {
@@ -823,5 +860,23 @@
 
   .preparation-cook-label {
     height: 24px;
+  }
+
+  .preparation-footer-frame {
+    gap: 20px;
+  }
+
+  .preparation-footer-title {
+    max-width: 14ch;
+    font-size: 16px;
+    line-height: 1.15;
+  }
+
+  .preparation-footer-button {
+    min-width: 117px;
+    min-height: 30px;
+    padding: 0 16px;
+    font-size: 16px;
+    line-height: 1;
   }
 }
