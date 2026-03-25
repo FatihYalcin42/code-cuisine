@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 const USE_MOCK_RECIPE_GENERATION = true;
+const MOCK_RECIPE_GENERATION_DELAY_MS = 1800;
 
 export interface RecipeGenerationIngredient {
   name: string;
@@ -95,6 +96,8 @@ export class RecipeGenerationService {
     this.generationErrorMessage.set(null);
 
     if (USE_MOCK_RECIPE_GENERATION) {
+      await delay(MOCK_RECIPE_GENERATION_DELAY_MS);
+
       const recipes = buildMockRecipes(request);
 
       this.generatedRecipes.set(recipes);
@@ -148,6 +151,12 @@ export class RecipeGenerationService {
   selectRecipe(recipe: GeneratedRecipe): void {
     this.selectedRecipe.set(recipe);
   }
+}
+
+function delay(milliseconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, milliseconds);
+  });
 }
 
 function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
