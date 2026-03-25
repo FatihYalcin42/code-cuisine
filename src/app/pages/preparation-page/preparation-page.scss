@@ -127,6 +127,17 @@
   letter-spacing: 0;
   text-align: center;
   text-decoration: none;
+  transition: background-color 160ms ease;
+}
+
+.preparation-footer-button:hover {
+  background: #4a7349;
+}
+
+.preparation-footer-button:focus-visible {
+  background: #4a7349;
+  outline: 2px solid #10310b;
+  outline-offset: 2px;
 }
 
 .preparation-section-hero {
