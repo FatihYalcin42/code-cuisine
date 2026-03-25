@@ -4,6 +4,7 @@ import { GeneratedRecipe, RecipeGenerationService } from '../../services/recipe-
 
 type CookbookCategoryRecipe = GeneratedRecipe & {
   likes: number;
+  badges: string[];
 };
 
 type CookbookCategoryConfig = {
@@ -26,14 +27,52 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
         steps: ['Boil pasta.', 'Cook tomatoes and spinach.', 'Fold everything together and serve.'],
         likes: 66,
+        badges: ['Vegetarian', 'Quick'],
       },
       {
-        title: 'Creamy mushroom linguine',
-        description: 'Silky pasta with mushrooms, garlic and parmesan.',
-        prepTime: '25min',
-        ingredients: ['Linguine', 'Mushrooms', 'Parmesan'],
-        steps: ['Cook pasta.', 'Saute mushrooms.', 'Combine and finish.'],
-        likes: 58,
+        title: 'Creamy garlic shrimp pasta',
+        description: 'Silky pasta with shrimp, garlic and parmesan.',
+        prepTime: '22min',
+        ingredients: ['Linguine', 'Shrimp', 'Parmesan'],
+        steps: ['Cook pasta.', 'Saute shrimp.', 'Combine and finish.'],
+        likes: 32,
+        badges: ['Quick'],
+      },
+      {
+        title: 'Funghi salami pizza',
+        description: 'Crisp pizza topped with mushrooms, salami and herbs.',
+        prepTime: '16min',
+        ingredients: ['Pizza dough', 'Mushrooms', 'Salami'],
+        steps: ['Shape dough.', 'Top pizza.', 'Bake and slice.'],
+        likes: 42,
+        badges: ['Quick'],
+      },
+      {
+        title: 'Pasta with spinach and cherry tommatoes',
+        description: 'A creamy weeknight pasta with fresh greens and a fast tomato finish.',
+        prepTime: '20min',
+        ingredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
+        steps: ['Boil pasta.', 'Cook tomatoes and spinach.', 'Fold everything together and serve.'],
+        likes: 66,
+        badges: ['Vegetarian', 'Quick'],
+      },
+      {
+        title: 'Creamy garlic shrimp pasta',
+        description: 'Silky pasta with shrimp, garlic and parmesan.',
+        prepTime: '22min',
+        ingredients: ['Linguine', 'Shrimp', 'Parmesan'],
+        steps: ['Cook pasta.', 'Saute shrimp.', 'Combine and finish.'],
+        likes: 32,
+        badges: ['Quick'],
+      },
+      {
+        title: 'Funghi salami pizza',
+        description: 'Crisp pizza topped with mushrooms, salami and herbs.',
+        prepTime: '16min',
+        ingredients: ['Pizza dough', 'Mushrooms', 'Salami'],
+        steps: ['Shape dough.', 'Top pizza.', 'Bake and slice.'],
+        likes: 42,
+        badges: ['Quick'],
       },
     ],
   },
@@ -49,6 +88,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['500g Potatoes', '1 Onion', 'Herbs'],
         steps: ['Slice potatoes.', 'Pan fry until crisp.', 'Finish with herbs and seasoning.'],
         likes: 54,
+        badges: ['Quick'],
       },
       {
         title: 'Pretzel schnitzel plate',
@@ -57,6 +97,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['Pretzel', 'Cutlet', 'Cabbage'],
         steps: ['Prepare sides.', 'Cook schnitzel.', 'Plate and serve.'],
         likes: 49,
+        badges: ['Gourmet'],
       },
     ],
   },
@@ -72,6 +113,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['150g Rice', '1 Zucchini', '1 Carrot'],
         steps: ['Cook rice.', 'Roast vegetables.', 'Assemble bowl and dress before serving.'],
         likes: 42,
+        badges: ['Vegetarian', 'Quick'],
       },
       {
         title: 'Salmon nigiri plate',
@@ -80,6 +122,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['Rice', 'Salmon', 'Soy'],
         steps: ['Season rice.', 'Slice salmon.', 'Assemble nigiri.'],
         likes: 61,
+        badges: ['Quick'],
       },
     ],
   },
@@ -95,6 +138,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['Duck', 'Asparagus', 'Sauce'],
         steps: ['Sear duck.', 'Cook vegetables.', 'Plate carefully.'],
         likes: 52,
+        badges: ['Gourmet'],
       },
       {
         title: 'Truffle potato mille-feuille',
@@ -103,6 +147,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['Potato', 'Cream', 'Truffle'],
         steps: ['Layer potatoes.', 'Bake until crisp.', 'Finish and serve.'],
         likes: 47,
+        badges: ['Vegetarian'],
       },
     ],
   },
@@ -118,6 +163,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['Paneer', 'Rice', 'Naan'],
         steps: ['Cook curry.', 'Prepare rice.', 'Serve as a thali.'],
         likes: 56,
+        badges: ['Vegetarian'],
       },
       {
         title: 'Golden dal bowl',
@@ -126,6 +172,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['Lentils', 'Spices', 'Rice'],
         steps: ['Simmer lentils.', 'Temper spices.', 'Serve warm.'],
         likes: 44,
+        badges: ['Vegetarian', 'Quick'],
       },
     ],
   },
@@ -141,6 +188,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['Rice', 'Salmon', 'Peas'],
         steps: ['Prepare rice.', 'Assemble tasting pieces.', 'Plate with sauces.'],
         likes: 63,
+        badges: ['Gourmet'],
       },
       {
         title: 'Korean taco bowl',
@@ -149,6 +197,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         ingredients: ['Rice', 'Beef', 'Kimchi'],
         steps: ['Cook filling.', 'Prepare toppings.', 'Assemble bowl.'],
         likes: 51,
+        badges: ['Quick'],
       },
     ],
   },

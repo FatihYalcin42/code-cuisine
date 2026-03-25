@@ -68,7 +68,7 @@
 
 .cookbook-category-shell {
   display: grid;
-  gap: 24px;
+  gap: 28px;
 }
 
 .cookbook-category-hero img {
@@ -79,27 +79,58 @@
 
 .cookbook-category-recipes {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  gap: 8px;
 }
 
-.cookbook-category-card {
+.cookbook-category-row {
   display: grid;
-  align-content: start;
-  gap: 18px;
-  min-height: 160px;
-  padding: 20px 16px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  min-height: 56px;
+  padding: 8px 12px;
   border-radius: 16px;
-  background: rgb(219 224 219 / 70%);
+  box-sizing: border-box;
   box-sizing: border-box;
   cursor: pointer;
+  transition: background-color 160ms ease;
 }
 
-.cookbook-category-card-time {
+.cookbook-category-row:hover,
+.cookbook-category-row:focus-visible {
+  background: #faf0e6;
+  outline: none;
+}
+
+.cookbook-category-row-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: #faf0e6;
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.cookbook-category-row-main {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cookbook-category-row-time {
   display: inline-grid;
   grid-auto-flow: column;
   align-items: center;
   gap: 4px;
+  justify-content: start;
   color: #396039;
   font-family: 'Quicksand', sans-serif;
   font-size: 16px;
@@ -109,20 +140,59 @@
   letter-spacing: 0;
 }
 
-.cookbook-category-card-time img {
+.cookbook-category-row-time img {
   display: block;
   margin-top: 2px;
 }
 
-.cookbook-category-card-title {
+.cookbook-category-row-title {
   margin: 0;
   color: #10310b;
   font-family: 'Quicksand', sans-serif;
-  font-size: 32px;
+  font-size: 18px;
   font-style: normal;
-  font-weight: 600;
-  line-height: 1.05;
+  font-weight: 500;
+  line-height: 1.1;
   letter-spacing: 0;
+}
+
+.cookbook-category-row-tags {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cookbook-category-tag,
+.cookbook-category-like-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 6px 12px;
+  border-radius: 30px;
+  background: #d7dfd7;
+  color: #396039;
+  font-family: 'Mulish', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  box-sizing: border-box;
+}
+
+.cookbook-category-like-badge {
+  gap: 4px;
+  min-width: 64px;
+  background: #3960394d;
+}
+
+.cookbook-category-like-badge img {
+  display: block;
+  width: 14px;
+  height: 14px;
 }
 
 @media (max-width: 768px) {
@@ -134,11 +204,28 @@
     padding: 32px 20px 40px;
   }
 
-  .cookbook-category-recipes {
-    grid-template-columns: 1fr;
+  .cookbook-category-row {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
   }
 
-  .cookbook-category-card-title {
-    font-size: 24px;
+  .cookbook-category-row-tags {
+    grid-column: 2;
+    justify-content: start;
+  }
+
+  .cookbook-category-row-title {
+    font-size: 16px;
+  }
+
+  .cookbook-category-row-time {
+    font-size: 14px;
+  }
+
+  .cookbook-category-tag,
+  .cookbook-category-like-badge {
+    min-height: 28px;
+    padding: 5px 10px;
+    font-size: 14px;
   }
 }

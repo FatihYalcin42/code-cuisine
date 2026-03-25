@@ -25,23 +25,36 @@
     </div>
 
     <section class="cookbook-category-recipes" [attr.aria-label]="category().title">
-      @for (recipe of category().recipes; track recipe.title) {
+      @for (recipe of category().recipes; track $index) {
         <article
-          class="cookbook-category-card"
+          class="cookbook-category-row"
           role="button"
           tabindex="0"
           (click)="openRecipe(recipe)"
           (keydown.enter)="openRecipe(recipe)"
           (keydown.space)="openRecipe(recipe); $event.preventDefault()"
         >
-          <div class="cookbook-category-card-meta">
-            <span class="cookbook-category-card-time">
+          <div class="cookbook-category-row-index">{{ $index + 1 }}.</div>
+
+          <div class="cookbook-category-row-main">
+            <span class="cookbook-category-row-time">
               <img src="/Icons/schedule.svg" width="20" height="20" alt="" aria-hidden="true" />
               <span>Cooking time: {{ recipe.prepTime }}</span>
             </span>
+
+            <h2 class="cookbook-category-row-title">{{ recipe.title }}</h2>
           </div>
 
-          <h2 class="cookbook-category-card-title">{{ recipe.title }}</h2>
+          <div class="cookbook-category-row-tags" aria-label="Recipe tags">
+            @for (badge of recipe.badges; track badge) {
+              <span class="cookbook-category-tag">{{ badge }}</span>
+            }
+
+            <span class="cookbook-category-like-badge">
+              <img src="/Icons/favorite.svg" width="14" height="14" alt="" aria-hidden="true" />
+              <span>{{ recipe.likes }}</span>
+            </span>
+          </div>
         </article>
       }
     </section>
