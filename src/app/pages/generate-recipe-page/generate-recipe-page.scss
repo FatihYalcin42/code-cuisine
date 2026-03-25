@@ -704,3 +704,48 @@
     height: auto;
   }
 }
+
+@media (max-width: 360px) {
+  .ingredient-list-item {
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 10px;
+  }
+
+  .ingredient-list-copy {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2px 8px;
+    align-items: start;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  .ingredient-list-bullet {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    padding-top: 1px;
+  }
+
+  .ingredient-list-amount {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .ingredient-list-name {
+    grid-column: 2;
+    grid-row: 2;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  .ingredient-list-actions {
+    gap: 6px;
+    padding-top: 2px;
+  }
+
+  .ingredient-list-action {
+    width: 24px;
+    height: 24px;
+  }
+}
