@@ -1,5 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { GeneratedRecipe, RecipeGenerationService } from '../../services/recipe-generation.service';
 
 type CookbookCategoryRecipe = GeneratedRecipe & {
@@ -201,17 +202,21 @@ export class CookbookCategoryPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly recipeGeneration = inject(RecipeGenerationService);
+  private readonly paramMap = toSignal(this.route.paramMap, { initialValue: this.route.snapshot.paramMap });
+  private readonly queryParamMap = toSignal(this.route.queryParamMap, {
+    initialValue: this.route.snapshot.queryParamMap,
+  });
 
   protected readonly pageSize = PAGE_SIZE;
 
   protected readonly category = computed(() => {
-    const slug = this.route.snapshot.paramMap.get('category') ?? '';
+    const slug = this.paramMap().get('category') ?? '';
 
     return COOKBOOK_CATEGORY_CONFIGS.find((entry) => entry.slug === slug) ?? COOKBOOK_CATEGORY_CONFIGS[0];
   });
 
   protected readonly currentPage = computed(() => {
-    const rawPage = Number(this.route.snapshot.queryParamMap.get('page') ?? '1');
+    const rawPage = Number(this.queryParamMap().get('page') ?? '1');
     const page = Number.isFinite(rawPage) ? Math.floor(rawPage) : 1;
     return Math.max(1, Math.min(page, this.totalPages()));
   });
