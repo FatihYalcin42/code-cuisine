@@ -54,29 +54,52 @@
 
 .cookbook-shell {
   display: grid;
-  place-items: center;
-  gap: 16px;
-  min-height: calc(100dvh - 184px);
-  text-align: center;
+  gap: 24px;
+}
+
+.cookbook-frame {
+  min-height: 281px;
+  padding: 40px 24px;
+  border-radius: 20px;
+  background: rgb(57 96 57 / 4%);
+  box-sizing: border-box;
+}
+
+.cookbook-frame-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  min-height: 100%;
+}
+
+.cookbook-frame-copy {
+  max-width: 640px;
 }
 
 .cookbook-title {
   margin: 0;
-  color: #10310b;
+  color: #1e5515;
   font-family: 'Quicksand', sans-serif;
-  font-size: 48px;
-  font-weight: 600;
-  line-height: 1;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 65px;
+  letter-spacing: 0;
+  text-align: left;
 }
 
 .cookbook-description {
-  margin: 0;
-  max-width: 36rem;
-  color: #396039;
+  margin: 17px 0 0;
+  max-width: 40rem;
+  color: #1e5515;
   font-family: 'Quicksand', sans-serif;
   font-size: 20px;
+  font-style: normal;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: left;
 }
 
 .cookbook-back-link {
@@ -102,11 +125,17 @@
     padding: 32px 20px 40px;
   }
 
+  .cookbook-frame-main {
+    grid-template-columns: 1fr;
+  }
+
   .cookbook-title {
     font-size: 36px;
+    line-height: 1.05;
   }
 
   .cookbook-description {
     font-size: 18px;
+    line-height: 1.2;
   }
 }
