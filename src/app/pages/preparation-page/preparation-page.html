@@ -150,7 +150,14 @@
             [attr.aria-label]="isLiked() ? 'Remove heart from this recipe' : 'Give this recipe a heart'"
             (click)="toggleLike()"
           >
-            <span class="preparation-like-icon" aria-hidden="true"></span>
+            <img
+              class="preparation-like-icon"
+              src="/Icons/Heart.svg"
+              width="32"
+              height="32"
+              alt=""
+              aria-hidden="true"
+            />
           </button>
         </section>
       </div>
