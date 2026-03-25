@@ -148,24 +148,38 @@
             Directions
           </h2>
 
-          <div class="preparation-directions-grid">
-            @for (direction of preparationDirections(); track direction.number) {
-              <article class="preparation-direction-item">
-                <div class="preparation-direction-title-row">
-                  <span class="preparation-direction-number">{{ direction.number }}.</span>
-                  <h3 class="preparation-direction-title">{{ direction.title }}</h3>
-                  <img
-                    class="preparation-direction-cook-label"
-                    [src]="direction.cookLabelSource"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </div>
+          @if (!directionsCollapsed()) {
+            <div class="preparation-directions-grid">
+              @for (direction of preparationDirections(); track direction.number) {
+                <article class="preparation-direction-item">
+                  <div class="preparation-direction-title-row">
+                    <span class="preparation-direction-number">{{ direction.number }}.</span>
+                    <h3 class="preparation-direction-title">{{ direction.title }}</h3>
+                    <img
+                      class="preparation-direction-cook-label"
+                      [src]="direction.cookLabelSource"
+                      alt=""
+                      aria-hidden="true"
+                    />
+                  </div>
 
-                <p class="preparation-direction-text">{{ direction.text }}</p>
-              </article>
-            }
-          </div>
+                  <p class="preparation-direction-text">{{ direction.text }}</p>
+                </article>
+              }
+            </div>
+          }
+
+          <button
+            type="button"
+            class="preparation-directions-toggle"
+            [class.is-collapsed]="directionsCollapsed()"
+            [attr.aria-expanded]="!directionsCollapsed()"
+            aria-controls="steps-title"
+            (click)="toggleDirections()"
+          >
+            <span>{{ directionsCollapsed() ? 'Show directions' : 'Hide directions' }}</span>
+            <img src="/Icons/arrow_drop_down.svg" width="24" height="24" alt="" aria-hidden="true" />
+          </button>
         </section>
 
         <section class="preparation-like-section" aria-label="Recipe feedback">
