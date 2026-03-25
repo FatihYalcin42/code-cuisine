@@ -493,7 +493,8 @@
   background: transparent;
   cursor: pointer;
   box-sizing: border-box;
-  transition: background-color 160ms ease, transform 160ms ease;
+  appearance: none;
+  transition: background-color 160ms ease;
 }
 
 .preparation-like-button:hover {
@@ -510,16 +511,7 @@
   width: 32px;
   height: 32px;
   display: block;
-  fill: transparent;
-  stroke: #008000;
-  stroke-width: 2.5px;
-  transition: fill 160ms ease, transform 160ms ease;
-}
-
-.preparation-like-button.is-active .preparation-like-icon {
-  fill: #008000;
-  stroke: #008000;
-  transform: scale(1.04);
+  transition: transform 160ms ease;
 }
 
 .preparation-steps {
