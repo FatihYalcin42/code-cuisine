@@ -25,114 +25,115 @@
 <main class="preparation-page" aria-label="Preparation page">
   @if (selectedRecipe(); as recipe) {
     <section class="preparation-shell" aria-labelledby="preparation-title">
-      <div class="preparation-intro">
-        <div class="preparation-intro-main">
-          <div class="preparation-meta">
-            <div class="preparation-meta-item">
-              <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
-              <span>Coocking time: {{ recipe.prepTime }}</span>
+      <div class="preparation-content-frame">
+        <div class="preparation-intro">
+          <div class="preparation-intro-main">
+            <div class="preparation-meta">
+              <div class="preparation-meta-item">
+                <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
+                <span>Coocking time: {{ recipe.prepTime }}</span>
+              </div>
             </div>
-          </div>
 
-          <h1 class="preparation-title" id="preparation-title">{{ recipe.title }}</h1>
+            <h1 class="preparation-title" id="preparation-title">{{ recipe.title }}</h1>
 
-          <div class="preparation-chefs">
-            <span class="preparation-chefs-label">Coocking person: {{ cookingPersonsLabel() }}</span>
+            <div class="preparation-chefs">
+              <span class="preparation-chefs-label">Coocking person: {{ cookingPersonsLabel() }}</span>
 
-            @for (cookLabelSource of cookLabelSources(); track cookLabelSource) {
-              <img class="preparation-cook-label" [src]="cookLabelSource" alt="" aria-hidden="true" />
-            }
-          </div>
-        </div>
-
-        <div class="preparation-intro-side" aria-hidden="true">
-          <div class="preparation-intro-side-panel">
-            <div class="preparation-tags">
-              @for (tag of selectedPreferenceTags(); track tag) {
-                <span class="preparation-tag">{{ tag }}</span>
+              @for (cookLabelSource of cookLabelSources(); track cookLabelSource) {
+                <img class="preparation-cook-label" [src]="cookLabelSource" alt="" aria-hidden="true" />
               }
             </div>
+          </div>
 
-            <div class="preparation-nutrition">
-              <h2 class="preparation-nutrition-title">Nutritional information</h2>
-
-              <div class="preparation-nutrition-grid">
-                @for (fact of nutritionFacts(); track fact.label) {
-                  <div class="preparation-nutrition-item">
-                    <span class="preparation-nutrition-label">{{ fact.label }}</span>
-                    <span class="preparation-nutrition-value">{{ fact.value }}</span>
-                  </div>
+          <div class="preparation-intro-side" aria-hidden="true">
+            <div class="preparation-intro-side-panel">
+              <div class="preparation-tags">
+                @for (tag of selectedPreferenceTags(); track tag) {
+                  <span class="preparation-tag">{{ tag }}</span>
                 }
               </div>
+
+              <div class="preparation-nutrition">
+                <h2 class="preparation-nutrition-title">Nutritional information</h2>
+
+                <div class="preparation-nutrition-grid">
+                  @for (fact of nutritionFacts(); track fact.label) {
+                    <div class="preparation-nutrition-item">
+                      <span class="preparation-nutrition-label">{{ fact.label }}</span>
+                      <span class="preparation-nutrition-value">{{ fact.value }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="preparation-section-hero" aria-hidden="true">
-        <img src="/Icons/Hero-view.svg" width="1152" height="148" alt="" />
-      </div>
-
-      <section class="preparation-ingredients-section" aria-labelledby="ingredients-title">
-        <h2 class="preparation-card-title preparation-card-title-sr-only" id="ingredients-title">
-          Ingredients
-        </h2>
-        <div class="preparation-ingredients-grid">
-          <section class="preparation-ingredients-column" aria-labelledby="your-ingredients-title">
-            <h3 class="preparation-ingredients-heading" id="your-ingredients-title">
-              Your ingredients
-            </h3>
-
-            <ul class="preparation-ingredients-list">
-              @for (ingredient of ingredientColumns().yourIngredients; track ingredient) {
-                <li class="preparation-ingredients-item">{{ ingredient }}</li>
-              }
-            </ul>
-          </section>
-
-          <section class="preparation-ingredients-column" aria-labelledby="extra-ingredients-title">
-            <h3 class="preparation-ingredients-heading" id="extra-ingredients-title">
-              Extra ingredients
-            </h3>
-
-            <ul class="preparation-ingredients-list">
-              @for (ingredient of ingredientColumns().extraIngredients; track ingredient) {
-                <li class="preparation-ingredients-item">{{ ingredient }}</li>
-              }
-            </ul>
-          </section>
+        <div class="preparation-section-hero" aria-hidden="true">
+          <img src="/Icons/Hero-view.svg" width="1152" height="148" alt="" />
         </div>
-      </section>
 
-      <div class="preparation-section-hero" aria-hidden="true">
-        <img src="/Icons/Hero-directions.svg" width="1152" height="148" alt="" />
-      </div>
+        <section class="preparation-ingredients-section" aria-labelledby="ingredients-title">
+          <h2 class="preparation-card-title preparation-card-title-sr-only" id="ingredients-title">
+            Ingredients
+          </h2>
+          <div class="preparation-ingredients-grid">
+            <section class="preparation-ingredients-column" aria-labelledby="your-ingredients-title">
+              <h3 class="preparation-ingredients-heading" id="your-ingredients-title">
+                Your ingredients
+              </h3>
 
-      <section class="preparation-directions-section" aria-labelledby="steps-title">
-        <h2 class="preparation-card-title preparation-card-title-sr-only" id="steps-title">
-          Directions
-        </h2>
+              <ul class="preparation-ingredients-list">
+                @for (ingredient of ingredientColumns().yourIngredients; track ingredient) {
+                  <li class="preparation-ingredients-item">{{ ingredient }}</li>
+                }
+              </ul>
+            </section>
 
-        <div class="preparation-directions-grid">
-          @for (direction of preparationDirections(); track direction.number) {
-            <article class="preparation-direction-item">
-              <div class="preparation-direction-title-row">
-                <span class="preparation-direction-number">{{ direction.number }}.</span>
-                <h3 class="preparation-direction-title">{{ direction.title }}</h3>
-                <img
-                  class="preparation-direction-cook-label"
-                  [src]="direction.cookLabelSource"
-                  alt=""
-                  aria-hidden="true"
-                />
-              </div>
+            <section class="preparation-ingredients-column" aria-labelledby="extra-ingredients-title">
+              <h3 class="preparation-ingredients-heading" id="extra-ingredients-title">
+                Extra ingredients
+              </h3>
 
-              <p class="preparation-direction-text">{{ direction.text }}</p>
-            </article>
-          }
+              <ul class="preparation-ingredients-list">
+                @for (ingredient of ingredientColumns().extraIngredients; track ingredient) {
+                  <li class="preparation-ingredients-item">{{ ingredient }}</li>
+                }
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <div class="preparation-section-hero" aria-hidden="true">
+          <img src="/Icons/Hero-directions.svg" width="1152" height="148" alt="" />
         </div>
-      </section>
 
+        <section class="preparation-directions-section" aria-labelledby="steps-title">
+          <h2 class="preparation-card-title preparation-card-title-sr-only" id="steps-title">
+            Directions
+          </h2>
+
+          <div class="preparation-directions-grid">
+            @for (direction of preparationDirections(); track direction.number) {
+              <article class="preparation-direction-item">
+                <div class="preparation-direction-title-row">
+                  <span class="preparation-direction-number">{{ direction.number }}.</span>
+                  <h3 class="preparation-direction-title">{{ direction.title }}</h3>
+                  <img
+                    class="preparation-direction-cook-label"
+                    [src]="direction.cookLabelSource"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </div>
+
+                <p class="preparation-direction-text">{{ direction.text }}</p>
+              </article>
+            }
+          </div>
+        </section>
+      </div>
     </section>
   } @else {
     <section class="preparation-shell">
