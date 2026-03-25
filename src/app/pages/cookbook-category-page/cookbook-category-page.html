@@ -1,0 +1,49 @@
+<header class="cookbook-category-header">
+  <div class="cookbook-category-header-branding">
+    <a class="cookbook-category-brand" routerLink="/" aria-label="Back to home page">
+      <object
+        class="cookbook-category-brand-media"
+        data="/Icons/Capa_green.svg?v=1"
+        type="image/svg+xml"
+        aria-label="Code-a-Cuisine"
+      >
+        <span class="cookbook-category-brand-fallback">Code a Cuisine</span>
+      </object>
+    </a>
+
+    <a class="cookbook-category-back-link" routerLink="/cookbook" aria-label="Back to cookbook">
+      <img src="/Icons/Arrow 11.svg" width="24" height="24" alt="" aria-hidden="true" />
+      <span>Cookbook</span>
+    </a>
+  </div>
+</header>
+
+<main class="cookbook-category-page" aria-label="Cookbook category page">
+  <section class="cookbook-category-shell">
+    <div class="cookbook-category-hero" aria-hidden="true">
+      <img [src]="category().heroSrc" width="1330" height="281" alt="" />
+    </div>
+
+    <section class="cookbook-category-recipes" [attr.aria-label]="category().title">
+      @for (recipe of category().recipes; track recipe.title) {
+        <article
+          class="cookbook-category-card"
+          role="button"
+          tabindex="0"
+          (click)="openRecipe(recipe)"
+          (keydown.enter)="openRecipe(recipe)"
+          (keydown.space)="openRecipe(recipe); $event.preventDefault()"
+        >
+          <div class="cookbook-category-card-meta">
+            <span class="cookbook-category-card-time">
+              <img src="/Icons/schedule.svg" width="20" height="20" alt="" aria-hidden="true" />
+              <span>Cooking time: {{ recipe.prepTime }}</span>
+            </span>
+          </div>
+
+          <h2 class="cookbook-category-card-title">{{ recipe.title }}</h2>
+        </article>
+      }
+    </section>
+  </section>
+</main>

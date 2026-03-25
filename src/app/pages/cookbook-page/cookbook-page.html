@@ -73,13 +73,19 @@
             <span aria-hidden="true">{{ category.emoji }}</span>
           </h2>
 
-          <img
-            class="cookbook-cuisine-image"
-            [src]="category.imagePath"
-            width="370"
-            height="314"
-            [alt]="category.title"
-          />
+          <a
+            class="cookbook-cuisine-link"
+            [routerLink]="['/cookbook', category.slug]"
+            [attr.aria-label]="category.title"
+          >
+            <img
+              class="cookbook-cuisine-image"
+              [src]="category.imagePath"
+              width="370"
+              height="314"
+              [alt]="category.title"
+            />
+          </a>
         </article>
       }
     </section>
