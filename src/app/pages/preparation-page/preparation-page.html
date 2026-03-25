@@ -69,8 +69,14 @@
         </div>
       </div>
 
+      <div class="preparation-section-hero" aria-hidden="true">
+        <img src="/Icons/Hero-view.svg" width="1152" height="148" alt="" />
+      </div>
+
       <section class="preparation-card" aria-labelledby="ingredients-title">
-        <h2 class="preparation-card-title" id="ingredients-title">Ingredients</h2>
+        <h2 class="preparation-card-title preparation-card-title-sr-only" id="ingredients-title">
+          Ingredients
+        </h2>
         <ul class="preparation-list">
           @for (ingredient of recipe.ingredients; track ingredient) {
             <li>{{ ingredient }}</li>
