@@ -7,7 +7,10 @@
 }
 
 .results-header {
+  width: min(100%, var(--page-max-width));
+  margin: 0 auto;
   padding: 40px 68px 0;
+  box-sizing: border-box;
 }
 
 .results-brand {
@@ -39,6 +42,8 @@
 
 .results-page {
   min-height: calc(100dvh - 88px);
+  width: min(100%, var(--page-max-width));
+  margin: 0 auto;
   padding: 48px 68px 68px;
   box-sizing: border-box;
 }

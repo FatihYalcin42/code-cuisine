@@ -5,7 +5,10 @@
 }
 
 .preferences-header {
+  width: min(100%, var(--page-max-width));
+  margin: 0 auto;
   padding: 40px 68px 0;
+  box-sizing: border-box;
 }
 
 .preferences-header-branding {
@@ -63,6 +66,8 @@
 .preferences-page {
   box-sizing: border-box;
   min-height: calc(100dvh - 88px);
+  width: min(100%, var(--page-max-width));
+  margin: 0 auto;
   padding: 72px 68px 56px;
 }
 

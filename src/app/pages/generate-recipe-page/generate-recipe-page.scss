@@ -8,6 +8,8 @@
   position: relative;
   box-sizing: border-box;
   min-height: 240px;
+  width: min(100%, var(--page-max-width));
+  margin: 0 auto;
   padding: 40px 68px 0;
 }
 
@@ -78,6 +80,8 @@
 
 .generate-page-content {
   box-sizing: border-box;
+  width: min(100%, var(--page-max-width));
+  margin: 0 auto;
   padding: 24px 68px 40px;
   min-height: calc(100dvh - 240px);
 }
