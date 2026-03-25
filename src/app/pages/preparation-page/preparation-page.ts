@@ -12,6 +12,9 @@ export class PreparationPageComponent {
   private readonly recipeGeneration = inject(RecipeGenerationService);
   private readonly route = inject(ActivatedRoute);
   private readonly source = this.route.snapshot.queryParamMap.get('from');
+  private readonly cookingPersons = computed(
+    () => Math.max(1, this.recipeGeneration.lastUsedPreferences()?.persons ?? 1),
+  );
   protected readonly selectedRecipe = computed(
     () => this.recipeGeneration.selectedRecipe() ?? this.recipeGeneration.generatedRecipes()[0] ?? null,
   );
@@ -19,4 +22,12 @@ export class PreparationPageComponent {
   protected readonly backLinkTarget = this.source === 'cookbook' ? '/cookbook' : '/results';
   protected readonly backLinkAriaLabel =
     this.source === 'cookbook' ? 'Back to cookbook' : 'Back to recipe results';
+  protected readonly cookingPersonsLabel = computed(() => this.cookingPersons());
+  protected readonly cookLabelSources = computed(() => {
+    if (this.cookingPersons() <= 1) {
+      return ['/Icons/Cook-label.svg'];
+    }
+
+    return ['/Icons/Cook-label.svg', '/Icons/Cook-label2.svg'];
+  });
 }

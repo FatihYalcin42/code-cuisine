@@ -26,15 +26,27 @@
   @if (selectedRecipe(); as recipe) {
     <section class="preparation-shell" aria-labelledby="preparation-title">
       <div class="preparation-intro">
-        <p class="preparation-kicker">Selected recipe</p>
-        <h1 class="preparation-title" id="preparation-title">{{ recipe.title }}</h1>
-        <p class="preparation-description">{{ recipe.description }}</p>
-
-        <div class="preparation-meta">
-          <div class="preparation-meta-item">
-            <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
-            <span>Cooking time: {{ recipe.prepTime }}</span>
+        <div class="preparation-intro-main">
+          <div class="preparation-meta">
+            <div class="preparation-meta-item">
+              <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
+              <span>Coocking time: {{ recipe.prepTime }}</span>
+            </div>
           </div>
+
+          <h1 class="preparation-title" id="preparation-title">{{ recipe.title }}</h1>
+
+          <div class="preparation-chefs">
+            <span class="preparation-chefs-label">Coocking person: {{ cookingPersonsLabel() }}</span>
+
+            @for (cookLabelSource of cookLabelSources(); track cookLabelSource) {
+              <img class="preparation-cook-label" [src]="cookLabelSource" alt="" aria-hidden="true" />
+            }
+          </div>
+        </div>
+
+        <div class="preparation-intro-side" aria-hidden="true">
+          <div class="preparation-intro-side-placeholder"></div>
         </div>
       </div>
 
