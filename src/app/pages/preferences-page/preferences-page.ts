@@ -40,15 +40,15 @@ export class PreferencesPageComponent {
   }
 
   protected selectCookingTime(option: string): void {
-    this.selectedCookingTime.set(option);
+    this.selectedCookingTime.update((currentValue) => (currentValue === option ? null : option));
   }
 
   protected selectCuisine(option: string): void {
-    this.selectedCuisine.set(option);
+    this.selectedCuisine.update((currentValue) => (currentValue === option ? null : option));
   }
 
   protected selectDietPreference(option: string): void {
-    this.selectedDietPreference.set(option);
+    this.selectedDietPreference.update((currentValue) => (currentValue === option ? null : option));
   }
 
   protected async generateRecipe(): Promise<void> {
