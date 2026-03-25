@@ -613,12 +613,12 @@
   }
 
   .preparation-page {
-    padding: 32px 20px 40px;
+    padding: 20px 12px 32px;
   }
 
   .preparation-content-frame {
-    gap: 32px;
-    padding: 24px 20px;
+    gap: 24px;
+    padding: 12px;
   }
 
   .preparation-footer-frame {
@@ -631,8 +631,8 @@
     display: grid;
     grid-template-columns: 1fr;
     min-height: auto;
-    padding: 24px;
-    gap: 20px;
+    padding: 16px;
+    gap: 16px;
   }
 
   .preparation-intro-main {
@@ -653,18 +653,19 @@
   .preparation-intro-side-panel {
     justify-items: start;
     align-content: start;
-    gap: 18px;
+    gap: 14px;
   }
 
   .preparation-title {
     max-width: none;
-    font-size: 24px;
-    line-height: 1.15;
+    font-size: 22px;
+    line-height: 1.1;
   }
 
   .preparation-tags {
     justify-content: flex-start;
     gap: 8px;
+    order: 2;
   }
 
   .preparation-tag {
@@ -677,6 +678,7 @@
 
   .preparation-nutrition {
     gap: 12px;
+    order: 1;
   }
 
   .preparation-nutrition-title {
@@ -684,9 +686,9 @@
   }
 
   .preparation-nutrition-grid {
-    grid-template-columns: repeat(4, minmax(0, max-content));
+    grid-template-columns: repeat(2, minmax(0, max-content));
     justify-content: start;
-    gap: 10px 18px;
+    gap: 12px 20px;
   }
 
   .preparation-nutrition-label {
@@ -735,15 +737,19 @@
   }
 
   .preparation-chefs {
-    gap: 6px;
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    justify-content: start;
+    gap: 6px 8px;
   }
 
   .preparation-chefs-label {
+    grid-column: 1 / -1;
     font-size: 16px;
     line-height: 1.1;
   }
 
   .preparation-cook-label {
-    height: 28px;
+    height: 24px;
   }
 }
