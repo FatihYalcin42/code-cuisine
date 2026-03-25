@@ -3,7 +3,7 @@
     <a class="preparation-brand" routerLink="/" aria-label="Back to home page">
       <object
         class="preparation-brand-media"
-        data="/Icons/Capa_2.svg?v=1"
+        data="/Icons/Capa_green.svg?v=1"
         type="image/svg+xml"
         aria-label="Code-a-Cuisine"
       >
@@ -11,9 +11,13 @@
       </object>
     </a>
 
-    <a class="preparation-back-link" routerLink="/results" aria-label="Back to results">
+    <a
+      class="preparation-back-link"
+      [routerLink]="backLinkTarget"
+      [attr.aria-label]="backLinkAriaLabel"
+    >
       <img src="/Icons/Arrow 11.svg" width="24" height="24" alt="" aria-hidden="true" />
-      <span>Back to results</span>
+      <span>{{ backLinkLabel }}</span>
     </a>
   </div>
 </header>

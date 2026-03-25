@@ -1,9 +1,7 @@
 :host {
   display: block;
   min-height: 100dvh;
-  background:
-    radial-gradient(circle at top left, rgb(250 240 230 / 14%), transparent 28%),
-    linear-gradient(180deg, #396039 0%, #31522f 100%);
+  background: #fff;
 }
 
 .preparation-header {
@@ -14,9 +12,8 @@
 }
 
 .preparation-header-branding {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  justify-items: start;
   gap: 20px;
 }
 
@@ -42,7 +39,7 @@
   justify-content: center;
   width: 142px;
   height: 48px;
-  color: #faf0e6;
+  color: #1e5515;
   font-size: 1.125rem;
   font-weight: 700;
 }
@@ -51,18 +48,18 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: #faf0e6;
+  color: #1e5515;
   font-family: 'Quicksand', sans-serif;
-  font-size: 1rem;
+  font-size: 14px;
   font-style: normal;
-  font-weight: 600;
-  line-height: 1;
+  font-weight: 500;
+  line-height: 10px;
+  letter-spacing: 0;
   text-decoration: none;
 }
 
 .preparation-back-link img {
   display: block;
-  transform: rotate(180deg);
 }
 
 .preparation-page {

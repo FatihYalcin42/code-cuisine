@@ -29,6 +29,6 @@ export class ResultsPageComponent {
 
   protected viewRecipe(recipe: GeneratedRecipe): void {
     this.recipeGeneration.selectRecipe(recipe);
-    void this.router.navigateByUrl('/preparation');
+    void this.router.navigate(['/preparation'], { queryParams: { from: 'results' } });
   }
 }
