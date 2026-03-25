@@ -432,9 +432,16 @@
 .ingredient-suggestions {
   display: grid;
   gap: 8px;
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
 }
 
 .ingredient-suggestion {
+  display: block;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
   color: #10310b;
   font-family: 'Quicksand', sans-serif;
   font-size: 20px;
@@ -444,6 +451,7 @@
   line-height: 20px;
   overflow-wrap: anywhere;
   word-break: break-word;
+  white-space: normal;
 }
 
 .ingredient-list-title {
@@ -641,7 +649,7 @@
   .ingredient-panel {
     min-height: auto;
     display: grid;
-    grid-template-columns: max-content max-content 1fr;
+    grid-template-columns: max-content max-content minmax(0, 1fr);
     gap: 12px;
   }
 
@@ -665,6 +673,12 @@
     grid-row: 3;
     grid-column: 1 / -1;
     padding-left: 12px;
+  }
+
+  .ingredient-suggestion {
+    font-size: 16px;
+    line-height: 1.25;
+    word-break: normal;
   }
 
   .serving-size {
@@ -706,7 +720,13 @@
 }
 
 @media (max-width: 360px) {
+  .ingredient-panel {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
   .ingredient-list-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: flex-start;
     gap: 8px;
     padding: 6px 10px;
@@ -717,6 +737,7 @@
     grid-template-columns: auto 1fr;
     gap: 2px 8px;
     align-items: start;
+    min-width: 0;
     font-size: 16px;
     line-height: 1.2;
   }
@@ -735,7 +756,8 @@
   .ingredient-list-name {
     grid-column: 2;
     grid-row: 2;
-    overflow-wrap: break-word;
+    min-width: 0;
+    overflow-wrap: anywhere;
     word-break: normal;
   }
 
