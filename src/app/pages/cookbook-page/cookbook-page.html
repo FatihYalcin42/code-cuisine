@@ -40,8 +40,13 @@
             @for (recipe of likedRecipes; track recipe.title) {
               <article class="cookbook-liked-card">
                 <div class="cookbook-liked-card-meta">
-                  <span>{{ recipe.prepTime }}</span>
-                  <span class="cookbook-liked-card-likes">{{ recipe.likes }}</span>
+                  <span class="cookbook-liked-card-time">
+                    <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
+                    <span>Cooking time: {{ recipe.prepTime }}</span>
+                  </span>
+                  <span class="cookbook-liked-card-likes">
+                    <img src="/Icons/favorite.svg" width="64" height="32" alt="" aria-hidden="true" />
+                  </span>
                 </div>
 
                 <h3 class="cookbook-liked-card-title">{{ recipe.title }}</h3>

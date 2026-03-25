@@ -130,16 +130,43 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+.cookbook-liked-card-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: #396039;
   font-family: 'Quicksand', sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: 1;
+  line-height: 20px;
+  letter-spacing: 0;
 }
 
-.cookbook-liked-card-likes::before {
-  content: '♡ ';
+.cookbook-liked-card-time img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.cookbook-liked-card-likes {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 32px;
+  padding: 6px 12px;
+  border-radius: 30px;
+  box-sizing: border-box;
+}
+
+.cookbook-liked-card-likes img {
+  display: block;
+  width: 64px;
+  height: 32px;
 }
 
 .cookbook-liked-card-title {
