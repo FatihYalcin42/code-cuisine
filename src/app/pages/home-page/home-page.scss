@@ -156,11 +156,11 @@
   align-items: center;
   gap: 2rem;
   flex-wrap: wrap;
-  position: fixed;
-  left: max(65px, calc(50vw - (min(100vw, var(--page-max-width)) / 2) + 65px));
+  position: absolute;
+  left: 65px;
   bottom: 72px;
   width: max-content;
-  max-width: min(calc(100vw - 130px), calc(var(--page-max-width) - 130px));
+  max-width: calc(100% - 130px);
   z-index: 3;
 }
 
@@ -355,7 +355,8 @@
     align-items: stretch;
     justify-content: flex-start;
     min-height: 100dvh;
-    width: 100%;
+    width: min(100%, var(--page-max-width));
+    margin: 0 auto;
     padding: 0 0 250px;
     box-sizing: border-box;
   }
@@ -395,7 +396,7 @@
     justify-items: start;
     gap: 22px;
     margin-top: 0;
-    max-width: calc(100vw - 56px);
+    max-width: calc(100% - 56px);
   }
 
   .hero-prompt {
