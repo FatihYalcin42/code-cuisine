@@ -16,7 +16,7 @@
 .generate-brand {
   position: absolute;
   top: 40px;
-  left: 68px;
+  left: calc(50% - (1079px / 2));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -557,6 +557,7 @@
     position: static;
     width: 118px;
     height: auto;
+    transform: none;
   }
 
   .generate-brand-media,
