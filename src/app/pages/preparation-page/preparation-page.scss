@@ -318,7 +318,12 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 48px;
-  margin-top: 24px;
+  width: min(100%, 764px);
+  margin: 0 auto;
+}
+
+.preparation-ingredients-section {
+  width: 100%;
 }
 
 .preparation-ingredients-column {
@@ -423,6 +428,7 @@
   .preparation-ingredients-grid {
     grid-template-columns: 1fr;
     gap: 28px;
+    width: 100%;
   }
 
   .preparation-ingredients-heading,
