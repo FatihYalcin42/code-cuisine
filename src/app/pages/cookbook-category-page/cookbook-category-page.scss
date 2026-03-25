@@ -77,7 +77,11 @@
   height: auto;
 }
 
-.cookbook-category-hero-mobile {
+.cookbook-category-hero .cookbook-category-hero-desktop {
+  display: block;
+}
+
+.cookbook-category-hero .cookbook-category-hero-mobile {
   display: none;
 }
 
@@ -248,11 +252,11 @@
     padding: 32px 20px 40px;
   }
 
-  .cookbook-category-hero-desktop {
+  .cookbook-category-hero .cookbook-category-hero-desktop {
     display: none;
   }
 
-  .cookbook-category-hero-mobile {
+  .cookbook-category-hero .cookbook-category-hero-mobile {
     display: block;
   }
 
