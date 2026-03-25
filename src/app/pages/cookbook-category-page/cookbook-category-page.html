@@ -25,7 +25,7 @@
     </div>
 
     <section class="cookbook-category-recipes" [attr.aria-label]="category().title">
-      @for (recipe of category().recipes; track $index) {
+      @for (recipe of visibleRecipes(); track $index) {
         <article
           class="cookbook-category-row"
           role="button"
@@ -34,7 +34,7 @@
           (keydown.enter)="openRecipe(recipe)"
           (keydown.space)="openRecipe(recipe); $event.preventDefault()"
         >
-          <div class="cookbook-category-row-index">{{ $index + 1 }}.</div>
+          <div class="cookbook-category-row-index">{{ recipeNumber($index) }}.</div>
 
           <div class="cookbook-category-row-main">
             <span class="cookbook-category-row-time">
@@ -58,5 +58,43 @@
         </article>
       }
     </section>
+
+    @if (totalPages() > 1) {
+      <nav class="cookbook-category-pagination" aria-label="Recipe list pages">
+        <button
+          type="button"
+          class="cookbook-category-pagination-control"
+          [class.is-disabled]="currentPage() === 1"
+          [disabled]="currentPage() === 1"
+          (click)="changePage(currentPage() - 1)"
+          aria-label="Previous page"
+        >
+          &lt;
+        </button>
+
+        @for (page of pageNumbers(); track page) {
+          <button
+            type="button"
+            class="cookbook-category-pagination-page"
+            [class.is-active]="page === currentPage()"
+            (click)="changePage(page)"
+            [attr.aria-current]="page === currentPage() ? 'page' : null"
+          >
+            {{ page }}
+          </button>
+        }
+
+        <button
+          type="button"
+          class="cookbook-category-pagination-control"
+          [class.is-disabled]="currentPage() === totalPages()"
+          [disabled]="currentPage() === totalPages()"
+          (click)="changePage(currentPage() + 1)"
+          aria-label="Next page"
+        >
+          &gt;
+        </button>
+      </nav>
+    }
   </section>
 </main>

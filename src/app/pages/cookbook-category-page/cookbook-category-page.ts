@@ -14,12 +14,27 @@ type CookbookCategoryConfig = {
   recipes: CookbookCategoryRecipe[];
 };
 
+const PAGE_SIZE = 10;
+
+function repeatRecipes(recipes: CookbookCategoryRecipe[], total: number): CookbookCategoryRecipe[] {
+  return Array.from({ length: total }, (_, index) => {
+    const recipe = recipes[index % recipes.length];
+
+    return {
+      ...recipe,
+      ingredients: [...recipe.ingredients],
+      steps: [...recipe.steps],
+      badges: [...recipe.badges],
+    };
+  });
+}
+
 const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
   {
     slug: 'italian',
     title: 'Italian cuisine',
     heroSrc: '/Icons/Property 1=Italian.svg',
-    recipes: [
+    recipes: repeatRecipes([
       {
         title: 'Pasta with spinach and cherry tommatoes',
         description: 'A creamy weeknight pasta with fresh greens and a fast tomato finish.',
@@ -47,40 +62,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         likes: 42,
         badges: ['Quick'],
       },
-      {
-        title: 'Pasta with spinach and cherry tommatoes',
-        description: 'A creamy weeknight pasta with fresh greens and a fast tomato finish.',
-        prepTime: '20min',
-        ingredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
-        steps: ['Boil pasta.', 'Cook tomatoes and spinach.', 'Fold everything together and serve.'],
-        likes: 66,
-        badges: ['Vegetarian', 'Quick'],
-      },
-      {
-        title: 'Creamy garlic shrimp pasta',
-        description: 'Silky pasta with shrimp, garlic and parmesan.',
-        prepTime: '22min',
-        ingredients: ['Linguine', 'Shrimp', 'Parmesan'],
-        steps: ['Cook pasta.', 'Saute shrimp.', 'Combine and finish.'],
-        likes: 32,
-        badges: ['Quick'],
-      },
-      {
-        title: 'Funghi salami pizza',
-        description: 'Crisp pizza topped with mushrooms, salami and herbs.',
-        prepTime: '16min',
-        ingredients: ['Pizza dough', 'Mushrooms', 'Salami'],
-        steps: ['Shape dough.', 'Top pizza.', 'Bake and slice.'],
-        likes: 42,
-        badges: ['Quick'],
-      },
-    ],
+    ], 15),
   },
   {
     slug: 'german',
     title: 'German cuisine',
     heroSrc: '/Icons/Property 1=German.svg',
-    recipes: [
+    recipes: repeatRecipes([
       {
         title: 'Crispy potato skillet',
         description: 'Golden potatoes with herbs, onion and a quick pan sauce.',
@@ -99,13 +87,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         likes: 49,
         badges: ['Gourmet'],
       },
-    ],
+    ], 15),
   },
   {
     slug: 'japanese',
     title: 'Japanese cuisine',
     heroSrc: '/Icons/Property 1=Japanese.svg',
-    recipes: [
+    recipes: repeatRecipes([
       {
         title: 'Vegetable rice bowl',
         description: 'A light bowl with rice, roasted vegetables and a bright dressing.',
@@ -124,13 +112,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         likes: 61,
         badges: ['Quick'],
       },
-    ],
+    ], 15),
   },
   {
     slug: 'gourmet',
     title: 'Gourmet cuisine',
     heroSrc: '/Icons/Property 1=Gourmet.svg',
-    recipes: [
+    recipes: repeatRecipes([
       {
         title: 'Seared duck with spring vegetables',
         description: 'Plated with finesse and a glossy reduction.',
@@ -149,13 +137,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         likes: 47,
         badges: ['Vegetarian'],
       },
-    ],
+    ], 15),
   },
   {
     slug: 'indian',
     title: 'Indian cuisine',
     heroSrc: '/Icons/Property 1=Indian.svg',
-    recipes: [
+    recipes: repeatRecipes([
       {
         title: 'Paneer masala thali',
         description: 'A full plate with spices, rice and warm flatbread.',
@@ -174,13 +162,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         likes: 44,
         badges: ['Vegetarian', 'Quick'],
       },
-    ],
+    ], 15),
   },
   {
     slug: 'fusion',
     title: 'Fusion cuisine',
     heroSrc: '/Icons/Property 1=Fusion.svg',
-    recipes: [
+    recipes: repeatRecipes([
       {
         title: 'Fusion sushi tasting plate',
         description: 'A modern plate with playful colors and shapes.',
@@ -199,7 +187,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         likes: 51,
         badges: ['Quick'],
       },
-    ],
+    ], 15),
   },
 ];
 
@@ -214,14 +202,49 @@ export class CookbookCategoryPageComponent {
   private readonly router = inject(Router);
   private readonly recipeGeneration = inject(RecipeGenerationService);
 
+  protected readonly pageSize = PAGE_SIZE;
+
   protected readonly category = computed(() => {
     const slug = this.route.snapshot.paramMap.get('category') ?? '';
 
     return COOKBOOK_CATEGORY_CONFIGS.find((entry) => entry.slug === slug) ?? COOKBOOK_CATEGORY_CONFIGS[0];
   });
 
+  protected readonly currentPage = computed(() => {
+    const rawPage = Number(this.route.snapshot.queryParamMap.get('page') ?? '1');
+    const page = Number.isFinite(rawPage) ? Math.floor(rawPage) : 1;
+    return Math.max(1, Math.min(page, this.totalPages()));
+  });
+
+  protected readonly totalPages = computed(() => Math.max(1, Math.ceil(this.category().recipes.length / PAGE_SIZE)));
+
+  protected readonly visibleRecipes = computed(() => {
+    const start = (this.currentPage() - 1) * PAGE_SIZE;
+    return this.category().recipes.slice(start, start + PAGE_SIZE);
+  });
+
+  protected readonly pageNumbers = computed(() =>
+    Array.from({ length: this.totalPages() }, (_, index) => index + 1),
+  );
+
   protected openRecipe(recipe: GeneratedRecipe): void {
     this.recipeGeneration.selectRecipe(recipe);
     void this.router.navigate(['/preparation'], { queryParams: { from: 'cookbook' } });
+  }
+
+  protected recipeNumber(indexOnPage: number): number {
+    return (this.currentPage() - 1) * PAGE_SIZE + indexOnPage + 1;
+  }
+
+  protected changePage(page: number): void {
+    if (page < 1 || page > this.totalPages() || page === this.currentPage()) {
+      return;
+    }
+
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page },
+      queryParamsHandling: 'merge',
+    });
   }
 }

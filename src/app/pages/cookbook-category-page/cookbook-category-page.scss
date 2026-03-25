@@ -82,6 +82,44 @@
   gap: 8px;
 }
 
+.cookbook-category-pagination {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px auto 0;
+}
+
+.cookbook-category-pagination-control,
+.cookbook-category-pagination-page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: #396039;
+  font-family: 'Mulish', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.cookbook-category-pagination-page.is-active {
+  color: #10310b;
+  font-weight: 700;
+}
+
+.cookbook-category-pagination-control.is-disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 .cookbook-category-row {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -207,6 +245,10 @@
   .cookbook-category-row {
     grid-template-columns: auto minmax(0, 1fr);
     align-items: start;
+  }
+
+  .cookbook-category-pagination {
+    gap: 8px;
   }
 
   .cookbook-category-row-tags {
