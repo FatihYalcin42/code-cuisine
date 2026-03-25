@@ -29,6 +29,26 @@
             get inspired for your next culinary adventure.
           </p>
         </div>
+
+        <section class="cookbook-liked" aria-labelledby="cookbook-liked-title">
+          <div class="cookbook-liked-heading">
+            <h2 class="cookbook-liked-title" id="cookbook-liked-title">Most liked recipes</h2>
+            <img src="/Icons/Heart.svg" width="32" height="32" alt="" aria-hidden="true" />
+          </div>
+
+          <div class="cookbook-liked-scroll" aria-label="Most liked recipes">
+            @for (recipe of likedRecipes; track recipe.title) {
+              <article class="cookbook-liked-card">
+                <div class="cookbook-liked-card-meta">
+                  <span>{{ recipe.prepTime }}</span>
+                  <span class="cookbook-liked-card-likes">{{ recipe.likes }}</span>
+                </div>
+
+                <h3 class="cookbook-liked-card-title">{{ recipe.title }}</h3>
+              </article>
+            }
+          </div>
+        </section>
       </div>
     </section>
   </section>

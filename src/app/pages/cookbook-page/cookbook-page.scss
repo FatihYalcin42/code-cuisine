@@ -77,6 +77,82 @@
   max-width: 640px;
 }
 
+.cookbook-liked {
+  min-width: 0;
+}
+
+.cookbook-liked-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cookbook-liked-title {
+  margin: 0;
+  color: #1e5515;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.cookbook-liked-heading img {
+  display: block;
+}
+
+.cookbook-liked-scroll {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 370px;
+  gap: 16px;
+  margin-top: 24px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+}
+
+.cookbook-liked-card {
+  display: grid;
+  align-content: start;
+  gap: 24px;
+  min-height: 124px;
+  padding: 16px 12px;
+  border-radius: 16px;
+  background: rgb(219 224 219 / 70%);
+  box-sizing: border-box;
+}
+
+.cookbook-liked-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #396039;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.cookbook-liked-card-likes::before {
+  content: '♡ ';
+}
+
+.cookbook-liked-card-title {
+  margin: 0;
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
 .cookbook-title {
   margin: 0;
   color: #1e5515;
@@ -129,6 +205,10 @@
     grid-template-columns: 1fr;
   }
 
+  .cookbook-liked-scroll {
+    grid-auto-columns: minmax(260px, 82vw);
+  }
+
   .cookbook-title {
     font-size: 36px;
     line-height: 1.05;
@@ -137,5 +217,9 @@
   .cookbook-description {
     font-size: 18px;
     line-height: 1.2;
+  }
+
+  .cookbook-liked-card-title {
+    font-size: 22px;
   }
 }
