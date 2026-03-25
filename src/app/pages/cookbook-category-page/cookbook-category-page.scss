@@ -267,6 +267,16 @@
   .cookbook-category-row {
     grid-template-columns: auto minmax(0, 1fr);
     align-items: start;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .cookbook-category-row:nth-child(odd) {
+    background: #fff;
+  }
+
+  .cookbook-category-row:nth-child(even) {
+    background: #faf0e6;
   }
 
   .cookbook-category-pagination {
