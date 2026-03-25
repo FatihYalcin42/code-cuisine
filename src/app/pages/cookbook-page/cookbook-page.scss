@@ -156,17 +156,27 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 4px;
   width: 64px;
   height: 32px;
   padding: 6px 12px;
   border-radius: 30px;
+  background: rgb(57 96 57 / 30%);
   box-sizing: border-box;
+  color: #10310b;
+  font-family: 'Mulish', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 .cookbook-liked-card-likes img {
   display: block;
-  width: 64px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
 }
 
 .cookbook-liked-card-title {
