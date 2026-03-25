@@ -1,0 +1,70 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: #fff;
+}
+
+.cookbook-page {
+  width: min(100%, var(--page-max-width));
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 48px 68px;
+  box-sizing: border-box;
+}
+
+.cookbook-shell {
+  display: grid;
+  place-items: center;
+  gap: 16px;
+  min-height: calc(100dvh - 96px);
+  text-align: center;
+}
+
+.cookbook-title {
+  margin: 0;
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.cookbook-description {
+  margin: 0;
+  max-width: 36rem;
+  color: #396039;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.cookbook-back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: #396039;
+  color: #faf0e6;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .cookbook-page {
+    padding: 32px 20px 40px;
+  }
+
+  .cookbook-title {
+    font-size: 36px;
+  }
+
+  .cookbook-description {
+    font-size: 18px;
+  }
+}
