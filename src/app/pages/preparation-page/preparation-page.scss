@@ -694,7 +694,9 @@
   }
 
   .preparation-footer-frame {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     min-height: auto;
     padding: 24px 20px;
   }
@@ -867,12 +869,15 @@
   }
 
   .preparation-footer-title {
+    flex: 1 1 auto;
     max-width: 14ch;
     font-size: 16px;
     line-height: 1.15;
+    text-align: left;
   }
 
   .preparation-footer-button {
+    flex: 0 0 auto;
     min-width: 117px;
     min-height: 30px;
     padding: 0 16px;
