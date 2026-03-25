@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { GeneratedRecipe } from '../../services/recipe-generation.service';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { GeneratedRecipe, RecipeGenerationService } from '../../services/recipe-generation.service';
 
 type CookbookLikedRecipe = GeneratedRecipe & {
   likes: number;
@@ -40,5 +40,12 @@ const COOKBOOK_FALLBACK_RECIPES: CookbookLikedRecipe[] = [
   styleUrl: './cookbook-page.scss',
 })
 export class CookbookPageComponent {
+  private readonly recipeGeneration = inject(RecipeGenerationService);
+  private readonly router = inject(Router);
   protected readonly likedRecipes = COOKBOOK_FALLBACK_RECIPES;
+
+  protected openRecipe(recipe: GeneratedRecipe): void {
+    this.recipeGeneration.selectRecipe(recipe);
+    void this.router.navigate(['/preparation'], { queryParams: { from: 'cookbook' } });
+  }
 }

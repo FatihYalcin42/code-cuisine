@@ -128,6 +128,17 @@
   border-radius: 16px;
   background: rgb(219 224 219 / 70%);
   box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.cookbook-liked-card:hover {
+  transform: translateY(-1px);
+}
+
+.cookbook-liked-card:focus-visible {
+  outline: 2px solid #1e5515;
+  outline-offset: 2px;
 }
 
 .cookbook-liked-card-meta {

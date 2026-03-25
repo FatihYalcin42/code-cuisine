@@ -38,7 +38,14 @@
 
           <div class="cookbook-liked-scroll" aria-label="Most liked recipes">
             @for (recipe of likedRecipes; track recipe.title) {
-              <article class="cookbook-liked-card">
+              <article
+                class="cookbook-liked-card"
+                role="button"
+                tabindex="0"
+                (click)="openRecipe(recipe)"
+                (keydown.enter)="openRecipe(recipe)"
+                (keydown.space)="openRecipe(recipe); $event.preventDefault()"
+              >
                 <div class="cookbook-liked-card-meta">
                   <span class="cookbook-liked-card-time">
                     <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
