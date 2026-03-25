@@ -6,6 +6,12 @@ type CookbookLikedRecipe = GeneratedRecipe & {
   likes: number;
 };
 
+type CookbookCuisineCategory = {
+  title: string;
+  imagePath: string;
+  emoji: string;
+};
+
 const COOKBOOK_FALLBACK_RECIPES: CookbookLikedRecipe[] = [
   {
     title: 'Pasta with spinach and cherry tommatoes',
@@ -33,6 +39,15 @@ const COOKBOOK_FALLBACK_RECIPES: CookbookLikedRecipe[] = [
   },
 ];
 
+const COOKBOOK_CUISINE_CATEGORIES: CookbookCuisineCategory[] = [
+  { title: 'Italian cuisine', imagePath: '/Icons/italien.svg', emoji: '🍝' },
+  { title: 'German cuisine', imagePath: '/Icons/german.svg', emoji: '🥨' },
+  { title: 'Japanese cuisine', imagePath: '/Icons/japan.svg', emoji: '🥢' },
+  { title: 'Gourmet cuisine', imagePath: '/Icons/gourmet.svg', emoji: '✨' },
+  { title: 'Indian cuisine', imagePath: '/Icons/indien.svg', emoji: '🍛' },
+  { title: 'Fusion cuisine', imagePath: '/Icons/fusion.svg', emoji: '🫓' },
+];
+
 @Component({
   selector: 'app-cookbook-page',
   imports: [RouterLink],
@@ -43,6 +58,7 @@ export class CookbookPageComponent {
   private readonly recipeGeneration = inject(RecipeGenerationService);
   private readonly router = inject(Router);
   protected readonly likedRecipes = COOKBOOK_FALLBACK_RECIPES;
+  protected readonly cuisineCategories = COOKBOOK_CUISINE_CATEGORIES;
 
   protected openRecipe(recipe: GeneratedRecipe): void {
     this.recipeGeneration.selectRecipe(recipe);

@@ -57,6 +57,36 @@
   gap: 24px;
 }
 
+.cookbook-cuisines {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 26px;
+}
+
+.cookbook-cuisine-card {
+  min-width: 0;
+}
+
+.cookbook-cuisine-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
+  color: #1e5515;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.cookbook-cuisine-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .cookbook-frame {
   min-height: 281px;
   padding: 40px 24px;
@@ -261,6 +291,10 @@
   }
 
   .cookbook-frame-main {
+    grid-template-columns: 1fr;
+  }
+
+  .cookbook-cuisines {
     grid-template-columns: 1fr;
   }
 

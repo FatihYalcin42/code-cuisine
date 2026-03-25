@@ -64,5 +64,24 @@
         </section>
       </div>
     </section>
+
+    <section class="cookbook-cuisines" aria-label="Cuisine categories">
+      @for (category of cuisineCategories; track category.title) {
+        <article class="cookbook-cuisine-card">
+          <h2 class="cookbook-cuisine-title">
+            <span>{{ category.title }}</span>
+            <span aria-hidden="true">{{ category.emoji }}</span>
+          </h2>
+
+          <img
+            class="cookbook-cuisine-image"
+            [src]="category.imagePath"
+            width="370"
+            height="314"
+            [alt]="category.title"
+          />
+        </article>
+      }
+    </section>
   </section>
 </main>
