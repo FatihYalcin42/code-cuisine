@@ -24,10 +24,13 @@ export class PreparationPageComponent {
     this.source === 'cookbook' ? 'Back to cookbook' : 'Back to recipe results';
   protected readonly cookingPersonsLabel = computed(() => this.cookingPersons());
   protected readonly cookLabelSources = computed(() => {
-    if (this.cookingPersons() <= 1) {
-      return ['/Icons/Cook-label.svg'];
-    }
+    const availableCookLabels = [
+      '/Icons/Cook-label.svg',
+      '/Icons/Cook-label2.svg',
+      '/Icons/cook-label3.svg',
+      '/Icons/Cook-label4.svg',
+    ];
 
-    return ['/Icons/Cook-label.svg', '/Icons/Cook-label2.svg'];
+    return availableCookLabels.slice(0, Math.min(this.cookingPersons(), availableCookLabels.length));
   });
 }
