@@ -133,6 +133,26 @@
             }
           </div>
         </section>
+
+        <section class="preparation-like-section" aria-label="Recipe feedback">
+          <div class="preparation-like-copy">
+            <p class="preparation-like-title">Just finished this meal?</p>
+            <p class="preparation-like-text">
+              Give it a heart, so that the others know this is delicious.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="preparation-like-button"
+            [class.is-active]="isLiked()"
+            [attr.aria-pressed]="isLiked()"
+            [attr.aria-label]="isLiked() ? 'Remove heart from this recipe' : 'Give this recipe a heart'"
+            (click)="toggleLike()"
+          >
+            <span class="preparation-like-icon" aria-hidden="true"></span>
+          </button>
+        </section>
       </div>
     </section>
   } @else {

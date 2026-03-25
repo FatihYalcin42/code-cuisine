@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
   GeneratedRecipe,
@@ -51,6 +51,7 @@ export class PreparationPageComponent {
   private readonly recipeGeneration = inject(RecipeGenerationService);
   private readonly route = inject(ActivatedRoute);
   private readonly source = this.route.snapshot.queryParamMap.get('from');
+  protected readonly isLiked = signal(false);
   private readonly cookingPersons = computed(
     () => Math.max(1, this.recipeGeneration.lastUsedPreferences()?.persons ?? PREPARATION_PAGE_FALLBACK_PERSONS),
   );
@@ -128,4 +129,36 @@ export class PreparationPageComponent {
       extraIngredients: ingredients.slice(splitIndex),
     };
   });
+
+  constructor() {
+    effect(() => {
+      const recipe = this.selectedRecipe();
+
+      if (!recipe || typeof window === 'undefined') {
+        this.isLiked.set(false);
+        return;
+      }
+
+      this.isLiked.set(window.localStorage.getItem(this.getLikedRecipeStorageKey(recipe.title)) === 'true');
+    });
+  }
+
+  protected toggleLike(): void {
+    const recipe = this.selectedRecipe();
+
+    if (!recipe) {
+      return;
+    }
+
+    const nextValue = !this.isLiked();
+    this.isLiked.set(nextValue);
+
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(this.getLikedRecipeStorageKey(recipe.title), String(nextValue));
+    }
+  }
+
+  private getLikedRecipeStorageKey(recipeTitle: string): string {
+    return `liked-recipe:${recipeTitle.trim().toLowerCase()}`;
+  }
 }
