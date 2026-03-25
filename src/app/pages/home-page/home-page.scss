@@ -156,11 +156,11 @@
   align-items: center;
   gap: 2rem;
   flex-wrap: wrap;
-  position: absolute;
-  left: 65px;
+  position: fixed;
+  left: max(65px, calc(50vw - 720px + 65px));
   bottom: 72px;
   width: max-content;
-  max-width: calc(100% - 130px);
+  max-width: min(calc(100vw - 130px), calc(var(--page-max-width) - 130px));
   z-index: 3;
 }
 
