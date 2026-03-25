@@ -34,6 +34,12 @@ const PREPARATION_PAGE_FALLBACK_NUTRITION_FACTS = [
   { label: 'Fat', value: '24g' },
   { label: 'Carbs', value: '58g' },
 ];
+const PREPARATION_PAGE_FALLBACK_STEP_TITLES = [
+  'Cook the pasta',
+  'Make the sauce',
+  'Finish the pasta',
+  'Plate and serve',
+];
 
 @Component({
   selector: 'app-preparation-page',
@@ -102,6 +108,16 @@ export class PreparationPageComponent {
     ];
 
     return availableCookLabels.slice(0, Math.min(this.cookingPersons(), availableCookLabels.length));
+  });
+  protected readonly preparationDirections = computed(() => {
+    const recipe = this.selectedRecipe();
+
+    return (recipe?.steps ?? []).map((step, index) => ({
+      number: index + 1,
+      title: PREPARATION_PAGE_FALLBACK_STEP_TITLES[index] ?? `Step ${index + 1}`,
+      text: step,
+      cookLabelSource: index % 2 === 0 ? '/Icons/Cook-label.svg' : '/Icons/Cook-label2.svg',
+    }));
   });
   protected readonly ingredientColumns = computed(() => {
     const ingredients = this.selectedRecipe()?.ingredients ?? [];

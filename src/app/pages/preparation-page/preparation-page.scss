@@ -358,6 +358,78 @@
   letter-spacing: 0;
 }
 
+.preparation-directions-section {
+  width: 100%;
+}
+
+.preparation-directions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 42px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.preparation-direction-item {
+  min-width: 0;
+}
+
+.preparation-direction-title-row {
+  display: grid;
+  grid-template-columns: 32px minmax(0, auto) auto;
+  align-items: center;
+  justify-content: start;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.preparation-direction-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 10px 3px;
+  box-sizing: border-box;
+  border-radius: 31.5px;
+  background: #faf0e6;
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.preparation-direction-title {
+  margin: 0;
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.preparation-direction-cook-label {
+  display: block;
+  height: 24px;
+  width: auto;
+}
+
+.preparation-direction-text {
+  margin: 0;
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
 .preparation-steps {
   padding-left: 24px;
 }
@@ -431,9 +503,23 @@
     width: 100%;
   }
 
+  .preparation-directions-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
   .preparation-ingredients-heading,
   .preparation-ingredients-item {
     font-size: 20px;
+  }
+
+  .preparation-direction-title {
+    font-size: 20px;
+  }
+
+  .preparation-direction-text {
+    font-size: 16px;
+    line-height: 1.3;
   }
 
   .preparation-meta-item {

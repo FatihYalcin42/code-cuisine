@@ -108,6 +108,31 @@
         <img src="/Icons/Hero-directions.svg" width="1152" height="148" alt="" />
       </div>
 
+      <section class="preparation-directions-section" aria-labelledby="steps-title">
+        <h2 class="preparation-card-title preparation-card-title-sr-only" id="steps-title">
+          Directions
+        </h2>
+
+        <div class="preparation-directions-grid">
+          @for (direction of preparationDirections(); track direction.number) {
+            <article class="preparation-direction-item">
+              <div class="preparation-direction-title-row">
+                <span class="preparation-direction-number">{{ direction.number }}.</span>
+                <h3 class="preparation-direction-title">{{ direction.title }}</h3>
+                <img
+                  class="preparation-direction-cook-label"
+                  [src]="direction.cookLabelSource"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
+
+              <p class="preparation-direction-text">{{ direction.text }}</p>
+            </article>
+          }
+        </div>
+      </section>
+
     </section>
   } @else {
     <section class="preparation-shell">
