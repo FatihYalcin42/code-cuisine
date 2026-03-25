@@ -314,6 +314,45 @@
   padding-left: 20px;
 }
 
+.preparation-ingredients-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px;
+  margin-top: 24px;
+}
+
+.preparation-ingredients-column {
+  min-width: 0;
+}
+
+.preparation-ingredients-heading {
+  margin: 0 0 18px;
+  color: #008000;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.preparation-ingredients-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 24px;
+}
+
+.preparation-ingredients-item {
+  color: #10310b;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
 .preparation-steps {
   padding-left: 24px;
 }
@@ -379,6 +418,16 @@
   .preparation-intro,
   .preparation-card {
     padding: 24px;
+  }
+
+  .preparation-ingredients-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .preparation-ingredients-heading,
+  .preparation-ingredients-item {
+    font-size: 20px;
   }
 
   .preparation-meta-item {

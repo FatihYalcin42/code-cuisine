@@ -103,4 +103,13 @@ export class PreparationPageComponent {
 
     return availableCookLabels.slice(0, Math.min(this.cookingPersons(), availableCookLabels.length));
   });
+  protected readonly ingredientColumns = computed(() => {
+    const ingredients = this.selectedRecipe()?.ingredients ?? [];
+    const splitIndex = Math.min(4, Math.ceil(ingredients.length / 2));
+
+    return {
+      yourIngredients: ingredients.slice(0, splitIndex),
+      extraIngredients: ingredients.slice(splitIndex),
+    };
+  });
 }
