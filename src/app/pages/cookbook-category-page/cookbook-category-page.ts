@@ -16,6 +16,12 @@ type CookbookCategoryConfig = {
 };
 
 const PAGE_SIZE = 10;
+const DEFAULT_CATEGORY = {
+  slug: 'italian',
+  title: 'Italian cuisine',
+  heroSrc: '/Icons/Property 1=Italian.svg',
+  recipes: [],
+} satisfies CookbookCategoryConfig;
 
 function repeatRecipes(recipes: CookbookCategoryRecipe[], total: number): CookbookCategoryRecipe[] {
   return Array.from({ length: total }, (_, index) => {
@@ -209,10 +215,12 @@ export class CookbookCategoryPageComponent {
 
   protected readonly pageSize = PAGE_SIZE;
 
-  protected readonly category = computed(() => {
+  protected readonly category = computed<CookbookCategoryConfig>(() => {
     const slug = this.paramMap().get('category') ?? '';
 
-    return COOKBOOK_CATEGORY_CONFIGS.find((entry) => entry.slug === slug) ?? COOKBOOK_CATEGORY_CONFIGS[0];
+    const matchingCategory = COOKBOOK_CATEGORY_CONFIGS.find((entry) => entry.slug === slug);
+
+    return matchingCategory ?? COOKBOOK_CATEGORY_CONFIGS[0] ?? DEFAULT_CATEGORY;
   });
 
   protected readonly currentPage = computed(() => {
