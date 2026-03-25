@@ -5,6 +5,30 @@ import {
   RecipeGenerationService,
 } from '../../services/recipe-generation.service';
 
+const RESULTS_PAGE_FALLBACK_RECIPES: GeneratedRecipe[] = [
+  {
+    title: 'Pasta with spinach and cherry tommatoes',
+    description: 'A creamy weeknight pasta with fresh greens and a fast tomato finish.',
+    prepTime: '20min',
+    ingredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
+    steps: ['Boil pasta.', 'Cook tomatoes and spinach.', 'Fold everything together and serve.'],
+  },
+  {
+    title: 'Crispy potato skillet',
+    description: 'Golden potatoes with herbs, onion and a quick pan sauce.',
+    prepTime: '30min',
+    ingredients: ['500g Potatoes', '1 Onion', 'Herbs'],
+    steps: ['Slice potatoes.', 'Pan fry until crisp.', 'Finish with herbs and seasoning.'],
+  },
+  {
+    title: 'Vegetable rice bowl',
+    description: 'A light bowl with rice, roasted vegetables and a bright dressing.',
+    prepTime: '25min',
+    ingredients: ['150g Rice', '1 Zucchini', '1 Carrot'],
+    steps: ['Cook rice.', 'Roast vegetables.', 'Assemble bowl and dress before serving.'],
+  },
+];
+
 @Component({
   selector: 'app-results-page',
   imports: [RouterLink],
@@ -15,6 +39,11 @@ export class ResultsPageComponent {
   protected readonly recipeGeneration = inject(RecipeGenerationService);
   private readonly router = inject(Router);
   protected readonly generatedRecipes = this.recipeGeneration.generatedRecipes;
+  protected readonly displayRecipes = computed(() => {
+    const recipes = this.generatedRecipes();
+
+    return recipes.length ? recipes : RESULTS_PAGE_FALLBACK_RECIPES;
+  });
   protected readonly selectedPreferenceTags = computed(() => {
     const preferences = this.recipeGeneration.lastUsedPreferences();
 

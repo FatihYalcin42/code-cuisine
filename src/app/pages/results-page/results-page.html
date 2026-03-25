@@ -35,44 +35,31 @@
 
   </section>
 
-  @if (generatedRecipes().length) {
-    <section class="results-cards" aria-label="Generated recipe cards">
-      @for (recipe of generatedRecipes(); track $index) {
-        <article class="recipe-card">
-          <div class="recipe-card-top">
-            <div class="recipe-card-label">
-              <img src="/Icons/icon.svg" width="24" height="24" alt="" aria-hidden="true" />
-              <span>Recipe {{ $index + 1 }}</span>
-            </div>
-
-            <div class="recipe-card-time">
-              <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
-              <span>Cooking time: {{ recipe.prepTime }}</span>
-            </div>
+  <section class="results-cards" aria-label="Generated recipe cards">
+    @for (recipe of displayRecipes(); track $index) {
+      <article class="recipe-card">
+        <div class="recipe-card-top">
+          <div class="recipe-card-label">
+            <img src="/Icons/icon.svg" width="24" height="24" alt="" aria-hidden="true" />
+            <span>Recipe {{ $index + 1 }}</span>
           </div>
 
-          <div class="recipe-card-body">
-            <h2 class="recipe-card-title">{{ recipe.title }}</h2>
+          <div class="recipe-card-time">
+            <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
+            <span>Cooking time: {{ recipe.prepTime }}</span>
           </div>
-
-          <button class="recipe-card-view-button" type="button" (click)="viewRecipe(recipe)">
-            View
-          </button>
-        </article>
-      }
-    </section>
-  } @else {
-    <section class="results-cards results-cards-empty" aria-live="polite">
-      <article class="recipe-card recipe-card-empty">
-        <div class="recipe-card-body">
-          <h2 class="recipe-card-title">No recipe yet</h2>
-          <p class="recipe-card-description">
-            No recipe has been generated yet. Go back to preferences and start a new request.
-          </p>
         </div>
+
+        <div class="recipe-card-body">
+          <h2 class="recipe-card-title">{{ recipe.title }}</h2>
+        </div>
+
+        <button class="recipe-card-view-button" type="button" (click)="viewRecipe(recipe)">
+          View
+        </button>
       </article>
-    </section>
-  }
+    }
+  </section>
 
   <div class="results-cta-row">
     <a class="results-cta-link" routerLink="/generate-recipe" aria-label="Generate new recipie">
