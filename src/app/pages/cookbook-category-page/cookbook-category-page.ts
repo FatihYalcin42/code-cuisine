@@ -12,6 +12,7 @@ type CookbookCategoryConfig = {
   slug: string;
   title: string;
   heroSrc: string;
+  mobileHeroSrc: string;
   recipes: CookbookCategoryRecipe[];
 };
 
@@ -20,6 +21,7 @@ const DEFAULT_CATEGORY = {
   slug: 'italian',
   title: 'Italian cuisine',
   heroSrc: '/Icons/Property 1=Italian.svg',
+  mobileHeroSrc: '/Icons/Property 1=Italian-mobile.svg',
   recipes: [],
 } satisfies CookbookCategoryConfig;
 
@@ -41,6 +43,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
     slug: 'italian',
     title: 'Italian cuisine',
     heroSrc: '/Icons/Property 1=Italian.svg',
+    mobileHeroSrc: '/Icons/Property 1=Italian-mobile.svg',
     recipes: repeatRecipes([
       {
         title: 'Pasta with spinach and cherry tommatoes',
@@ -75,6 +78,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
     slug: 'german',
     title: 'German cuisine',
     heroSrc: '/Icons/Property 1=German.svg',
+    mobileHeroSrc: '/Icons/Property 1=German-mobile.svg',
     recipes: repeatRecipes([
       {
         title: 'Crispy potato skillet',
@@ -100,6 +104,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
     slug: 'japanese',
     title: 'Japanese cuisine',
     heroSrc: '/Icons/Property 1=Japanese.svg',
+    mobileHeroSrc: '/Icons/Property 1=Japanese-mobile.svg',
     recipes: repeatRecipes([
       {
         title: 'Vegetable rice bowl',
@@ -125,6 +130,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
     slug: 'gourmet',
     title: 'Gourmet cuisine',
     heroSrc: '/Icons/Property 1=Gourmet.svg',
+    mobileHeroSrc: '/Icons/Property 1=Gourmet-mobile.svg',
     recipes: repeatRecipes([
       {
         title: 'Seared duck with spring vegetables',
@@ -150,6 +156,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
     slug: 'indian',
     title: 'Indian cuisine',
     heroSrc: '/Icons/Property 1=Indian.svg',
+    mobileHeroSrc: '/Icons/Property 1=Indian-mobile.svg',
     recipes: repeatRecipes([
       {
         title: 'Paneer masala thali',
@@ -175,6 +182,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
     slug: 'fusion',
     title: 'Fusion cuisine',
     heroSrc: '/Icons/Property 1=Fusion.svg',
+    mobileHeroSrc: '/Icons/Property 1=Fusion-mobile.svg',
     recipes: repeatRecipes([
       {
         title: 'Fusion sushi tasting plate',

@@ -77,6 +77,10 @@
   height: auto;
 }
 
+.cookbook-category-hero-mobile {
+  display: none;
+}
+
 .cookbook-category-recipes {
   display: grid;
   gap: 8px;
@@ -242,6 +246,14 @@
 
   .cookbook-category-page {
     padding: 32px 20px 40px;
+  }
+
+  .cookbook-category-hero-desktop {
+    display: none;
+  }
+
+  .cookbook-category-hero-mobile {
+    display: block;
   }
 
   .cookbook-category-recipes {

@@ -21,7 +21,20 @@
 <main class="cookbook-category-page" aria-label="Cookbook category page">
   <section class="cookbook-category-shell">
     <div class="cookbook-category-hero" aria-hidden="true">
-      <img [src]="category().heroSrc" width="1330" height="281" alt="" />
+      <img
+        class="cookbook-category-hero-desktop"
+        [src]="category().heroSrc"
+        width="1330"
+        height="281"
+        alt=""
+      />
+      <img
+        class="cookbook-category-hero-mobile"
+        [src]="category().mobileHeroSrc"
+        width="320"
+        height="88"
+        alt=""
+      />
     </div>
 
     <section class="cookbook-category-recipes" [attr.aria-label]="category().title">
