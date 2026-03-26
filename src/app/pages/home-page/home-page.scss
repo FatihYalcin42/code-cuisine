@@ -167,7 +167,11 @@
 .hero-cookbook-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 10px;
+  min-width: 197px;
+  min-height: 52px;
+  padding: 4px 16px;
+  box-sizing: border-box;
   color: #faf0e6;
   text-decoration: none;
   font-family: 'Quicksand', sans-serif;
@@ -176,11 +180,22 @@
   font-weight: 500;
   letter-spacing: 0;
   line-height: 20px;
+  transition: background-color 160ms ease;
 }
 
 .hero-cookbook-link img {
   display: block;
   flex: 0 0 auto;
+}
+
+.hero-cookbook-link:hover,
+.hero-cookbook-link:focus-visible {
+  background: #3960391a;
+}
+
+.hero-cookbook-link:focus-visible {
+  outline: 2px solid #faf0e6;
+  outline-offset: 2px;
 }
 
 .hero-visual {
@@ -281,6 +296,9 @@
 
   .hero-cookbook-link {
     gap: 8px;
+    min-width: auto;
+    min-height: auto;
+    padding: 0;
     font-size: 14px;
     line-height: 1;
   }
