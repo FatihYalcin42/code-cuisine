@@ -41,6 +41,12 @@ const PREPARATION_PAGE_FALLBACK_STEP_TITLES = [
   'Finish the pasta',
   'Plate and serve',
 ];
+const AVAILABLE_COOK_LABELS = [
+  '/Icons/Cook-label.svg',
+  '/Icons/Cook-label2.svg',
+  '/Icons/cook-label3.svg',
+  '/Icons/Cook-label4.svg',
+];
 
 @Component({
   selector: 'app-preparation-page',
@@ -114,23 +120,17 @@ export class PreparationPageComponent {
   });
   protected readonly cookingPersonsLabel = computed(() => this.cookingPersons());
   protected readonly cookLabelSources = computed(() => {
-    const availableCookLabels = [
-      '/Icons/Cook-label.svg',
-      '/Icons/Cook-label2.svg',
-      '/Icons/cook-label3.svg',
-      '/Icons/Cook-label4.svg',
-    ];
-
-    return availableCookLabels.slice(0, Math.min(this.cookingPersons(), availableCookLabels.length));
+    return AVAILABLE_COOK_LABELS.slice(0, Math.min(this.cookingPersons(), AVAILABLE_COOK_LABELS.length));
   });
   protected readonly preparationDirections = computed(() => {
     const recipe = this.selectedRecipe();
+    const activeCookLabels = this.cookLabelSources();
 
     return (recipe?.steps ?? []).map((step, index) => ({
       number: index + 1,
       title: PREPARATION_PAGE_FALLBACK_STEP_TITLES[index] ?? `Step ${index + 1}`,
       text: step,
-      cookLabelSource: index % 2 === 0 ? '/Icons/Cook-label.svg' : '/Icons/Cook-label2.svg',
+      cookLabelSource: activeCookLabels[index % activeCookLabels.length] ?? AVAILABLE_COOK_LABELS[0],
     }));
   });
   protected readonly ingredientColumns = computed(() => {
