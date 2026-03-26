@@ -220,31 +220,34 @@
 
 .ingredient-autocomplete {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 8px);
   left: 0;
   z-index: 3;
   display: grid;
+  justify-items: start;
+  gap: 6px;
   width: 100%;
-  padding: 8px;
-  border-radius: 16px;
+  padding: 0;
   box-sizing: border-box;
-  background: #faf0e6;
-  box-shadow: 0 12px 28px rgb(16 49 11 / 12%);
+  background: transparent;
+  box-shadow: none;
 }
 
 .ingredient-autocomplete-item {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  min-height: 36px;
-  padding: 0 10px;
+  justify-self: start;
+  min-height: 30px;
+  max-width: 100%;
+  padding: 4px 10px;
   border: 0;
   background: transparent;
   color: #10310b;
   font-family: 'Quicksand', sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: 1;
+  line-height: 20px;
   text-align: left;
   cursor: pointer;
   border-radius: 10px;
@@ -252,7 +255,7 @@
 
 .ingredient-autocomplete-item:hover,
 .ingredient-autocomplete-item:focus-visible {
-  background: rgb(57 96 57 / 12%);
+  background: rgb(250 240 230 / 80%);
   outline: none;
 }
 
