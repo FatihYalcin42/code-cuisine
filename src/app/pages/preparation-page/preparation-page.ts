@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
   GeneratedRecipe,
@@ -50,10 +50,14 @@ const PREPARATION_PAGE_FALLBACK_STEP_TITLES = [
 export class PreparationPageComponent {
   private readonly recipeGeneration = inject(RecipeGenerationService);
   private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly source = this.route.snapshot.queryParamMap.get('from');
   protected readonly isLiked = signal(false);
   protected readonly ingredientsCollapsed = signal(false);
   protected readonly directionsCollapsed = signal(false);
+  protected readonly isMobileLayout = signal(
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false,
+  );
   private readonly cookingPersons = computed(
     () => Math.max(1, this.recipeGeneration.lastUsedPreferences()?.persons ?? PREPARATION_PAGE_FALLBACK_PERSONS),
   );
@@ -133,6 +137,20 @@ export class PreparationPageComponent {
   });
 
   constructor() {
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(max-width: 768px)');
+      const updateMobileLayout = (event: MediaQueryList | MediaQueryListEvent): void => {
+        this.isMobileLayout.set(event.matches);
+      };
+
+      updateMobileLayout(mediaQuery);
+      mediaQuery.addEventListener('change', updateMobileLayout);
+
+      this.destroyRef.onDestroy(() => {
+        mediaQuery.removeEventListener('change', updateMobileLayout);
+      });
+    }
+
     effect(() => {
       const recipe = this.selectedRecipe();
 

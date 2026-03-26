@@ -85,7 +85,7 @@
           <h2 class="preparation-card-title preparation-card-title-sr-only" id="ingredients-title">
             Ingredients
           </h2>
-          @if (!ingredientsCollapsed()) {
+          @if (!isMobileLayout() || !ingredientsCollapsed()) {
             <div class="preparation-ingredients-grid">
               <section class="preparation-ingredients-column" aria-labelledby="your-ingredients-title">
                 <h3 class="preparation-ingredients-heading" id="your-ingredients-title">
@@ -113,17 +113,19 @@
             </div>
           }
 
-          <button
-            type="button"
-            class="preparation-ingredients-toggle"
-            [class.is-collapsed]="ingredientsCollapsed()"
-            [attr.aria-expanded]="!ingredientsCollapsed()"
-            aria-controls="ingredients-title"
-            (click)="toggleIngredients()"
-          >
-            <span>{{ ingredientsCollapsed() ? 'Show ingredients' : 'Hide ingredients' }}</span>
-            <img src="/Icons/arrow_drop_down.svg" width="24" height="24" alt="" aria-hidden="true" />
-          </button>
+          @if (isMobileLayout()) {
+            <button
+              type="button"
+              class="preparation-ingredients-toggle"
+              [class.is-collapsed]="ingredientsCollapsed()"
+              [attr.aria-expanded]="!ingredientsCollapsed()"
+              aria-controls="ingredients-title"
+              (click)="toggleIngredients()"
+            >
+              <span>{{ ingredientsCollapsed() ? 'Show ingredients' : 'Hide ingredients' }}</span>
+              <img src="/Icons/arrow_drop_down.svg" width="24" height="24" alt="" aria-hidden="true" />
+            </button>
+          }
         </section>
 
         <div class="preparation-section-hero preparation-section-hero-directions" aria-hidden="true">
@@ -148,7 +150,7 @@
             Directions
           </h2>
 
-          @if (!directionsCollapsed()) {
+          @if (!isMobileLayout() || !directionsCollapsed()) {
             <div class="preparation-directions-grid">
               @for (direction of preparationDirections(); track direction.number) {
                 <article class="preparation-direction-item">
@@ -169,17 +171,19 @@
             </div>
           }
 
-          <button
-            type="button"
-            class="preparation-directions-toggle"
-            [class.is-collapsed]="directionsCollapsed()"
-            [attr.aria-expanded]="!directionsCollapsed()"
-            aria-controls="steps-title"
-            (click)="toggleDirections()"
-          >
-            <span>{{ directionsCollapsed() ? 'Show directions' : 'Hide directions' }}</span>
-            <img src="/Icons/arrow_drop_down.svg" width="24" height="24" alt="" aria-hidden="true" />
-          </button>
+          @if (isMobileLayout()) {
+            <button
+              type="button"
+              class="preparation-directions-toggle"
+              [class.is-collapsed]="directionsCollapsed()"
+              [attr.aria-expanded]="!directionsCollapsed()"
+              aria-controls="steps-title"
+              (click)="toggleDirections()"
+            >
+              <span>{{ directionsCollapsed() ? 'Show directions' : 'Hide directions' }}</span>
+              <img src="/Icons/arrow_drop_down.svg" width="24" height="24" alt="" aria-hidden="true" />
+            </button>
+          }
         </section>
 
         <section class="preparation-like-section" aria-label="Recipe feedback">
