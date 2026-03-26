@@ -37,7 +37,7 @@
           </div>
 
           <div class="cookbook-liked-scroll" aria-label="Most liked recipes">
-            @for (recipe of likedRecipes; track recipe.title) {
+            @for (recipe of likedRecipes(); track recipe.title) {
               <article
                 class="cookbook-liked-card"
                 role="button"
