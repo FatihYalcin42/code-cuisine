@@ -85,6 +85,10 @@
   display: block;
 }
 
+.cookbook-footer-cta-arrow {
+  transform: rotate(180deg);
+}
+
 .cookbook-footer-cta-link:hover,
 .cookbook-footer-cta-link:focus-visible {
   background: #3960391a;
