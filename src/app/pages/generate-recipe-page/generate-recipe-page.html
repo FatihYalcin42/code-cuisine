@@ -33,16 +33,24 @@
 
       <div class="ingredient-panel-controls">
         <div class="ingredient-input-shell">
-          <input
-            class="ingredient-input"
-            [class.ingredient-input-invalid]="hasIngredientNameError()"
-            id="ingredient-input"
-            type="text"
-            maxlength="40"
-            [value]="ingredientName()"
-            (input)="updateIngredientName($any($event.target).value)"
-            autocomplete="off"
-          />
+          <div class="ingredient-input-field" [class.ingredient-input-invalid]="hasIngredientNameError()">
+            @if (ingredientGhostSuggestionSuffix().length > 0) {
+              <span class="ingredient-input-ghost" aria-hidden="true">
+                <span class="ingredient-input-ghost-prefix">{{ ingredientName() }}</span
+                ><span class="ingredient-input-ghost-suffix">{{ ingredientGhostSuggestionSuffix() }}</span>
+              </span>
+            }
+
+            <input
+              class="ingredient-input"
+              id="ingredient-input"
+              type="text"
+              maxlength="40"
+              [value]="ingredientName()"
+              (input)="updateIngredientName($any($event.target).value)"
+              autocomplete="off"
+            />
+          </div>
 
           @if (highlightedIngredientSuggestions().length > 0) {
             <div class="ingredient-autocomplete" aria-label="Ingredient autocomplete suggestions">

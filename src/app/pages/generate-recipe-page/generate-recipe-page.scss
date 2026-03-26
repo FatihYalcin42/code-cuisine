@@ -172,6 +172,15 @@
   min-width: 0;
 }
 
+.ingredient-input-field {
+  position: relative;
+  width: 100%;
+  height: 36px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: rgb(250 240 230 / 80%);
+}
+
 .ingredient-label {
   margin: 0;
   color: #10310b;
@@ -206,15 +215,44 @@
   min-width: 0;
   border: 0;
   border-radius: 999px;
-  background: rgb(250 240 230 / 80%);
+  background: transparent;
   color: #10310b;
   font: inherit;
   font-family: 'Quicksand', sans-serif;
   font-size: 16px;
   outline: none;
+  position: relative;
+  z-index: 1;
 }
 
-.ingredient-input:focus {
+.ingredient-input-ghost {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  box-sizing: border-box;
+  color: rgb(16 49 11 / 42%);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ingredient-input-ghost-prefix {
+  color: transparent;
+}
+
+.ingredient-input-ghost-suffix {
+  color: rgb(16 49 11 / 42%);
+}
+
+.ingredient-input-field:focus-within {
   box-shadow: 0 0 0 2px rgb(30 85 21 / 18%);
 }
 
@@ -259,7 +297,7 @@
   outline: none;
 }
 
-.ingredient-input-invalid,
+.ingredient-input-field.ingredient-input-invalid,
 .serving-size-input-invalid {
   box-shadow: 0 0 0 1px #a93a2a;
 }

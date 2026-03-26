@@ -69,6 +69,22 @@ export class GenerateRecipePageComponent {
 
     return KNOWN_INGREDIENTS.filter((ingredient) => ingredient.includes(query)).slice(0, 6);
   });
+  protected readonly ingredientGhostSuggestionSuffix = computed(() => {
+    const currentValue = this.ingredientName();
+    const normalizedValue = currentValue.trim().toLowerCase();
+
+    if (normalizedValue.length < 2) {
+      return '';
+    }
+
+    const firstSuggestion = this.highlightedIngredientSuggestions()[0];
+
+    if (!firstSuggestion || !firstSuggestion.startsWith(normalizedValue)) {
+      return '';
+    }
+
+    return firstSuggestion.slice(normalizedValue.length);
+  });
   private readonly unitOptions = ['gram', 'ml', 'piece'];
   private readonly editingEntryId = signal<number | null>(null);
   protected readonly availableUnits = computed(() =>
