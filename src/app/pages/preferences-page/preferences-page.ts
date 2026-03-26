@@ -6,6 +6,9 @@ import {
   RecipeGenerationService,
 } from '../../services/recipe-generation.service';
 
+const MAX_PORTIONS = 12;
+const MAX_COOKS = 4;
+
 @Component({
   selector: 'app-preferences-page',
   imports: [RouterLink],
@@ -28,7 +31,7 @@ export class PreferencesPageComponent {
   }
 
   protected increasePortions(): void {
-    this.portions.update((value) => value + 1);
+    this.portions.update((value) => Math.min(MAX_PORTIONS, value + 1));
   }
 
   protected decreasePersons(): void {
@@ -36,7 +39,7 @@ export class PreferencesPageComponent {
   }
 
   protected increasePersons(): void {
-    this.persons.update((value) => value + 1);
+    this.persons.update((value) => Math.min(MAX_COOKS, value + 1));
   }
 
   protected selectCookingTime(option: string): void {
