@@ -57,6 +57,29 @@
   gap: 24px;
 }
 
+.cookbook-footer-cta-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cookbook-footer-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #396039;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  text-decoration: none;
+}
+
+.cookbook-footer-cta-link img {
+  display: block;
+}
+
 .cookbook-cuisines {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -315,6 +338,10 @@
 
   .cookbook-cuisines {
     grid-template-columns: 1fr;
+  }
+
+  .cookbook-footer-cta-row {
+    justify-content: flex-start;
   }
 
   .cookbook-liked-scroll {
