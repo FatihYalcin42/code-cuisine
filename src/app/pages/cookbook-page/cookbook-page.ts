@@ -20,7 +20,11 @@ const COOKBOOK_FALLBACK_RECIPES: CookbookLikedRecipe[] = [
     prepTime: '20min',
     cookCount: 2,
     ingredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
-    steps: ['Boil pasta.', 'Cook tomatoes and spinach.', 'Fold everything together and serve.'],
+    steps: [
+      'Bring a pot of salted water to a boil and cook the pasta until al dente. Reserve a small cup of pasta water before draining.',
+      'Heat a little olive oil in a pan, then cook the cherry tomatoes until they soften and start to burst. Add the spinach and stir until it has just wilted.',
+      'Add the pasta to the pan and mix everything together until glossy. Loosen with a splash of pasta water if needed, then season and serve warm.',
+    ],
     likes: 66,
   },
   {
@@ -29,7 +33,11 @@ const COOKBOOK_FALLBACK_RECIPES: CookbookLikedRecipe[] = [
     prepTime: '30min',
     cookCount: 1,
     ingredients: ['500g Potatoes', '1 Onion', 'Herbs'],
-    steps: ['Slice potatoes.', 'Pan fry until crisp.', 'Finish with herbs and seasoning.'],
+    steps: [
+      'Wash the potatoes well and slice them into thin, even pieces. Peel and finely slice the onion so it cooks at the same pace.',
+      'Heat a large pan with a little oil and cook the potatoes over medium heat until they turn golden and crisp around the edges. Add the onion halfway through so it softens without burning.',
+      'Finish the skillet with herbs, salt and pepper, then toss everything together. Let it sit for a minute in the pan so the flavors settle before serving.',
+    ],
     likes: 54,
   },
   {
@@ -38,7 +46,11 @@ const COOKBOOK_FALLBACK_RECIPES: CookbookLikedRecipe[] = [
     prepTime: '25min',
     cookCount: 1,
     ingredients: ['150g Rice', '1 Zucchini', '1 Carrot'],
-    steps: ['Cook rice.', 'Roast vegetables.', 'Assemble bowl and dress before serving.'],
+    steps: [
+      'Cook the rice according to the package instructions until tender and fluffy. Keep it covered for a few minutes so it finishes steaming.',
+      'Slice the zucchini and carrot into bite-size pieces, then roast or saute them until lightly browned but still tender. Season them while they are hot so they absorb the flavor.',
+      'Fill a bowl with the rice and arrange the vegetables on top. Finish with your dressing or seasoning and serve straight away.',
+    ],
     likes: 42,
   },
 ];

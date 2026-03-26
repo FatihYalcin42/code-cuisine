@@ -195,9 +195,9 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
         [pantryItems[0], pantryItems[1]],
       ),
       steps: [
-        `Prepare ${topIngredients[0]} and ${topIngredients[1]} in bite-size pieces.`,
-        `Heat a pan with ${pantryItems[0]} and cook everything for 6 to 8 minutes.`,
-        `Season with ${pantryItems[1]} and serve immediately.`,
+        `Prepare ${topIngredients[0]} and ${topIngredients[1]} in bite-size pieces so they cook evenly. Keep everything ready beside the stove before you start the pan.`,
+        `Heat a pan with ${pantryItems[0]} and cook everything for 6 to 8 minutes until lightly golden. Stir from time to time so the ingredients color without sticking.`,
+        `Season with ${pantryItems[1]} and taste before serving. Plate it while still hot so the texture stays at its best.`,
       ],
     },
     {
@@ -215,9 +215,9 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
         [pantryItems[0], pantryItems[2]],
       ),
       steps: [
-        `Cook or warm the base ingredients until tender.`,
-        `Combine ${topIngredients[1]} with ${topIngredients[2]} in a bowl.`,
-        `Finish with ${pantryItems[0]} and ${pantryItems[2]} before serving.`,
+        `Cook or warm the base ingredients until tender and ready to layer. This gives the bowl a warm, balanced base.`,
+        `Combine ${topIngredients[1]} with ${topIngredients[2]} in a bowl and arrange everything neatly. Try to keep the components separate at first for a cleaner look.`,
+        `Finish with ${pantryItems[0]} and ${pantryItems[2]} before serving. Toss lightly only at the end so the textures stay fresh.`,
       ],
     },
     {
@@ -235,9 +235,9 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
         [pantryItems[0], pantryItems[3]],
       ),
       steps: [
-        `Spread ${topIngredients[0]} and ${topIngredients[2]} on a baking tray.`,
-        `Add ${pantryItems[0]} and ${pantryItems[3]}, then roast until lightly golden.`,
-        `Taste, adjust seasoning and plate while warm.`,
+        `Spread ${topIngredients[0]} and ${topIngredients[2]} on a baking tray in a single layer. Give everything a little space so it roasts instead of steaming.`,
+        `Add ${pantryItems[0]} and ${pantryItems[3]}, then roast until lightly golden and tender. Turn the tray once during cooking so the color stays even.`,
+        `Taste, adjust seasoning and plate while warm. Let it rest briefly before serving if you want the flavors to settle.`,
       ],
     },
   ];
