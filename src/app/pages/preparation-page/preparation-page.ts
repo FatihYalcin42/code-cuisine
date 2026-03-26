@@ -49,6 +49,7 @@ const AVAILABLE_COOK_LABELS = [
   '/Icons/cook-label3.svg',
   '/Icons/Cook-label4.svg',
 ];
+const WORKFLOW_PREFIXES = ['while', 'meanwhile', 'in the meantime', 'once', 'to finish', 'finally'];
 
 @Component({
   selector: 'app-preparation-page',
@@ -131,7 +132,7 @@ export class PreparationPageComponent {
     return (recipe?.steps ?? []).map((step, index) => ({
       number: index + 1,
       title: PREPARATION_PAGE_FALLBACK_STEP_TITLES[index] ?? `Step ${index + 1}`,
-      text: step,
+      text: formatWorkflowStepText(step, index),
       cookLabelSource: activeCookLabels[index % activeCookLabels.length] ?? AVAILABLE_COOK_LABELS[0],
     }));
   });
@@ -209,4 +210,35 @@ export class PreparationPageComponent {
   private getLikedRecipeStorageKey(recipeTitle: string): string {
     return `liked-recipe:${recipeTitle.trim().toLowerCase()}`;
   }
+}
+
+function formatWorkflowStepText(step: string, index: number): string {
+  const trimmedStep = step.trim();
+  const normalizedStep = trimmedStep.toLowerCase();
+
+  if (WORKFLOW_PREFIXES.some((prefix) => normalizedStep.startsWith(prefix))) {
+    return trimmedStep;
+  }
+
+  if (index === 1) {
+    return `Meanwhile, ${lowercaseFirst(trimmedStep)}`;
+  }
+
+  if (index === 2) {
+    return `Once the earlier components are ready, ${lowercaseFirst(trimmedStep)}`;
+  }
+
+  if (index >= 3) {
+    return `To finish, ${lowercaseFirst(trimmedStep)}`;
+  }
+
+  return trimmedStep;
+}
+
+function lowercaseFirst(text: string): string {
+  if (!text.length) {
+    return text;
+  }
+
+  return text.charAt(0).toLowerCase() + text.slice(1);
 }
