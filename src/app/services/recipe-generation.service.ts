@@ -28,6 +28,7 @@ export interface GeneratedRecipe {
   title: string;
   description: string;
   prepTime: string;
+  cookCount?: number;
   ingredients: string[];
   steps: string[];
 }
@@ -187,6 +188,7 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
         `A short pan recipe with ${topIngredients[0]} and ${topIngredients[1]} for ${portionsLabel}.`,
       ),
       prepTime: cookingTime,
+      cookCount: 1,
       ingredients: buildRecipeIngredientList(
         normalizedIngredients,
         [topIngredients[0], topIngredients[1]],
@@ -206,6 +208,7 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
         `An easy bowl using ${topIngredients[1]}, ${topIngredients[2]} and the ingredients you already entered.`,
       ),
       prepTime: cookingTime,
+      cookCount: 2,
       ingredients: buildRecipeIngredientList(
         normalizedIngredients,
         [topIngredients[1], topIngredients[2]],
@@ -225,6 +228,7 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
         `A simple tray-style recipe with ${topIngredients[0]}, ${topIngredients[2]} and very little prep.`,
       ),
       prepTime: cookingTime,
+      cookCount: 3,
       ingredients: buildRecipeIngredientList(
         normalizedIngredients,
         [topIngredients[0], topIngredients[2]],
