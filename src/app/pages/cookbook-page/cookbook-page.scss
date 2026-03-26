@@ -67,6 +67,12 @@
   min-width: 0;
 }
 
+.cookbook-cuisine-link {
+  display: block;
+  overflow: hidden;
+  text-decoration: none;
+}
+
 .cookbook-cuisine-title {
   display: inline-flex;
   align-items: center;
@@ -85,6 +91,19 @@
   display: block;
   width: 100%;
   height: auto;
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 320ms ease;
+}
+
+.cookbook-cuisine-link:hover .cookbook-cuisine-image,
+.cookbook-cuisine-link:focus-visible .cookbook-cuisine-image {
+  transform: scale(1.045);
+}
+
+.cookbook-cuisine-link:focus-visible {
+  outline: 2px solid #1e5515;
+  outline-offset: 3px;
 }
 
 .cookbook-frame {
