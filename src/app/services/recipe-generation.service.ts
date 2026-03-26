@@ -29,6 +29,8 @@ export interface GeneratedRecipe {
   description: string;
   prepTime: string;
   cookCount?: number;
+  userIngredients?: string[];
+  extraIngredients?: string[];
   ingredients: string[];
   steps: string[];
 }
@@ -178,6 +180,21 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
   const dietLabel = request.preferences.diet?.trim();
   const portionsLabel = request.preferences.portions > 1 ? `${request.preferences.portions} portions` : '1 portion';
   const pantryItems = ['olive oil', 'salt', 'pepper', 'garlic'];
+  const skilletIngredients = buildRecipeIngredientGroups(
+    normalizedIngredients,
+    [topIngredients[0], topIngredients[1]],
+    [pantryItems[0], pantryItems[1]],
+  );
+  const bowlIngredients = buildRecipeIngredientGroups(
+    normalizedIngredients,
+    [topIngredients[1], topIngredients[2]],
+    [pantryItems[0], pantryItems[2]],
+  );
+  const ovenIngredients = buildRecipeIngredientGroups(
+    normalizedIngredients,
+    [topIngredients[0], topIngredients[2]],
+    [pantryItems[0], pantryItems[3]],
+  );
 
   return [
     {
@@ -189,11 +206,9 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
       ),
       prepTime: cookingTime,
       cookCount: 1,
-      ingredients: buildRecipeIngredientList(
-        normalizedIngredients,
-        [topIngredients[0], topIngredients[1]],
-        [pantryItems[0], pantryItems[1]],
-      ),
+      userIngredients: skilletIngredients.userIngredients,
+      extraIngredients: skilletIngredients.extraIngredients,
+      ingredients: [...skilletIngredients.userIngredients, ...skilletIngredients.extraIngredients],
       steps: [
         `Prepare ${topIngredients[0]} and ${topIngredients[1]} in bite-size pieces so they cook evenly. Keep everything ready beside the stove before you start the pan.`,
         `Heat a pan with ${pantryItems[0]} and cook everything for 6 to 8 minutes until lightly golden. Stir from time to time so the ingredients color without sticking.`,
@@ -209,11 +224,9 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
       ),
       prepTime: cookingTime,
       cookCount: 2,
-      ingredients: buildRecipeIngredientList(
-        normalizedIngredients,
-        [topIngredients[1], topIngredients[2]],
-        [pantryItems[0], pantryItems[2]],
-      ),
+      userIngredients: bowlIngredients.userIngredients,
+      extraIngredients: bowlIngredients.extraIngredients,
+      ingredients: [...bowlIngredients.userIngredients, ...bowlIngredients.extraIngredients],
       steps: [
         `Cook or warm the base ingredients until tender and ready to layer. This gives the bowl a warm, balanced base.`,
         `Combine ${topIngredients[1]} with ${topIngredients[2]} in a bowl and arrange everything neatly. Try to keep the components separate at first for a cleaner look.`,
@@ -229,11 +242,9 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
       ),
       prepTime: cookingTime,
       cookCount: 3,
-      ingredients: buildRecipeIngredientList(
-        normalizedIngredients,
-        [topIngredients[0], topIngredients[2]],
-        [pantryItems[0], pantryItems[3]],
-      ),
+      userIngredients: ovenIngredients.userIngredients,
+      extraIngredients: ovenIngredients.extraIngredients,
+      ingredients: [...ovenIngredients.userIngredients, ...ovenIngredients.extraIngredients],
       steps: [
         `Spread ${topIngredients[0]} and ${topIngredients[2]} on a baking tray in a single layer. Give everything a little space so it roasts instead of steaming.`,
         `Add ${pantryItems[0]} and ${pantryItems[3]}, then roast until lightly golden and tender. Turn the tray once during cooking so the color stays even.`,
@@ -259,11 +270,11 @@ function buildDescription(
   return `${capitalize(prefixes.join(' '))} inspired. ${baseDescription}`;
 }
 
-function buildRecipeIngredientList(
+function buildRecipeIngredientGroups(
   enteredIngredients: RecipeGenerationIngredient[],
   preferredNames: string[],
   pantryItems: string[],
-): string[] {
+): { userIngredients: string[]; extraIngredients: string[] } {
   const selectedIngredients = preferredNames
     .map((name) => enteredIngredients.find((ingredient) => ingredient.name === name))
     .filter((ingredient): ingredient is RecipeGenerationIngredient => Boolean(ingredient))
@@ -273,7 +284,10 @@ function buildRecipeIngredientList(
     .slice(0, 2)
     .map((ingredient) => formatIngredientLine(ingredient));
 
-  return [...selectedIngredients, ...remainingIngredients, ...pantryItems];
+  return {
+    userIngredients: [...selectedIngredients, ...remainingIngredients],
+    extraIngredients: pantryItems,
+  };
 }
 
 function formatIngredientLine(ingredient: RecipeGenerationIngredient): string {

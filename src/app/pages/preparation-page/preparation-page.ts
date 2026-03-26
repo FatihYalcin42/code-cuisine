@@ -11,6 +11,8 @@ const PREPARATION_PAGE_FALLBACK_RECIPE: GeneratedRecipe = {
     'A creamy weeknight pasta with baby spinach, sweet cherry tomatoes and a fast stovetop finish.',
   prepTime: '20min',
   cookCount: 2,
+  userIngredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes', '1 piece Egg'],
+  extraIngredients: ['40g Parmesan cheese', '30ml Olive oil', 'Herbs (dry basil, oregano, garlic)'],
   ingredients: [
     '80g Pasta noodles',
     '100g Baby spinach',
@@ -134,7 +136,18 @@ export class PreparationPageComponent {
     }));
   });
   protected readonly ingredientColumns = computed(() => {
-    const ingredients = this.selectedRecipe()?.ingredients ?? [];
+    const recipe = this.selectedRecipe();
+    const userIngredients = recipe?.userIngredients;
+    const extraIngredients = recipe?.extraIngredients;
+
+    if (userIngredients || extraIngredients) {
+      return {
+        yourIngredients: userIngredients ?? [],
+        extraIngredients: extraIngredients ?? [],
+      };
+    }
+
+    const ingredients = recipe?.ingredients ?? [];
     const splitIndex = Math.min(4, Math.ceil(ingredients.length / 2));
 
     return {

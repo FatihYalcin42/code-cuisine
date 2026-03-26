@@ -11,6 +11,8 @@ const RESULTS_PAGE_FALLBACK_RECIPES: GeneratedRecipe[] = [
     description: 'A creamy weeknight pasta with fresh greens and a fast tomato finish.',
     prepTime: '20min',
     cookCount: 2,
+    userIngredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
+    extraIngredients: ['30ml Olive oil', '40g Parmesan cheese'],
     ingredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
     steps: [
       'Bring a pot of salted water to a boil and cook the pasta until al dente. Reserve a small cup of pasta water before draining.',
@@ -23,6 +25,8 @@ const RESULTS_PAGE_FALLBACK_RECIPES: GeneratedRecipe[] = [
     description: 'Golden potatoes with herbs, onion and a quick pan sauce.',
     prepTime: '30min',
     cookCount: 1,
+    userIngredients: ['500g Potatoes', '1 Onion'],
+    extraIngredients: ['Herbs', 'Olive oil'],
     ingredients: ['500g Potatoes', '1 Onion', 'Herbs'],
     steps: [
       'Wash the potatoes well and slice them into thin, even pieces. Peel and finely slice the onion so it cooks at the same pace.',
@@ -35,6 +39,8 @@ const RESULTS_PAGE_FALLBACK_RECIPES: GeneratedRecipe[] = [
     description: 'A light bowl with rice, roasted vegetables and a bright dressing.',
     prepTime: '25min',
     cookCount: 1,
+    userIngredients: ['150g Rice', '1 Zucchini', '1 Carrot'],
+    extraIngredients: ['Dressing', 'Salt and pepper'],
     ingredients: ['150g Rice', '1 Zucchini', '1 Carrot'],
     steps: [
       'Cook the rice according to the package instructions until tender and fluffy. Keep it covered for a few minutes so it finishes steaming.',

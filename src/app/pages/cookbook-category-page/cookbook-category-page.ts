@@ -50,6 +50,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'A creamy weeknight pasta with fresh greens and a fast tomato finish.',
         prepTime: '20min',
         cookCount: 2,
+        userIngredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
+        extraIngredients: ['30ml Olive oil', '40g Parmesan cheese'],
         ingredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
         steps: [
           'Bring a pot of salted water to a boil and cook the pasta until al dente. Reserve a little pasta water before draining.',
@@ -64,6 +66,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'Silky pasta with shrimp, garlic and parmesan.',
         prepTime: '22min',
         cookCount: 3,
+        userIngredients: ['Linguine', 'Shrimp'],
+        extraIngredients: ['Garlic', 'Parmesan'],
         ingredients: ['Linguine', 'Shrimp', 'Parmesan'],
         steps: [
           'Cook the linguine in salted water until just al dente, then drain it while keeping a little of the cooking water aside. This helps the final sauce come together smoothly.',
@@ -78,6 +82,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'Crisp pizza topped with mushrooms, salami and herbs.',
         prepTime: '16min',
         cookCount: 1,
+        userIngredients: ['Pizza dough', 'Mushrooms', 'Salami'],
+        extraIngredients: ['Tomato sauce', 'Herbs'],
         ingredients: ['Pizza dough', 'Mushrooms', 'Salami'],
         steps: [
           'Stretch the pizza dough on a floured surface until it is evenly thin. Make sure the edges stay slightly thicker so they bake up nicely.',
@@ -100,6 +106,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'Golden potatoes with herbs, onion and a quick pan sauce.',
         prepTime: '30min',
         cookCount: 1,
+        userIngredients: ['500g Potatoes', '1 Onion'],
+        extraIngredients: ['Herbs', 'Olive oil'],
         ingredients: ['500g Potatoes', '1 Onion', 'Herbs'],
         steps: [
           'Wash the potatoes well and slice them into even pieces so they cook at the same speed. Slice the onion finely and keep it ready for the pan.',
@@ -114,6 +122,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'A hearty German-style dinner with crisp textures.',
         prepTime: '35min',
         cookCount: 3,
+        userIngredients: ['Pretzel', 'Cutlet'],
+        extraIngredients: ['Cabbage', 'Mustard'],
         ingredients: ['Pretzel', 'Cutlet', 'Cabbage'],
         steps: [
           'Prepare the cabbage and pretzel side first so everything is ready when the schnitzel finishes. Keep the side warm while you work on the main component.',
@@ -136,6 +146,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'A light bowl with rice, roasted vegetables and a bright dressing.',
         prepTime: '25min',
         cookCount: 1,
+        userIngredients: ['150g Rice', '1 Zucchini', '1 Carrot'],
+        extraIngredients: ['Dressing', 'Salt and pepper'],
         ingredients: ['150g Rice', '1 Zucchini', '1 Carrot'],
         steps: [
           'Cook the rice until tender and fluffy, then keep it covered so it stays warm. This gives you time to prepare the vegetables without the rice drying out.',
@@ -150,6 +162,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'A clean, balanced sushi plate with bright flavors.',
         prepTime: '30min',
         cookCount: 2,
+        userIngredients: ['Rice', 'Salmon'],
+        extraIngredients: ['Soy', 'Wasabi'],
         ingredients: ['Rice', 'Salmon', 'Soy'],
         steps: [
           'Prepare and season the rice, then let it cool slightly so it is easy to shape. The rice should stay sticky but not hot.',
@@ -172,6 +186,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'Plated with finesse and a glossy reduction.',
         prepTime: '40min',
         cookCount: 4,
+        userIngredients: ['Duck', 'Asparagus'],
+        extraIngredients: ['Sauce', 'Butter'],
         ingredients: ['Duck', 'Asparagus', 'Sauce'],
         steps: [
           'Score and sear the duck carefully so the skin renders and becomes crisp. Let it cook steadily so the fat melts without burning.',
@@ -186,6 +202,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'Layered, crisp and rich with truffle notes.',
         prepTime: '45min',
         cookCount: 3,
+        userIngredients: ['Potato', 'Cream'],
+        extraIngredients: ['Truffle', 'Parmesan'],
         ingredients: ['Potato', 'Cream', 'Truffle'],
         steps: [
           'Slice the potatoes very thinly and layer them neatly with cream in the baking dish. Even layers help the dish cook uniformly and hold its shape.',
@@ -208,6 +226,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'A full plate with spices, rice and warm flatbread.',
         prepTime: '35min',
         cookCount: 3,
+        userIngredients: ['Paneer', 'Rice'],
+        extraIngredients: ['Naan', 'Spices'],
         ingredients: ['Paneer', 'Rice', 'Naan'],
         steps: [
           'Cook the curry base until the spices are fragrant and fully opened up. Add the paneer at the right moment so it stays soft and flavorful.',
@@ -222,6 +242,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'Comforting lentils with fragrant tempering.',
         prepTime: '30min',
         cookCount: 2,
+        userIngredients: ['Lentils', 'Rice'],
+        extraIngredients: ['Spices', 'Ghee'],
         ingredients: ['Lentils', 'Spices', 'Rice'],
         steps: [
           'Simmer the lentils until they are soft and creamy but still hold some structure. Stir occasionally so they do not catch on the bottom.',
@@ -244,6 +266,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'A modern plate with playful colors and shapes.',
         prepTime: '30min',
         cookCount: 4,
+        userIngredients: ['Rice', 'Salmon'],
+        extraIngredients: ['Peas', 'Sauces'],
         ingredients: ['Rice', 'Salmon', 'Peas'],
         steps: [
           'Prepare the rice and let it cool to the right texture for shaping. It should be seasoned but still neutral enough to pair with the toppings.',
@@ -258,6 +282,8 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'Savory, bright and layered with crunchy toppings.',
         prepTime: '25min',
         cookCount: 2,
+        userIngredients: ['Rice', 'Beef'],
+        extraIngredients: ['Kimchi', 'Sesame'],
         ingredients: ['Rice', 'Beef', 'Kimchi'],
         steps: [
           'Cook the filling until it is well browned and full of flavor. Keep it slightly saucy so it coats the rest of the bowl nicely.',
