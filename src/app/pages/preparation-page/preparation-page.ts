@@ -89,14 +89,26 @@ export class PreparationPageComponent {
     this.source === 'cookbook' ? 'Back to cookbook' : 'Back to recipe results';
   protected readonly selectedPreferenceTags = computed(() => {
     const preferences = this.recipeGeneration.lastUsedPreferences();
+    const recipe = this.selectedRecipe();
+    const tags: string[] = [];
 
-    if (!preferences) {
-      return ['Vegetarian', 'Quick'];
+    if (recipe?.dietTag) {
+      tags.push(recipe.dietTag);
     }
 
-    return [preferences.diet, preferences.cookingTime, preferences.cuisine]
-      .filter((value): value is string => Boolean(value && value !== 'No preferences'))
-      .map((value) => value.trim());
+    tags.push(getCookingTimeCategory(recipe?.prepTime ?? ''));
+
+    if (!preferences) {
+      return tags;
+    }
+
+    const cuisine = preferences.cuisine?.trim();
+
+    if (cuisine && cuisine !== 'No preferences') {
+      tags.push(cuisine);
+    }
+
+    return tags;
   });
   protected readonly nutritionFacts = computed(() => {
     const recipeTitle = this.selectedRecipe()?.title.toLowerCase() ?? '';
@@ -241,4 +253,18 @@ function lowercaseFirst(text: string): string {
   }
 
   return text.charAt(0).toLowerCase() + text.slice(1);
+}
+
+function getCookingTimeCategory(prepTime: string): 'Quick' | 'Medium' | 'Complex' {
+  const minutes = Number.parseInt(prepTime.replace(/\D/g, ''), 10);
+
+  if (Number.isNaN(minutes) || minutes <= 20) {
+    return 'Quick';
+  }
+
+  if (minutes <= 45) {
+    return 'Medium';
+  }
+
+  return 'Complex';
 }

@@ -29,6 +29,7 @@ export interface GeneratedRecipe {
   description: string;
   prepTime: string;
   cookCount?: number;
+  dietTag?: 'Vegetarian' | 'Vegan' | 'Keto' | null;
   userIngredients?: string[];
   extraIngredients?: string[];
   ingredients: string[];
@@ -206,6 +207,7 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
       ),
       prepTime: cookingTime,
       cookCount: 1,
+      dietTag: normalizeDietTag(request.preferences.diet),
       userIngredients: skilletIngredients.userIngredients,
       extraIngredients: skilletIngredients.extraIngredients,
       ingredients: [...skilletIngredients.userIngredients, ...skilletIngredients.extraIngredients],
@@ -224,6 +226,7 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
       ),
       prepTime: cookingTime,
       cookCount: 2,
+      dietTag: normalizeDietTag(request.preferences.diet),
       userIngredients: bowlIngredients.userIngredients,
       extraIngredients: bowlIngredients.extraIngredients,
       ingredients: [...bowlIngredients.userIngredients, ...bowlIngredients.extraIngredients],
@@ -242,6 +245,7 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
       ),
       prepTime: cookingTime,
       cookCount: 3,
+      dietTag: normalizeDietTag(request.preferences.diet),
       userIngredients: ovenIngredients.userIngredients,
       extraIngredients: ovenIngredients.extraIngredients,
       ingredients: [...ovenIngredients.userIngredients, ...ovenIngredients.extraIngredients],
@@ -268,6 +272,14 @@ function buildDescription(
   }
 
   return `${capitalize(prefixes.join(' '))} inspired. ${baseDescription}`;
+}
+
+function normalizeDietTag(diet: string | null): 'Vegetarian' | 'Vegan' | 'Keto' | null {
+  if (diet === 'Vegetarian' || diet === 'Vegan' || diet === 'Keto') {
+    return diet;
+  }
+
+  return null;
 }
 
 function buildRecipeIngredientGroups(

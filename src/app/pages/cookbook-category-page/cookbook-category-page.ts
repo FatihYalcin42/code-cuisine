@@ -5,7 +5,6 @@ import { GeneratedRecipe, RecipeGenerationService } from '../../services/recipe-
 
 type CookbookCategoryRecipe = GeneratedRecipe & {
   likes: number;
-  badges: string[];
 };
 
 type CookbookCategoryConfig = {
@@ -33,7 +32,8 @@ function repeatRecipes(recipes: CookbookCategoryRecipe[], total: number): Cookbo
       ...recipe,
       ingredients: [...recipe.ingredients],
       steps: [...recipe.steps],
-      badges: [...recipe.badges],
+      userIngredients: recipe.userIngredients ? [...recipe.userIngredients] : undefined,
+      extraIngredients: recipe.extraIngredients ? [...recipe.extraIngredients] : undefined,
     };
   });
 }
@@ -50,6 +50,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'A creamy weeknight pasta with fresh greens and a fast tomato finish.',
         prepTime: '20min',
         cookCount: 2,
+        dietTag: 'Vegetarian',
         userIngredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
         extraIngredients: ['30ml Olive oil', '40g Parmesan cheese'],
         ingredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes'],
@@ -59,13 +60,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Add the drained pasta to the pan and toss everything together until glossy. Use a splash of pasta water if needed, then season and serve warm.',
         ],
         likes: 66,
-        badges: ['Vegetarian', 'Quick'],
       },
       {
         title: 'Creamy garlic shrimp pasta',
         description: 'Silky pasta with shrimp, garlic and parmesan.',
         prepTime: '22min',
         cookCount: 3,
+        dietTag: null,
         userIngredients: ['Linguine', 'Shrimp'],
         extraIngredients: ['Garlic', 'Parmesan'],
         ingredients: ['Linguine', 'Shrimp', 'Parmesan'],
@@ -75,13 +76,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Add the pasta to the pan and toss it with the shrimp and grated parmesan. Finish with a splash of pasta water to make the sauce silky before serving.',
         ],
         likes: 32,
-        badges: ['Quick'],
       },
       {
         title: 'Funghi salami pizza',
         description: 'Crisp pizza topped with mushrooms, salami and herbs.',
         prepTime: '16min',
         cookCount: 1,
+        dietTag: null,
         userIngredients: ['Pizza dough', 'Mushrooms', 'Salami'],
         extraIngredients: ['Tomato sauce', 'Herbs'],
         ingredients: ['Pizza dough', 'Mushrooms', 'Salami'],
@@ -91,7 +92,6 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Bake the pizza until the crust is golden and the topping is bubbling. Let it rest briefly, then slice and serve.',
         ],
         likes: 42,
-        badges: ['Quick'],
       },
     ], 15),
   },
@@ -106,6 +106,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'Golden potatoes with herbs, onion and a quick pan sauce.',
         prepTime: '30min',
         cookCount: 1,
+        dietTag: null,
         userIngredients: ['500g Potatoes', '1 Onion'],
         extraIngredients: ['Herbs', 'Olive oil'],
         ingredients: ['500g Potatoes', '1 Onion', 'Herbs'],
@@ -115,13 +116,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Finish with herbs, salt and pepper, then toss everything together. Let the skillet rest for a minute before serving so the flavors settle.',
         ],
         likes: 54,
-        badges: ['Quick'],
       },
       {
         title: 'Pretzel schnitzel plate',
         description: 'A hearty German-style dinner with crisp textures.',
         prepTime: '35min',
         cookCount: 3,
+        dietTag: null,
         userIngredients: ['Pretzel', 'Cutlet'],
         extraIngredients: ['Cabbage', 'Mustard'],
         ingredients: ['Pretzel', 'Cutlet', 'Cabbage'],
@@ -131,7 +132,6 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Arrange the schnitzel with the sides on warm plates. Add any finishing seasoning or garnish just before serving.',
         ],
         likes: 49,
-        badges: ['Gourmet'],
       },
     ], 15),
   },
@@ -146,6 +146,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'A light bowl with rice, roasted vegetables and a bright dressing.',
         prepTime: '25min',
         cookCount: 1,
+        dietTag: 'Vegan',
         userIngredients: ['150g Rice', '1 Zucchini', '1 Carrot'],
         extraIngredients: ['Dressing', 'Salt and pepper'],
         ingredients: ['150g Rice', '1 Zucchini', '1 Carrot'],
@@ -155,13 +156,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Fill a bowl with rice and arrange the vegetables neatly on top. Add the dressing or final seasoning right before serving.',
         ],
         likes: 42,
-        badges: ['Vegetarian', 'Quick'],
       },
       {
         title: 'Salmon nigiri plate',
         description: 'A clean, balanced sushi plate with bright flavors.',
         prepTime: '30min',
         cookCount: 2,
+        dietTag: null,
         userIngredients: ['Rice', 'Salmon'],
         extraIngredients: ['Soy', 'Wasabi'],
         ingredients: ['Rice', 'Salmon', 'Soy'],
@@ -171,7 +172,6 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Shape the rice and place the salmon on top to form the nigiri. Serve with soy or your chosen accompaniments.',
         ],
         likes: 61,
-        badges: ['Quick'],
       },
     ], 15),
   },
@@ -186,6 +186,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'Plated with finesse and a glossy reduction.',
         prepTime: '40min',
         cookCount: 4,
+        dietTag: null,
         userIngredients: ['Duck', 'Asparagus'],
         extraIngredients: ['Sauce', 'Butter'],
         ingredients: ['Duck', 'Asparagus', 'Sauce'],
@@ -195,13 +196,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Slice the duck and arrange all components with care on the plate. Spoon over the sauce at the end for a clean finish.',
         ],
         likes: 52,
-        badges: ['Gourmet'],
       },
       {
         title: 'Truffle potato mille-feuille',
         description: 'Layered, crisp and rich with truffle notes.',
         prepTime: '45min',
         cookCount: 3,
+        dietTag: 'Vegetarian',
         userIngredients: ['Potato', 'Cream'],
         extraIngredients: ['Truffle', 'Parmesan'],
         ingredients: ['Potato', 'Cream', 'Truffle'],
@@ -211,7 +212,6 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Finish with truffle and any final seasoning just before serving. Slice carefully so the layers stay intact on the plate.',
         ],
         likes: 47,
-        badges: ['Vegetarian'],
       },
     ], 15),
   },
@@ -226,6 +226,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'A full plate with spices, rice and warm flatbread.',
         prepTime: '35min',
         cookCount: 3,
+        dietTag: 'Vegetarian',
         userIngredients: ['Paneer', 'Rice'],
         extraIngredients: ['Naan', 'Spices'],
         ingredients: ['Paneer', 'Rice', 'Naan'],
@@ -235,13 +236,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Serve everything together as a thali with the components arranged neatly. Add fresh garnish or extra seasoning at the end if needed.',
         ],
         likes: 56,
-        badges: ['Vegetarian'],
       },
       {
         title: 'Golden dal bowl',
         description: 'Comforting lentils with fragrant tempering.',
         prepTime: '30min',
         cookCount: 2,
+        dietTag: 'Vegan',
         userIngredients: ['Lentils', 'Rice'],
         extraIngredients: ['Spices', 'Ghee'],
         ingredients: ['Lentils', 'Spices', 'Rice'],
@@ -251,7 +252,6 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Serve the dal warm with rice or your chosen side. Finish with herbs or a final spoon of tempering if you want more depth.',
         ],
         likes: 44,
-        badges: ['Vegetarian', 'Quick'],
       },
     ], 15),
   },
@@ -266,6 +266,7 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
         description: 'A modern plate with playful colors and shapes.',
         prepTime: '30min',
         cookCount: 4,
+        dietTag: null,
         userIngredients: ['Rice', 'Salmon'],
         extraIngredients: ['Peas', 'Sauces'],
         ingredients: ['Rice', 'Salmon', 'Peas'],
@@ -275,13 +276,13 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Finish the plate with sauces and garnish placed with intention. Serve immediately while the textures are still fresh.',
         ],
         likes: 63,
-        badges: ['Gourmet'],
       },
       {
         title: 'Korean taco bowl',
         description: 'Savory, bright and layered with crunchy toppings.',
         prepTime: '25min',
         cookCount: 2,
+        dietTag: null,
         userIngredients: ['Rice', 'Beef'],
         extraIngredients: ['Kimchi', 'Sesame'],
         ingredients: ['Rice', 'Beef', 'Kimchi'],
@@ -291,7 +292,6 @@ const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
           'Assemble the bowl with rice at the base and the toppings layered on top. Serve immediately so the textures stay distinct.',
         ],
         likes: 51,
-        badges: ['Quick'],
       },
     ], 15),
   },
@@ -339,6 +339,17 @@ export class CookbookCategoryPageComponent {
     Array.from({ length: this.totalPages() }, (_, index) => index + 1),
   );
 
+  protected recipeMetaTags(recipe: CookbookCategoryRecipe): string[] {
+    const tags: string[] = [];
+
+    if (recipe.dietTag) {
+      tags.push(recipe.dietTag);
+    }
+
+    tags.push(getCookingTimeCategory(recipe.prepTime));
+    return tags;
+  }
+
   protected openRecipe(recipe: GeneratedRecipe): void {
     this.recipeGeneration.selectRecipe(recipe);
     void this.router.navigate(['/preparation'], { queryParams: { from: 'cookbook' } });
@@ -359,4 +370,18 @@ export class CookbookCategoryPageComponent {
       queryParamsHandling: 'merge',
     });
   }
+}
+
+function getCookingTimeCategory(prepTime: string): 'Quick' | 'Medium' | 'Complex' {
+  const minutes = Number.parseInt(prepTime.replace(/\D/g, ''), 10);
+
+  if (Number.isNaN(minutes) || minutes <= 20) {
+    return 'Quick';
+  }
+
+  if (minutes <= 45) {
+    return 'Medium';
+  }
+
+  return 'Complex';
 }

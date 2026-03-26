@@ -59,7 +59,7 @@
           </div>
 
           <div class="cookbook-category-row-tags" aria-label="Recipe tags">
-            @for (badge of recipe.badges; track badge) {
+            @for (badge of recipeMetaTags(recipe); track badge) {
               <span class="cookbook-category-tag">{{ badge }}</span>
             }
 
