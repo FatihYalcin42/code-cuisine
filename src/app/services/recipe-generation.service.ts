@@ -10,7 +10,7 @@ import {
   type RecipeNutrition,
 } from '../models/recipe.model';
 
-const USE_MOCK_RECIPE_GENERATION = true;
+const USE_MOCK_RECIPE_GENERATION = false;
 const MOCK_RECIPE_GENERATION_DELAY_MS = 1800;
 
 interface RecipeGenerationSuccessResponse {
