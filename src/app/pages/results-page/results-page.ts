@@ -1,9 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import {
-  GeneratedRecipe,
-  RecipeGenerationService,
-} from '../../services/recipe-generation.service';
+import { RecipeGenerationService } from '../../services/recipe-generation.service';
+import { GeneratedRecipe } from '../../models/recipe.model';
 
 const RESULTS_PAGE_FALLBACK_RECIPES: GeneratedRecipe[] = [
   {

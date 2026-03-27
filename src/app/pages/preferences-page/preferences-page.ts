@@ -1,10 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { IngredientDraftStateService } from '../../services/ingredient-draft-state.service';
-import {
-  RecipeGenerationRequest,
-  RecipeGenerationService,
-} from '../../services/recipe-generation.service';
+import { RecipeGenerationService } from '../../services/recipe-generation.service';
+import { RecipeGenerationRequest } from '../../models/recipe.model';
 
 const MAX_PORTIONS = 12;
 const MAX_COOKS = 4;

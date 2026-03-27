@@ -1,9 +1,8 @@
 import { Component, computed, DestroyRef, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import {
-  GeneratedRecipe,
-  RecipeGenerationService,
-} from '../../services/recipe-generation.service';
+import { RecipeGenerationService } from '../../services/recipe-generation.service';
+import { CookbookStoreService } from '../../services/cookbook-store.service';
+import { GeneratedRecipe } from '../../models/recipe.model';
 
 const PREPARATION_PAGE_FALLBACK_RECIPE: GeneratedRecipe = {
   title: 'Pasta with spinach and cherry tommatoes',
@@ -59,6 +58,7 @@ const WORKFLOW_PREFIXES = ['while', 'meanwhile', 'in the meantime', 'once', 'to 
 })
 export class PreparationPageComponent {
   private readonly recipeGeneration = inject(RecipeGenerationService);
+  private readonly cookbookStore = inject(CookbookStoreService);
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly source = this.route.snapshot.queryParamMap.get('from');
@@ -111,6 +111,17 @@ export class PreparationPageComponent {
     return tags;
   });
   protected readonly nutritionFacts = computed(() => {
+    const recipeNutrition = this.selectedRecipe()?.nutrition?.perPortion;
+
+    if (recipeNutrition) {
+      return [
+        { label: 'Energie', value: formatNutritionValue(recipeNutrition.calories, 'kcal') },
+        { label: 'Protein', value: formatNutritionValue(recipeNutrition.protein_g, 'g') },
+        { label: 'Fat', value: formatNutritionValue(recipeNutrition.fat_g, 'g') },
+        { label: 'Carbs', value: formatNutritionValue(recipeNutrition.carbs_g, 'g') },
+      ];
+    }
+
     const recipeTitle = this.selectedRecipe()?.title.toLowerCase() ?? '';
 
     if (recipeTitle.includes('potato')) {
@@ -209,6 +220,10 @@ export class PreparationPageComponent {
     if (typeof window !== 'undefined') {
       window.localStorage.setItem(this.getLikedRecipeStorageKey(recipe.title), String(nextValue));
     }
+
+    if (nextValue) {
+      void this.cookbookStore.likeRecipe(recipe);
+    }
   }
 
   protected toggleIngredients(): void {
@@ -267,4 +282,12 @@ function getCookingTimeCategory(prepTime: string): 'Quick' | 'Medium' | 'Complex
   }
 
   return 'Complex';
+}
+
+function formatNutritionValue(value: number | null, unit: string): string {
+  if (value === null || Number.isNaN(value)) {
+    return `-- ${unit}`;
+  }
+
+  return `${value}${unit}`;
 }

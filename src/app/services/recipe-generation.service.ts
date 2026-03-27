@@ -1,40 +1,17 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { CookbookStoreService } from './cookbook-store.service';
+import {
+  GeneratedRecipe,
+  RecipeGenerationIngredient,
+  RecipeGenerationPreferences,
+  RecipeGenerationRequest,
+  type RecipeNutrition,
+} from '../models/recipe.model';
 
 const USE_MOCK_RECIPE_GENERATION = true;
 const MOCK_RECIPE_GENERATION_DELAY_MS = 1800;
-
-export interface RecipeGenerationIngredient {
-  name: string;
-  amount: number;
-  unit: string;
-}
-
-export interface RecipeGenerationPreferences {
-  portions: number;
-  persons: number;
-  cookingTime: string | null;
-  cuisine: string | null;
-  diet: string | null;
-}
-
-export interface RecipeGenerationRequest {
-  ingredients: RecipeGenerationIngredient[];
-  preferences: RecipeGenerationPreferences;
-}
-
-export interface GeneratedRecipe {
-  title: string;
-  description: string;
-  prepTime: string;
-  cookCount?: number;
-  dietTag?: 'Vegetarian' | 'Vegan' | 'Keto' | null;
-  userIngredients?: string[];
-  extraIngredients?: string[];
-  ingredients: string[];
-  steps: string[];
-}
 
 interface RecipeGenerationSuccessResponse {
   success: true;
@@ -64,6 +41,7 @@ type RecipeGenerationStatus = 'idle' | 'loading' | 'success' | 'error';
 @Injectable({ providedIn: 'root' })
 export class RecipeGenerationService {
   private readonly http = inject(HttpClient);
+  private readonly cookbookStore = inject(CookbookStoreService);
   private readonly webhookUrl = '/api/generate-recipe';
 
   readonly generationStatus = signal<RecipeGenerationStatus>('idle');
@@ -108,6 +86,7 @@ export class RecipeGenerationService {
       this.selectedRecipe.set(null);
       this.generationStatus.set('success');
       this.pendingRequest.set(null);
+      void this.cookbookStore.saveGeneratedRecipes(recipes, request.preferences);
       return;
     }
 
@@ -123,7 +102,10 @@ export class RecipeGenerationService {
         return;
       }
 
-      const recipes = 'recipes' in response ? response.recipes : [response.recipe];
+      const recipes = normalizeRecipesFromResponse(
+        'recipes' in response ? response.recipes : [response.recipe],
+        request.preferences,
+      );
 
       if (!recipes.length) {
         this.generatedRecipes.set([]);
@@ -136,6 +118,7 @@ export class RecipeGenerationService {
       this.selectedRecipe.set(null);
       this.generationStatus.set('success');
       this.pendingRequest.set(null);
+      void this.cookbookStore.saveGeneratedRecipes(recipes, request.preferences);
     } catch {
       this.generatedRecipes.set([]);
       this.generationStatus.set('error');
@@ -216,6 +199,10 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
         `Heat a pan with ${pantryItems[0]} and cook everything for 6 to 8 minutes until lightly golden. Stir from time to time so the ingredients color without sticking.`,
         `Season with ${pantryItems[1]} and taste before serving. Plate it while still hot so the texture stays at its best.`,
       ],
+      cuisineSlug: mapCuisineToSlug(request.preferences.cuisine),
+      prepTimeMinutes: parsePrepTimeMinutes(cookingTime),
+      likes: 0,
+      nutrition: null,
     },
     {
       title: `${toTitleCase(topIngredients[1])} bowl`,
@@ -235,6 +222,10 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
         `Combine ${topIngredients[1]} with ${topIngredients[2]} in a bowl and arrange everything neatly. Try to keep the components separate at first for a cleaner look.`,
         `Finish with ${pantryItems[0]} and ${pantryItems[2]} before serving. Toss lightly only at the end so the textures stay fresh.`,
       ],
+      cuisineSlug: mapCuisineToSlug(request.preferences.cuisine),
+      prepTimeMinutes: parsePrepTimeMinutes(cookingTime),
+      likes: 0,
+      nutrition: null,
     },
     {
       title: `${toTitleCase(topIngredients[0])} oven mix`,
@@ -254,8 +245,52 @@ function buildMockRecipes(request: RecipeGenerationRequest): GeneratedRecipe[] {
         `Add ${pantryItems[0]} and ${pantryItems[3]}, then roast until lightly golden and tender. Turn the tray once during cooking so the color stays even.`,
         `Taste, adjust seasoning and plate while warm. Let it rest briefly before serving if you want the flavors to settle.`,
       ],
+      cuisineSlug: mapCuisineToSlug(request.preferences.cuisine),
+      prepTimeMinutes: parsePrepTimeMinutes(cookingTime),
+      likes: 0,
+      nutrition: null,
     },
   ];
+}
+
+function normalizeRecipesFromResponse(
+  recipes: GeneratedRecipe[],
+  preferences: RecipeGenerationPreferences,
+): GeneratedRecipe[] {
+  return recipes.map((recipe) => normalizeRecipe(recipe, preferences));
+}
+
+function normalizeRecipe(
+  recipe: GeneratedRecipe & {
+    cookTimeMinutes?: number;
+    cuisine?: string;
+    diet?: string;
+    likesCount?: number;
+    nutrition?: RecipeNutrition | null;
+    ingredients?: Array<string | { name?: string; amount?: number; unit?: string; source?: string }>;
+    extraIngredients?: Array<string | { name?: string; amount?: number; unit?: string }>;
+    source?: 'library' | 'generated';
+  },
+  preferences: RecipeGenerationPreferences,
+): GeneratedRecipe {
+  const normalizedIngredients = normalizeIngredientList(recipe.ingredients ?? []);
+  const normalizedExtraIngredients = normalizeIngredientList(recipe.extraIngredients ?? []);
+
+  return {
+    ...recipe,
+    source: recipe.source ?? 'generated',
+    prepTime: recipe.prepTime ?? formatPrepTime(recipe.cookTimeMinutes),
+    prepTimeMinutes: recipe.prepTimeMinutes ?? recipe.cookTimeMinutes ?? null,
+    cookCount: recipe.cookCount ?? Math.max(1, preferences.persons),
+    likes: recipe.likes ?? recipe.likesCount ?? 0,
+    dietTag: recipe.dietTag ?? normalizeDietTag(recipe.diet ?? preferences.diet),
+    cuisineSlug: recipe.cuisineSlug ?? mapCuisineToSlug(recipe.cuisine ?? preferences.cuisine),
+    userIngredients: recipe.userIngredients ?? normalizedIngredients.filter(Boolean),
+    extraIngredients: normalizedExtraIngredients.filter(Boolean),
+    ingredients: normalizedIngredients.filter(Boolean),
+    steps: recipe.steps.map((step) => String(step).trim()).filter(Boolean),
+    nutrition: recipe.nutrition ?? null,
+  };
 }
 
 function buildDescription(
@@ -280,6 +315,38 @@ function normalizeDietTag(diet: string | null): 'Vegetarian' | 'Vegan' | 'Keto' 
   }
 
   return null;
+}
+
+function normalizeIngredientList(
+  ingredients: Array<string | { name?: string; amount?: number; unit?: string; source?: string }>,
+): string[] {
+  return ingredients
+    .map((ingredient) => {
+      if (typeof ingredient === 'string') {
+        return ingredient.trim();
+      }
+
+      return formatRichIngredientLine(ingredient);
+    })
+    .filter(Boolean);
+}
+
+function formatRichIngredientLine(ingredient: {
+  name?: string;
+  amount?: number;
+  unit?: string;
+}): string {
+  const name = String(ingredient.name ?? '').trim();
+
+  if (!name) {
+    return '';
+  }
+
+  if (typeof ingredient.amount === 'number' && ingredient.amount > 0) {
+    return `${ingredient.amount} ${ingredient.unit ?? ''} ${name}`.trim();
+  }
+
+  return name;
 }
 
 function buildRecipeIngredientGroups(
@@ -321,6 +388,44 @@ function resolvePrepTime(cookingTime: string | null): string {
       return '45 min';
     default:
       return '20 min';
+  }
+}
+
+function formatPrepTime(minutes: number | undefined): string {
+  if (!minutes || Number.isNaN(minutes)) {
+    return '20 min';
+  }
+
+  return `${minutes} min`;
+}
+
+function parsePrepTimeMinutes(prepTime: string): number | null {
+  const minutes = Number.parseInt(prepTime.replace(/\D/g, ''), 10);
+  return Number.isNaN(minutes) ? null : minutes;
+}
+
+function mapCuisineToSlug(cuisine: string | null): string {
+  switch (cuisine) {
+    case 'Italian':
+    case 'it':
+      return 'italian';
+    case 'German':
+    case 'de':
+      return 'german';
+    case 'Japanese':
+    case 'jp':
+      return 'japanese';
+    case 'Indian':
+    case 'in':
+      return 'indian';
+    case 'Gourmet':
+    case 'gourmet':
+      return 'gourmet';
+    case 'Fusion':
+    case 'fusion':
+      return 'fusion';
+    default:
+      return 'fusion';
   }
 }
 
