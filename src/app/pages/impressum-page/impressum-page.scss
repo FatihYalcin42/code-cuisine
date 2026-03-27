@@ -11,6 +11,13 @@
   box-sizing: border-box;
 }
 
+.impressum-header-branding {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
 .impressum-brand,
 .impressum-brand-media,
 .impressum-brand-fallback {
@@ -25,6 +32,21 @@
   color: #f5f5dc;
   font-size: 1.125rem;
   font-weight: 700;
+}
+
+.impressum-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #396039;
+  text-decoration: none;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.impressum-back-link img {
+  display: block;
 }
 
 .impressum-page {
@@ -83,22 +105,14 @@
   margin: 0;
 }
 
-.impressum-back-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  padding: 0 20px;
-  border-radius: 999px;
-  background: #396039;
-  color: #f5f5dc;
-  font-weight: 600;
-  text-decoration: none;
-}
-
 @media (max-width: 768px) {
   .impressum-header {
     padding: 20px 16px 0;
+  }
+
+  .impressum-header-branding {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .impressum-card {
