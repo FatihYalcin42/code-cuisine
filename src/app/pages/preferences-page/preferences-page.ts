@@ -79,21 +79,27 @@ export class PreferencesPageComponent {
       return true;
     }
 
-    const availableServingCapacity = ingredientEntries.reduce((capacity, entry) => {
-      const amount = Number.parseInt(entry.amount, 10);
+    const servingCapacities = ingredientEntries
+      .map((entry) => getServingCapacity(entry.amount, entry.unit))
+      .filter((capacity) => capacity > 0)
+      .sort((left, right) => right - left);
 
-      if (Number.isNaN(amount) || amount < 1) {
-        return capacity;
-      }
+    if (!servingCapacities.length) {
+      return true;
+    }
 
-      if (entry.unit === 'piece') {
-        return capacity + amount;
-      }
+    const requiredStrongIngredients = Math.min(2, servingCapacities.length);
+    const strongIngredients = servingCapacities.filter((capacity) => capacity >= selectedPortions);
 
-      return capacity + amount / 100;
-    }, 0);
+    if (strongIngredients.length >= requiredStrongIngredients) {
+      return false;
+    }
 
-    return availableServingCapacity < selectedPortions;
+    const strongestCombinedCapacity = servingCapacities
+      .slice(0, requiredStrongIngredients)
+      .reduce((sum, capacity) => sum + capacity, 0);
+
+    return strongestCombinedCapacity < selectedPortions * requiredStrongIngredients;
   }
 
   private buildRecipeRequest(): RecipeGenerationRequest {
@@ -112,4 +118,18 @@ export class PreferencesPageComponent {
       },
     };
   }
+}
+
+function getServingCapacity(amountAsText: string, unit: string): number {
+  const amount = Number.parseInt(amountAsText, 10);
+
+  if (Number.isNaN(amount) || amount < 1) {
+    return 0;
+  }
+
+  if (unit === 'piece') {
+    return amount;
+  }
+
+  return amount / 100;
 }
