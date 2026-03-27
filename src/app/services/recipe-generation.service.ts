@@ -42,7 +42,7 @@ type RecipeGenerationStatus = 'idle' | 'loading' | 'success' | 'error';
 export class RecipeGenerationService {
   private readonly http = inject(HttpClient);
   private readonly cookbookStore = inject(CookbookStoreService);
-  private readonly webhookUrl = '/api/generate-recipe';
+  private readonly webhookUrl = '/api/generate-recipe-v2';
 
   readonly generationStatus = signal<RecipeGenerationStatus>('idle');
   readonly generatedRecipes = signal<GeneratedRecipe[]>([]);
