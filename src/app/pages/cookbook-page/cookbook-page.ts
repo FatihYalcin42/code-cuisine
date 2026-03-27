@@ -33,6 +33,7 @@ export class CookbookPageComponent {
   protected readonly likedRecipes = this.cookbookStore.topLikedRecipes;
   protected readonly cuisineCategories = COOKBOOK_CUISINE_CATEGORIES;
 
+  /** Opens a stored cookbook recipe in the shared preparation view. */
   protected openRecipe(recipe: GeneratedRecipe): void {
     this.recipeGeneration.selectRecipe(recipe);
     void this.router.navigate(['/preparation'], { queryParams: { from: 'cookbook' } });

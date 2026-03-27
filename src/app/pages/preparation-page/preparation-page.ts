@@ -4,51 +4,12 @@ import { RecipeGenerationService } from '../../services/recipe-generation.servic
 import { CookbookStoreService } from '../../services/cookbook-store.service';
 import { GeneratedRecipe } from '../../models/recipe.model';
 
-const PREPARATION_PAGE_FALLBACK_RECIPE: GeneratedRecipe = {
-  title: 'Pasta with spinach and cherry tommatoes',
-  description:
-    'A creamy weeknight pasta with baby spinach, sweet cherry tomatoes and a fast stovetop finish.',
-  prepTime: '20min',
-  cookCount: 2,
-  userIngredients: ['80g Pasta noodles', '100g Baby spinach', '150g Cherry tomatoes', '1 piece Egg'],
-  extraIngredients: ['40g Parmesan cheese', '30ml Olive oil', 'Herbs (dry basil, oregano, garlic)'],
-  ingredients: [
-    '80g Pasta noodles',
-    '100g Baby spinach',
-    '150g Cherry tomatoes',
-    '1 piece Egg',
-    '40g Parmesan cheese',
-    '30ml Olive oil',
-    'Herbs (dry basil, oregano, garlic)',
-  ],
-  steps: [
-    'Boil the pasta in salted water until al dente and keep a little cooking water.',
-    'Warm olive oil in a pan, then soften the cherry tomatoes until they start to burst.',
-    'Add spinach and herbs, fold in the pasta and loosen the sauce with a splash of pasta water.',
-    'Finish with egg and parmesan off the heat, then season and serve immediately.',
-  ],
-};
-
-const PREPARATION_PAGE_FALLBACK_PERSONS = 2;
-const PREPARATION_PAGE_FALLBACK_NUTRITION_FACTS = [
-  { label: 'Energie', value: '630 kcal' },
-  { label: 'Protein', value: '18g' },
-  { label: 'Fat', value: '24g' },
-  { label: 'Carbs', value: '58g' },
-];
-const PREPARATION_PAGE_FALLBACK_STEP_TITLES = [
-  'Cook the pasta',
-  'Make the sauce',
-  'Finish the pasta',
-  'Plate and serve',
-];
 const AVAILABLE_COOK_LABELS = [
   '/Icons/Cook-label.svg',
   '/Icons/Cook-label2.svg',
   '/Icons/cook-label3.svg',
   '/Icons/Cook-label4.svg',
 ];
-const WORKFLOW_PREFIXES = ['while', 'meanwhile', 'in the meantime', 'once', 'to finish', 'finally'];
 
 @Component({
   selector: 'app-preparation-page',
@@ -62,31 +23,35 @@ export class PreparationPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly source = this.route.snapshot.queryParamMap.get('from');
+  /** Tracks whether the current recipe has been liked locally by this browser. */
   protected readonly isLiked = signal(false);
+  /** Stores the mobile accordion state for the ingredient section. */
   protected readonly ingredientsCollapsed = signal(false);
+  /** Stores the mobile accordion state for the directions section. */
   protected readonly directionsCollapsed = signal(false);
+  /** Mirrors the active responsive breakpoint used by the preparation layout. */
   protected readonly isMobileLayout = signal(
     typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false,
   );
+  /** Resolves how many cook labels should be shown for the current recipe. */
   private readonly cookingPersons = computed(
     () =>
       Math.max(
         1,
         this.selectedRecipe()?.cookCount ??
           this.recipeGeneration.lastUsedPreferences()?.persons ??
-          PREPARATION_PAGE_FALLBACK_PERSONS,
+          1,
       ),
   );
+  /** Selects the active recipe either from the explicit selection or the latest generated result list. */
   protected readonly selectedRecipe = computed(
-    () =>
-      this.recipeGeneration.selectedRecipe() ??
-      this.recipeGeneration.generatedRecipes()[0] ??
-      PREPARATION_PAGE_FALLBACK_RECIPE,
+    () => this.recipeGeneration.selectedRecipe() ?? this.recipeGeneration.generatedRecipes()[0] ?? null,
   );
   protected readonly backLinkLabel = this.source === 'cookbook' ? 'Back to cookbook' : 'Recipe results';
   protected readonly backLinkTarget = this.source === 'cookbook' ? '/cookbook' : '/results';
   protected readonly backLinkAriaLabel =
     this.source === 'cookbook' ? 'Back to cookbook' : 'Back to recipe results';
+  /** Builds the visible preference tags from the current recipe and the last submitted request. */
   protected readonly selectedPreferenceTags = computed(() => {
     const preferences = this.recipeGeneration.lastUsedPreferences();
     const recipe = this.selectedRecipe();
@@ -110,6 +75,7 @@ export class PreparationPageComponent {
 
     return tags;
   });
+  /** Formats nutritional values for the preparation sidebar without inventing fallback recipe data. */
   protected readonly nutritionFacts = computed(() => {
     const recipeNutrition = this.selectedRecipe()?.nutrition?.perPortion;
 
@@ -122,43 +88,32 @@ export class PreparationPageComponent {
       ];
     }
 
-    const recipeTitle = this.selectedRecipe()?.title.toLowerCase() ?? '';
-
-    if (recipeTitle.includes('potato')) {
-      return [
-        { label: 'Energie', value: '540 kcal' },
-        { label: 'Protein', value: '11g' },
-        { label: 'Fat', value: '19g' },
-        { label: 'Carbs', value: '73g' },
-      ];
-    }
-
-    if (recipeTitle.includes('rice bowl')) {
-      return [
-        { label: 'Energie', value: '510 kcal' },
-        { label: 'Protein', value: '14g' },
-        { label: 'Fat', value: '16g' },
-        { label: 'Carbs', value: '68g' },
-      ];
-    }
-
-    return PREPARATION_PAGE_FALLBACK_NUTRITION_FACTS;
+    return [
+      { label: 'Energie', value: '-- kcal' },
+      { label: 'Protein', value: '-- g' },
+      { label: 'Fat', value: '-- g' },
+      { label: 'Carbs', value: '-- g' },
+    ];
   });
+  /** Exposes the formatted cook count for the header area. */
   protected readonly cookingPersonsLabel = computed(() => this.cookingPersons());
+  /** Limits the visible cook labels to the number of active cooks. */
   protected readonly cookLabelSources = computed(() => {
     return AVAILABLE_COOK_LABELS.slice(0, Math.min(this.cookingPersons(), AVAILABLE_COOK_LABELS.length));
   });
+  /** Maps the raw recipe step text into display rows without altering the original instructions. */
   protected readonly preparationDirections = computed(() => {
     const recipe = this.selectedRecipe();
     const activeCookLabels = this.cookLabelSources();
 
     return (recipe?.steps ?? []).map((step, index) => ({
       number: index + 1,
-      title: PREPARATION_PAGE_FALLBACK_STEP_TITLES[index] ?? `Step ${index + 1}`,
-      text: formatWorkflowStepText(step, index),
+      title: `Step ${index + 1}`,
+      text: step.trim(),
       cookLabelSource: activeCookLabels[index % activeCookLabels.length] ?? AVAILABLE_COOK_LABELS[0],
     }));
   });
+  /** Splits the ingredient display into user-provided and extra ingredients. */
   protected readonly ingredientColumns = computed(() => {
     const recipe = this.selectedRecipe();
     const userIngredients = recipe?.userIngredients;
@@ -180,6 +135,7 @@ export class PreparationPageComponent {
     };
   });
 
+  /** Registers resize listeners and restores the persisted like state for the active recipe. */
   constructor() {
     if (typeof window !== 'undefined') {
       const mediaQuery = window.matchMedia('(max-width: 768px)');
@@ -207,6 +163,7 @@ export class PreparationPageComponent {
     });
   }
 
+  /** Toggles the liked state for the currently selected recipe and persists the like in Firestore. */
   protected toggleLike(): void {
     const recipe = this.selectedRecipe();
 
@@ -226,50 +183,22 @@ export class PreparationPageComponent {
     }
   }
 
+  /** Toggles the mobile ingredient accordion. */
   protected toggleIngredients(): void {
     this.ingredientsCollapsed.update((value) => !value);
   }
 
+  /** Toggles the mobile directions accordion. */
   protected toggleDirections(): void {
     this.directionsCollapsed.update((value) => !value);
   }
 
+  /** Builds the localStorage key used to remember whether a recipe was liked. */
   private getLikedRecipeStorageKey(recipeTitle: string): string {
     return `liked-recipe:${recipeTitle.trim().toLowerCase()}`;
   }
 }
-
-function formatWorkflowStepText(step: string, index: number): string {
-  const trimmedStep = step.trim();
-  const normalizedStep = trimmedStep.toLowerCase();
-
-  if (WORKFLOW_PREFIXES.some((prefix) => normalizedStep.startsWith(prefix))) {
-    return trimmedStep;
-  }
-
-  if (index === 1) {
-    return `Meanwhile, ${lowercaseFirst(trimmedStep)}`;
-  }
-
-  if (index === 2) {
-    return `Once the earlier components are ready, ${lowercaseFirst(trimmedStep)}`;
-  }
-
-  if (index >= 3) {
-    return `To finish, ${lowercaseFirst(trimmedStep)}`;
-  }
-
-  return trimmedStep;
-}
-
-function lowercaseFirst(text: string): string {
-  if (!text.length) {
-    return text;
-  }
-
-  return text.charAt(0).toLowerCase() + text.slice(1);
-}
-
+/** Maps a raw preparation time string to the three UI-facing time categories. */
 function getCookingTimeCategory(prepTime: string): 'Quick' | 'Medium' | 'Complex' {
   const minutes = Number.parseInt(prepTime.replace(/\D/g, ''), 10);
 
@@ -284,6 +213,7 @@ function getCookingTimeCategory(prepTime: string): 'Quick' | 'Medium' | 'Complex
   return 'Complex';
 }
 
+/** Formats nutrition values for display while keeping missing values explicit. */
 function formatNutritionValue(value: number | null, unit: string): string {
   if (value === null || Number.isNaN(value)) {
     return `-- ${unit}`;

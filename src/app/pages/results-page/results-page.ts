@@ -26,6 +26,7 @@ export class ResultsPageComponent {
       .map((value) => value.trim());
   });
 
+  /** Opens one of the generated recipes in the preparation view. */
   protected viewRecipe(recipe: GeneratedRecipe): void {
     this.recipeGeneration.selectRecipe(recipe);
     void this.router.navigate(['/preparation'], { queryParams: { from: 'results' } });

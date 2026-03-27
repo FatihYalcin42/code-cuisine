@@ -22,6 +22,7 @@ const EMPTY_FIREBASE_CONFIG: FirebaseWebConfig = {
   appId: '',
 };
 
+/** Reads the Firebase web configuration injected at runtime from `public/firebase-config.js`. */
 export function getFirebaseConfig(): FirebaseWebConfig {
   if (typeof window !== 'undefined' && window.__CODE_CUISINE_FIREBASE__) {
     return {
@@ -33,6 +34,7 @@ export function getFirebaseConfig(): FirebaseWebConfig {
   return EMPTY_FIREBASE_CONFIG;
 }
 
+/** Checks whether all Firebase web configuration fields are populated. */
 export function hasFirebaseConfig(config: FirebaseWebConfig): boolean {
   return Object.values(config).every((value) => value.trim().length > 0);
 }

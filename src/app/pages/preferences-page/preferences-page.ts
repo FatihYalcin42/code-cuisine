@@ -24,34 +24,42 @@ export class PreferencesPageComponent {
   protected readonly selectedDietPreference = signal<string | null>(null);
   protected readonly isQuantityPopupOpen = signal(false);
 
+  /** Decreases the requested portion count without dropping below one portion. */
   protected decreasePortions(): void {
     this.portions.update((value) => Math.max(1, value - 1));
   }
 
+  /** Increases the requested portion count up to the configured maximum. */
   protected increasePortions(): void {
     this.portions.update((value) => Math.min(MAX_PORTIONS, value + 1));
   }
 
+  /** Decreases the number of active cooks without dropping below one person. */
   protected decreasePersons(): void {
     this.persons.update((value) => Math.max(1, value - 1));
   }
 
+  /** Increases the number of active cooks up to the configured maximum. */
   protected increasePersons(): void {
     this.persons.update((value) => Math.min(MAX_COOKS, value + 1));
   }
 
+  /** Toggles the selected cooking-time preference. */
   protected selectCookingTime(option: string): void {
     this.selectedCookingTime.update((currentValue) => (currentValue === option ? null : option));
   }
 
+  /** Toggles the selected cuisine preference. */
   protected selectCuisine(option: string): void {
     this.selectedCuisine.update((currentValue) => (currentValue === option ? null : option));
   }
 
+  /** Toggles the selected diet preference. */
   protected selectDietPreference(option: string): void {
     this.selectedDietPreference.update((currentValue) => (currentValue === option ? null : option));
   }
 
+  /** Validates the current request and queues recipe generation when all requirements are met. */
   protected async generateRecipe(): Promise<void> {
     if (this.hasInsufficientIngredientQuantities()) {
       this.isQuantityPopupOpen.set(true);
@@ -62,15 +70,18 @@ export class PreferencesPageComponent {
     await this.router.navigateByUrl('/loading');
   }
 
+  /** Closes the insufficient-quantity popup. */
   protected closeQuantityPopup(): void {
     this.isQuantityPopupOpen.set(false);
   }
 
+  /** Returns the user to ingredient entry after dismissing the quantity popup. */
   protected async goBackToIngredients(): Promise<void> {
     this.closeQuantityPopup();
     await this.router.navigateByUrl('/generate-recipe');
   }
 
+  /** Checks whether the strongest entered ingredients can realistically cover the selected portions. */
   private hasInsufficientIngredientQuantities(): boolean {
     const selectedPortions = this.portions();
     const ingredientEntries = this.ingredientDraftState.ingredientEntries();
@@ -102,6 +113,7 @@ export class PreferencesPageComponent {
     return strongestCombinedCapacity < selectedPortions * requiredStrongIngredients;
   }
 
+  /** Builds the normalized generation payload that is sent to the recipe service. */
   private buildRecipeRequest(): RecipeGenerationRequest {
     return {
       ingredients: this.ingredientDraftState.ingredientEntries().map((entry) => ({
@@ -120,6 +132,7 @@ export class PreferencesPageComponent {
   }
 }
 
+/** Converts a raw amount/unit pair into an approximate serving-capacity score. */
 function getServingCapacity(amountAsText: string, unit: string): number {
   const amount = Number.parseInt(amountAsText, 10);
 

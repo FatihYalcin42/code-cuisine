@@ -31,14 +31,14 @@
             <div class="preparation-meta">
               <div class="preparation-meta-item">
                 <img src="/Icons/schedule.svg" width="24" height="24" alt="" aria-hidden="true" />
-                <span>Coocking time: {{ recipe.prepTime }}</span>
+                <span>Cooking time: {{ recipe.prepTime }}</span>
               </div>
             </div>
 
             <h1 class="preparation-title" id="preparation-title">{{ recipe.title }}</h1>
 
             <div class="preparation-chefs">
-              <span class="preparation-chefs-label">Coocking person: {{ cookingPersonsLabel() }}</span>
+              <span class="preparation-chefs-label">Cooking person: {{ cookingPersonsLabel() }}</span>
 
               @for (cookLabelSource of cookLabelSources(); track cookLabelSource) {
                 <img class="preparation-cook-label" [src]="cookLabelSource" alt="" aria-hidden="true" />

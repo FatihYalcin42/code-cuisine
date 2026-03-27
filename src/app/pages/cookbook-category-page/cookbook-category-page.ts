@@ -108,6 +108,7 @@ export class CookbookCategoryPageComponent {
     Array.from({ length: this.totalPages() }, (_, index) => index + 1),
   );
 
+  /** Resolves the visible meta tags shown on each category-row card. */
   protected recipeMetaTags(recipe: StoredCookbookRecipe): string[] {
     const tags: string[] = [];
 
@@ -119,15 +120,18 @@ export class CookbookCategoryPageComponent {
     return tags;
   }
 
+  /** Opens the selected cookbook recipe in the preparation view. */
   protected openRecipe(recipe: GeneratedRecipe): void {
     this.recipeGeneration.selectRecipe(recipe);
     void this.router.navigate(['/preparation'], { queryParams: { from: 'cookbook' } });
   }
 
+  /** Converts the recipe index on the current page into the absolute list position. */
   protected recipeNumber(indexOnPage: number): number {
     return (this.currentPage() - 1) * PAGE_SIZE + indexOnPage + 1;
   }
 
+  /** Updates the active category-page query parameter for pagination. */
   protected changePage(page: number): void {
     if (page < 1 || page > this.totalPages() || page === this.currentPage()) {
       return;
@@ -141,6 +145,7 @@ export class CookbookCategoryPageComponent {
   }
 }
 
+/** Maps a compact preparation-time label to the display category badges. */
 function getCookingTimeCategory(prepTime: string): 'Quick' | 'Medium' | 'Complex' {
   const minutes = Number.parseInt(prepTime.replace(/\D/g, ''), 10);
 

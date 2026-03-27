@@ -12,6 +12,7 @@ export class IngredientDraftStateService {
   readonly ingredientEntries = signal<IngredientEntry[]>([]);
   private nextEntryId = 1;
 
+  /** Adds a new ingredient draft entry to the in-memory list. */
   addIngredient(name: string, amount: string, unit: string): void {
     const entry: IngredientEntry = {
       id: this.nextEntryId++,
@@ -23,6 +24,7 @@ export class IngredientDraftStateService {
     this.ingredientEntries.update((entries) => [...entries, entry]);
   }
 
+  /** Updates an existing ingredient draft entry in place. */
   updateIngredient(entryId: number, name: string, amount: string, unit: string): void {
     this.ingredientEntries.update((entries) =>
       entries.map((entry) =>
@@ -38,6 +40,7 @@ export class IngredientDraftStateService {
     );
   }
 
+  /** Removes an ingredient draft entry from the current request state. */
   deleteIngredient(entryId: number): void {
     this.ingredientEntries.update((entries) =>
       entries.filter((entry) => entry.id !== entryId),

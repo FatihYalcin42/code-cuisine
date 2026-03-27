@@ -19,6 +19,7 @@ export class LoadingPageComponent {
     () => this.generationStatus() !== 'success' || !this.hasGeneratedRecipes(),
   );
 
+  /** Starts the pending generation request and redirects once valid recipes are ready. */
   constructor() {
     effect(() => {
       if (this.generationStatus() === 'success' && this.hasGeneratedRecipes()) {
@@ -29,6 +30,7 @@ export class LoadingPageComponent {
     void this.recipeGeneration.generateQueuedRecipe();
   }
 
+  /** Re-runs the last pending generation request after a failed attempt. */
   protected retryGeneration(): void {
     this.recipeGeneration.resetGenerationState();
     void this.recipeGeneration.generateQueuedRecipe();

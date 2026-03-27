@@ -1,0 +1,108 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: #396039;
+}
+
+.impressum-header {
+  width: min(100%, var(--page-max-width));
+  margin: 0 auto;
+  padding: 40px 40px 0;
+  box-sizing: border-box;
+}
+
+.impressum-brand,
+.impressum-brand-media,
+.impressum-brand-fallback {
+  display: inline-flex;
+  width: 142px;
+  height: 48px;
+}
+
+.impressum-brand-fallback {
+  align-items: center;
+  justify-content: center;
+  color: #f5f5dc;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.impressum-page {
+  display: grid;
+  place-items: center;
+  min-height: calc(100dvh - 88px);
+  padding: 32px 20px 48px;
+  box-sizing: border-box;
+}
+
+.impressum-card {
+  width: min(100%, 720px);
+  padding: 40px;
+  border-radius: 32px;
+  background: #f5f5dc;
+  color: #264626;
+  box-sizing: border-box;
+}
+
+.impressum-kicker {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.impressum-title {
+  margin: 0 0 16px;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+
+.impressum-copy {
+  margin: 0 0 32px;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.impressum-details {
+  display: grid;
+  gap: 18px;
+  margin: 0 0 32px;
+}
+
+.impressum-row {
+  display: grid;
+  gap: 6px;
+}
+
+.impressum-row dt {
+  font-weight: 700;
+}
+
+.impressum-row dd {
+  margin: 0;
+}
+
+.impressum-back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: #396039;
+  color: #f5f5dc;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .impressum-header {
+    padding: 20px 16px 0;
+  }
+
+  .impressum-card {
+    padding: 28px 20px;
+    border-radius: 24px;
+  }
+}

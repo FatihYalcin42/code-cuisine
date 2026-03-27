@@ -94,7 +94,7 @@ export class GenerateRecipePageComponent {
     this.ingredientEntries().map((entry) => entry.name),
   );
   protected readonly hasFormFeedback = computed(() => this.formFeedback().length > 0);
-  protected readonly canShowNextStepButton = computed(() => this.ingredientEntries().length >= 2);
+  protected readonly canShowNextStepButton = computed(() => this.ingredientEntries().length >= 1);
 
   /** Toggles the serving-size unit dropdown. */
   protected toggleUnitMenu(): void {
@@ -204,6 +204,7 @@ export class GenerateRecipePageComponent {
     this.resetIngredientForm();
   }
 
+  /** Applies one of the suggested ingredient names to the active input field. */
   protected applyIngredientSuggestion(ingredient: string): void {
     this.ingredientName.set(ingredient);
     this.hasIngredientNameError.set(false);
@@ -249,6 +250,7 @@ export class GenerateRecipePageComponent {
     this.clearFormFeedback();
   }
 
+  /** Validates free-text ingredient input against the lightweight client-side heuristics. */
   private isValidIngredientName(name: string): boolean {
     const normalizedName = name.trim().toLowerCase();
 
