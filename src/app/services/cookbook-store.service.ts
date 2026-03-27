@@ -46,7 +46,7 @@ type FirestoreRecipeDocument = {
 @Injectable({ providedIn: 'root' })
 export class CookbookStoreService {
   private readonly db = createFirestore();
-  private readonly recipesState = signal<StoredCookbookRecipe[]>(COOKBOOK_FALLBACK_LIBRARY_RECIPES);
+  private readonly recipesState = signal<StoredCookbookRecipe[]>([]);
   readonly recipes = computed(() => this.recipesState());
   readonly topLikedRecipes = computed(() =>
     [...this.recipesState()].sort((left, right) => right.likes - left.likes).slice(0, 5),
@@ -80,25 +80,12 @@ export class CookbookStoreService {
         this.isUsingFallback.set(false);
         return;
       }
-
-      await this.seedInitialRecipes();
-
-      const seededSnapshot = await getDocs(recipeQuery);
-      const seededRecipes = seededSnapshot.docs.map((entry) =>
-        mapFirestoreRecipe(entry.id, entry.data() as FirestoreRecipeDocument),
-      );
-
-      if (seededRecipes.length > 0) {
-        this.recipesState.set(seededRecipes);
-        this.isUsingFallback.set(false);
-        return;
-      }
     } catch (error) {
       console.error('Failed to load cookbook recipes from Firestore.', error);
     }
 
     this.isUsingFallback.set(true);
-    this.recipesState.set(COOKBOOK_FALLBACK_LIBRARY_RECIPES);
+    this.recipesState.set([]);
   }
 
   async saveGeneratedRecipes(
@@ -174,33 +161,6 @@ export class CookbookStoreService {
           : entry,
       ),
     );
-  }
-
-  private async seedInitialRecipes(): Promise<void> {
-    if (!this.db) {
-      return;
-    }
-
-    for (const recipe of COOKBOOK_FALLBACK_LIBRARY_RECIPES) {
-      await addDoc(collection(this.db, 'recipes'), {
-        title: recipe.title,
-        titleNormalized: normalizeTitle(recipe.title),
-        description: recipe.description,
-        prepTime: recipe.prepTime,
-        prepTimeMinutes: recipe.prepTimeMinutes ?? parsePrepTimeToMinutes(recipe.prepTime),
-        cookCount: recipe.cookCount ?? 1,
-        likes: recipe.likes,
-        dietTag: recipe.dietTag ?? null,
-        cuisineSlug: recipe.cuisineSlug ?? 'fusion',
-        userIngredients: recipe.userIngredients ?? [],
-        extraIngredients: recipe.extraIngredients ?? [],
-        ingredients: recipe.ingredients,
-        steps: recipe.steps,
-        nutrition: recipe.nutrition ?? null,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      } satisfies FirestoreRecipeDocument);
-    }
   }
 }
 
