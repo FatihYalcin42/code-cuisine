@@ -130,7 +130,7 @@
         {{ formFeedback() }}
       </p>
 
-      @if (ingredientNameSuggestions().length > 0) {
+      @if (ingredientNameSuggestions().length > 0 && highlightedIngredientSuggestions().length === 0) {
         <div class="ingredient-suggestions" aria-label="Ingredient suggestions">
           @for (name of ingredientNameSuggestions(); track $index) {
             <span class="ingredient-suggestion">{{ name }}</span>
