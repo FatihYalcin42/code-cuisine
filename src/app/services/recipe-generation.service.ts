@@ -278,6 +278,7 @@ function normalizeRecipe(
     nutrition?: RecipeNutrition | null;
     ingredients?: Array<string | { name?: string; amount?: number; unit?: string; source?: string }>;
     extraIngredients?: Array<string | { name?: string; amount?: number; unit?: string }>;
+    steps?: Array<string | { title?: string; description?: string }>;
     source?: 'library' | 'generated';
   },
   preferences: RecipeGenerationPreferences,
@@ -297,7 +298,7 @@ function normalizeRecipe(
     userIngredients: recipe.userIngredients ?? normalizedIngredients.filter(Boolean),
     extraIngredients: normalizedExtraIngredients.filter(Boolean),
     ingredients: normalizedIngredients.filter(Boolean),
-    steps: recipe.steps.map((step) => String(step).trim()).filter(Boolean),
+    steps: normalizeStepList(recipe.steps ?? []),
     nutrition: recipe.nutrition ?? null,
   };
 }
@@ -339,6 +340,26 @@ function normalizeIngredientList(
       }
 
       return formatRichIngredientLine(ingredient);
+    })
+    .filter(Boolean);
+}
+
+/** Converts mixed step payloads into plain instruction strings for the current preparation UI. */
+function normalizeStepList(steps: Array<string | { title?: string; description?: string }>): string[] {
+  return steps
+    .map((step) => {
+      if (typeof step === 'string') {
+        return step.trim();
+      }
+
+      const title = String(step.title ?? '').trim();
+      const description = String(step.description ?? '').trim();
+
+      if (title && description) {
+        return `${title}: ${description}`;
+      }
+
+      return description || title;
     })
     .filter(Boolean);
 }
