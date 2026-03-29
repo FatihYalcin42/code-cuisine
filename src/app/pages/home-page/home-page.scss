@@ -389,6 +389,7 @@
     top: 42px;
     right: -164px;
     width: 236px;
+    height: auto;
   }
 }
 
@@ -433,8 +434,9 @@
   .hero-visual {
     top: 28px;
     right: -186px;
-    width: auto;
+    width: 236px;
     height: calc(100% - 16px);
+    object-fit: fill;
   }
 }
 
