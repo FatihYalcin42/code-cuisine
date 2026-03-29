@@ -214,6 +214,10 @@
   width: 420px;
   height: 1002px;
   display: block;
+  background-image: url('/angular-projects/code-cuisine/Icons/Visuals.svg');
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 420px 1002px;
   pointer-events: none;
   user-select: none;
 }
@@ -320,13 +324,12 @@
   }
 
   .hero-visual {
-    display: block;
     position: absolute;
     top: var(--mobile-visual-gap-top);
     right: -158px;
     width: clamp(244px, 80vw, 308px);
-    height: auto;
-    max-width: none;
+    height: calc(100% - var(--mobile-visual-gap-top) + 92px);
+    background-size: 100% 100%;
     pointer-events: none;
     user-select: none;
   }
@@ -389,7 +392,8 @@
     top: 42px;
     right: -164px;
     width: 236px;
-    height: auto;
+    height: calc(100% - 42px + 76px);
+    background-size: 236px 100%;
   }
 }
 
@@ -436,7 +440,7 @@
     right: -186px;
     width: 236px;
     height: calc(100% - 16px);
-    object-fit: fill;
+    background-size: 236px 100%;
   }
 }
 
