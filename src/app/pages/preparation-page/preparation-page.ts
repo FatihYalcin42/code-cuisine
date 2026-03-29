@@ -5,10 +5,10 @@ import { CookbookStoreService } from '../../services/cookbook-store.service';
 import { GeneratedRecipe, type RecipeNutrition } from '../../models/recipe.model';
 
 const AVAILABLE_COOK_LABELS = [
-  '/Icons/Cook-label.svg',
-  '/Icons/Cook-label2.svg',
-  '/Icons/cook-label3.svg',
-  '/Icons/Cook-label4.svg',
+  'Icons/Cook-label.svg',
+  'Icons/Cook-label2.svg',
+  'Icons/cook-label3.svg',
+  'Icons/Cook-label4.svg',
 ];
 
 @Component({

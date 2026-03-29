@@ -16,46 +16,46 @@ const PAGE_SIZE = 10;
 const DEFAULT_CATEGORY = {
   slug: 'italian',
   title: 'Italian cuisine',
-  heroSrc: '/Icons/Property 1=Italian.svg',
-  mobileHeroSrc: '/Icons/Property 1=Italian-mobile.svg',
+  heroSrc: 'Icons/Property 1=Italian.svg',
+  mobileHeroSrc: 'Icons/Property 1=Italian-mobile.svg',
 } satisfies CookbookCategoryConfig;
 
 const COOKBOOK_CATEGORY_CONFIGS: CookbookCategoryConfig[] = [
   {
     slug: 'italian',
     title: 'Italian cuisine',
-    heroSrc: '/Icons/Property 1=Italian.svg',
-    mobileHeroSrc: '/Icons/Property 1=Italian-mobile.svg',
+    heroSrc: 'Icons/Property 1=Italian.svg',
+    mobileHeroSrc: 'Icons/Property 1=Italian-mobile.svg',
   },
   {
     slug: 'german',
     title: 'German cuisine',
-    heroSrc: '/Icons/Property 1=German.svg',
-    mobileHeroSrc: '/Icons/Property 1=German-mobile.svg',
+    heroSrc: 'Icons/Property 1=German.svg',
+    mobileHeroSrc: 'Icons/Property 1=German-mobile.svg',
   },
   {
     slug: 'japanese',
     title: 'Japanese cuisine',
-    heroSrc: '/Icons/Property 1=Japanese.svg',
-    mobileHeroSrc: '/Icons/Property 1=Japanese-mobile.svg',
+    heroSrc: 'Icons/Property 1=Japanese.svg',
+    mobileHeroSrc: 'Icons/Property 1=Japanese-mobile.svg',
   },
   {
     slug: 'gourmet',
     title: 'Gourmet cuisine',
-    heroSrc: '/Icons/Property 1=Gourmet.svg',
-    mobileHeroSrc: '/Icons/Property 1=Gourmet-mobile.svg',
+    heroSrc: 'Icons/Property 1=Gourmet.svg',
+    mobileHeroSrc: 'Icons/Property 1=Gourmet-mobile.svg',
   },
   {
     slug: 'indian',
     title: 'Indian cuisine',
-    heroSrc: '/Icons/Property 1=Indian.svg',
-    mobileHeroSrc: '/Icons/Property 1=Indian-mobile.svg',
+    heroSrc: 'Icons/Property 1=Indian.svg',
+    mobileHeroSrc: 'Icons/Property 1=Indian-mobile.svg',
   },
   {
     slug: 'fusion',
     title: 'Fusion cuisine',
-    heroSrc: '/Icons/Property 1=Fusion.svg',
-    mobileHeroSrc: '/Icons/Property 1=Fusion-mobile.svg',
+    heroSrc: 'Icons/Property 1=Fusion.svg',
+    mobileHeroSrc: 'Icons/Property 1=Fusion-mobile.svg',
   },
 ];
 

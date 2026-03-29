@@ -12,12 +12,12 @@ type CookbookCuisineCategory = {
 };
 
 const COOKBOOK_CUISINE_CATEGORIES: CookbookCuisineCategory[] = [
-  { slug: 'italian', title: 'Italian cuisine', imagePath: '/Icons/italien.svg', emoji: '🍝' },
-  { slug: 'german', title: 'German cuisine', imagePath: '/Icons/german.svg', emoji: '🥨' },
-  { slug: 'japanese', title: 'Japanese cuisine', imagePath: '/Icons/japan.svg', emoji: '🥢' },
-  { slug: 'gourmet', title: 'Gourmet cuisine', imagePath: '/Icons/gourmet.svg', emoji: '✨' },
-  { slug: 'indian', title: 'Indian cuisine', imagePath: '/Icons/indien.svg', emoji: '🍛' },
-  { slug: 'fusion', title: 'Fusion cuisine', imagePath: '/Icons/fusion.svg', emoji: '🫓' },
+  { slug: 'italian', title: 'Italian cuisine', imagePath: 'Icons/italien.svg', emoji: '🍝' },
+  { slug: 'german', title: 'German cuisine', imagePath: 'Icons/german.svg', emoji: '🥨' },
+  { slug: 'japanese', title: 'Japanese cuisine', imagePath: 'Icons/japan.svg', emoji: '🥢' },
+  { slug: 'gourmet', title: 'Gourmet cuisine', imagePath: 'Icons/gourmet.svg', emoji: '✨' },
+  { slug: 'indian', title: 'Indian cuisine', imagePath: 'Icons/indien.svg', emoji: '🍛' },
+  { slug: 'fusion', title: 'Fusion cuisine', imagePath: 'Icons/fusion.svg', emoji: '🫓' },
 ];
 
 @Component({
