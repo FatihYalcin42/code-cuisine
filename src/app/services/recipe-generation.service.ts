@@ -3,6 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { CookbookStoreService } from './cookbook-store.service';
 import {
+  getRecipeGenerationErrorMessage,
+  hasExpectedRecipeCount,
+  isRecipeGenerationError,
+  type RecipeGenerationResponse,
+} from './recipe-generation-response.utils';
+import {
   GeneratedRecipe,
   RecipeGenerationPreferences,
   RecipeGenerationRequest,
@@ -10,19 +16,6 @@ import {
 } from '../models/recipe.model';
 
 const EXPECTED_RECIPE_COUNT = 3;
-
-interface RecipeGenerationSuccessResponse {
-  success: true;
-  recipes: GeneratedRecipe[];
-}
-
-interface RecipeGenerationErrorResponse {
-  success: false;
-  error: {
-    code: string;
-    message: string;
-  };
-}
 
 type PartialGeneratedRecipeResponse = GeneratedRecipe & {
   cookTimeMinutes?: number;
@@ -35,10 +28,6 @@ type PartialGeneratedRecipeResponse = GeneratedRecipe & {
   steps?: Array<string | { title?: string; description?: string }>;
   source?: 'library' | 'generated';
 };
-
-type RecipeGenerationResponse =
-  | RecipeGenerationSuccessResponse
-  | RecipeGenerationErrorResponse;
 
 type RecipeGenerationStatus = 'idle' | 'loading' | 'success' | 'error';
 
@@ -145,23 +134,18 @@ export class RecipeGenerationService {
     response: RecipeGenerationResponse,
     request: RecipeGenerationRequest,
   ): GeneratedRecipe[] | null {
-    if (this.isErrorResponse(response) || !this.hasValidRecipeCount(response.recipes)) return null;
-    return this.ensureRecipesExist(normalizeRecipesFromResponse(response.recipes, request.preferences));
-  }
-
-  /** Applies the webhook error response to the service state. */
-  private isErrorResponse(response: RecipeGenerationResponse): response is RecipeGenerationErrorResponse {
-    if (response.success) {
-      return false;
+    if (isRecipeGenerationError(response)) {
+      this.setGenerationError(getRecipeGenerationErrorMessage(response));
+      return null;
     }
 
-    this.setGenerationError(response.error.message);
-    return true;
+    if (!this.hasValidRecipeCount(response.recipes)) return null;
+    return this.ensureRecipesExist(normalizeRecipesFromResponse(response.recipes, request.preferences));
   }
 
   /** Checks the recipe count and raises the standardized mismatch error when needed. */
   private hasValidRecipeCount(recipes: GeneratedRecipe[]): boolean {
-    if (hasExpectedRecipeCount(recipes)) {
+    if (hasExpectedRecipeCount(recipes, EXPECTED_RECIPE_COUNT)) {
       return true;
     }
 
@@ -292,11 +276,6 @@ const CUISINE_SLUGS: Record<string, string> = {
   Fusion: 'fusion',
   fusion: 'fusion',
 };
-
-/** Checks whether the backend returned exactly the required number of recipes. */
-function hasExpectedRecipeCount(recipes: GeneratedRecipe[]): boolean {
-  return Array.isArray(recipes) && recipes.length === EXPECTED_RECIPE_COUNT;
-}
 
 /** Builds the non-list defaults for a generated recipe. */
 function buildRecipeDefaults(
