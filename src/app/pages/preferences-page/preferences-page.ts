@@ -84,52 +84,78 @@ export class PreferencesPageComponent {
   /** Checks whether the strongest entered ingredients can realistically cover the selected portions. */
   private hasInsufficientIngredientQuantities(): boolean {
     const selectedPortions = this.portions();
-    const ingredientEntries = this.ingredientDraftState.ingredientEntries();
-
-    if (ingredientEntries.length === 0) {
-      return true;
-    }
-
-    const servingCapacities = ingredientEntries
-      .map((entry) => getServingCapacity(entry.amount, entry.unit))
-      .filter((capacity) => capacity > 0)
-      .sort((left, right) => right - left);
+    const servingCapacities = getSortedServingCapacities(this.ingredientDraftState.ingredientEntries());
 
     if (!servingCapacities.length) {
       return true;
     }
 
-    const requiredStrongIngredients = Math.min(2, servingCapacities.length);
-    const strongIngredients = servingCapacities.filter((capacity) => capacity >= selectedPortions);
-
-    if (strongIngredients.length >= requiredStrongIngredients) {
-      return false;
-    }
-
-    const strongestCombinedCapacity = servingCapacities
-      .slice(0, requiredStrongIngredients)
-      .reduce((sum, capacity) => sum + capacity, 0);
-
-    return strongestCombinedCapacity < selectedPortions * requiredStrongIngredients;
+    return lacksEnoughCapacityForPortions(servingCapacities, selectedPortions);
   }
 
   /** Builds the normalized generation payload that is sent to the recipe service. */
   private buildRecipeRequest(): RecipeGenerationRequest {
     return {
-      ingredients: this.ingredientDraftState.ingredientEntries().map((entry) => ({
-        name: entry.name,
-        amount: Number.parseInt(entry.amount, 10),
-        unit: entry.unit,
-      })),
-      preferences: {
-        portions: this.portions(),
-        persons: this.persons(),
-        cookingTime: this.selectedCookingTime(),
-        cuisine: this.selectedCuisine(),
-        diet: this.selectedDietPreference(),
-      },
+      ingredients: mapDraftEntriesToRequestIngredients(this.ingredientDraftState.ingredientEntries()),
+      preferences: createRequestPreferences(
+        this.portions(),
+        this.persons(),
+        this.selectedCookingTime(),
+        this.selectedCuisine(),
+        this.selectedDietPreference(),
+      ),
     };
   }
+}
+
+/** Converts ingredient drafts into sorted serving-capacity scores. */
+function getSortedServingCapacities(
+  entries: ReturnType<IngredientDraftStateService['ingredientEntries']>,
+): number[] {
+  return entries
+    .map((entry) => getServingCapacity(entry.amount, entry.unit))
+    .filter((capacity) => capacity > 0)
+    .sort((left, right) => right - left);
+}
+
+/** Checks whether the strongest ingredients can cover the selected portions. */
+function lacksEnoughCapacityForPortions(servingCapacities: number[], selectedPortions: number): boolean {
+  const requiredStrongIngredients = Math.min(2, servingCapacities.length);
+  const strongIngredients = servingCapacities.filter((capacity) => capacity >= selectedPortions);
+
+  if (strongIngredients.length >= requiredStrongIngredients) {
+    return false;
+  }
+
+  return sumStrongestCapacities(servingCapacities, requiredStrongIngredients) <
+    selectedPortions * requiredStrongIngredients;
+}
+
+/** Sums the strongest ingredient capacities required for the capacity check. */
+function sumStrongestCapacities(servingCapacities: number[], count: number): number {
+  return servingCapacities.slice(0, count).reduce((sum, capacity) => sum + capacity, 0);
+}
+
+/** Maps draft ingredient entries into the request payload format. */
+function mapDraftEntriesToRequestIngredients(
+  entries: ReturnType<IngredientDraftStateService['ingredientEntries']>,
+) {
+  return entries.map((entry) => ({
+    name: entry.name,
+    amount: Number.parseInt(entry.amount, 10),
+    unit: entry.unit,
+  }));
+}
+
+/** Builds the normalized preference payload sent to the recipe service. */
+function createRequestPreferences(
+  portions: number,
+  persons: number,
+  cookingTime: string | null,
+  cuisine: string | null,
+  diet: string | null,
+) {
+  return { portions, persons, cookingTime, cuisine, diet };
 }
 
 /** Converts a raw amount/unit pair into an approximate serving-capacity score. */

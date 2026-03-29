@@ -2,7 +2,7 @@ import { Component, computed, DestroyRef, effect, inject, signal } from '@angula
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RecipeGenerationService } from '../../services/recipe-generation.service';
 import { CookbookStoreService } from '../../services/cookbook-store.service';
-import { GeneratedRecipe } from '../../models/recipe.model';
+import { GeneratedRecipe, type RecipeNutrition } from '../../models/recipe.model';
 
 const AVAILABLE_COOK_LABELS = [
   '/Icons/Cook-label.svg',
@@ -52,114 +52,39 @@ export class PreparationPageComponent {
   protected readonly backLinkAriaLabel =
     this.source === 'cookbook' ? 'Back to cookbook' : 'Back to recipe results';
   /** Builds the visible preference tags from the current recipe and the last submitted request. */
-  protected readonly selectedPreferenceTags = computed(() => {
-    const preferences = this.recipeGeneration.lastUsedPreferences();
-    const recipe = this.selectedRecipe();
-    const tags: string[] = [];
-
-    if (recipe?.dietTag) {
-      tags.push(recipe.dietTag);
-    }
-
-    tags.push(getCookingTimeCategory(recipe?.prepTime ?? ''));
-
-    if (!preferences) {
-      return tags;
-    }
-
-    const cuisine = preferences.cuisine?.trim();
-
-    if (cuisine && cuisine !== 'No preferences') {
-      tags.push(cuisine);
-    }
-
-    return tags;
-  });
+  protected readonly selectedPreferenceTags = computed(() =>
+    buildPreparationPreferenceTags(
+      this.selectedRecipe(),
+      this.recipeGeneration.lastUsedPreferences(),
+    ),
+  );
   /** Formats nutritional values for the preparation sidebar without inventing fallback recipe data. */
-  protected readonly nutritionFacts = computed(() => {
-    const recipeNutrition = this.selectedRecipe()?.nutrition?.perPortion;
-
-    if (recipeNutrition) {
-      return [
-        { label: 'Energie', value: formatNutritionValue(recipeNutrition.calories, 'kcal') },
-        { label: 'Protein', value: formatNutritionValue(recipeNutrition.protein_g, 'g') },
-        { label: 'Fat', value: formatNutritionValue(recipeNutrition.fat_g, 'g') },
-        { label: 'Carbs', value: formatNutritionValue(recipeNutrition.carbs_g, 'g') },
-      ];
-    }
-
-    return [
-      { label: 'Energie', value: '-- kcal' },
-      { label: 'Protein', value: '-- g' },
-      { label: 'Fat', value: '-- g' },
-      { label: 'Carbs', value: '-- g' },
-    ];
-  });
+  protected readonly nutritionFacts = computed(() =>
+    buildNutritionFacts(this.selectedRecipe()?.nutrition?.perPortion ?? null),
+  );
   /** Exposes the formatted cook count for the header area. */
   protected readonly cookingPersonsLabel = computed(() => this.cookingPersons());
   /** Limits the visible cook labels to the number of active cooks. */
-  protected readonly cookLabelSources = computed(() => {
-    return AVAILABLE_COOK_LABELS.slice(0, Math.min(this.cookingPersons(), AVAILABLE_COOK_LABELS.length));
-  });
+  protected readonly cookLabelSources = computed(() =>
+    getCookLabelSources(this.cookingPersons()),
+  );
   /** Maps the raw recipe step text into display rows without altering the original instructions. */
-  protected readonly preparationDirections = computed(() => {
-    const recipe = this.selectedRecipe();
-    const activeCookLabels = this.cookLabelSources();
-
-    return (recipe?.steps ?? []).map((step, index) => ({
-      number: index + 1,
-      title: `Step ${index + 1}`,
-      text: step.trim(),
-      cookLabelSource: activeCookLabels[index % activeCookLabels.length] ?? AVAILABLE_COOK_LABELS[0],
-    }));
-  });
+  protected readonly preparationDirections = computed(() =>
+    buildPreparationDirections(this.selectedRecipe(), this.cookLabelSources()),
+  );
   /** Splits the ingredient display into user-provided and extra ingredients. */
-  protected readonly ingredientColumns = computed(() => {
-    const recipe = this.selectedRecipe();
-    const userIngredients = recipe?.userIngredients;
-    const extraIngredients = recipe?.extraIngredients;
-
-    if (userIngredients || extraIngredients) {
-      return {
-        yourIngredients: userIngredients ?? [],
-        extraIngredients: extraIngredients ?? [],
-      };
-    }
-
-    const ingredients = recipe?.ingredients ?? [];
-    const splitIndex = Math.min(4, Math.ceil(ingredients.length / 2));
-
-    return {
-      yourIngredients: ingredients.slice(0, splitIndex),
-      extraIngredients: ingredients.slice(splitIndex),
-    };
-  });
+  protected readonly ingredientColumns = computed(() =>
+    buildIngredientColumns(this.selectedRecipe()),
+  );
 
   /** Registers resize listeners and restores the persisted like state for the active recipe. */
   constructor() {
     if (typeof window !== 'undefined') {
-      const mediaQuery = window.matchMedia('(max-width: 768px)');
-      const updateMobileLayout = (event: MediaQueryList | MediaQueryListEvent): void => {
-        this.isMobileLayout.set(event.matches);
-      };
-
-      updateMobileLayout(mediaQuery);
-      mediaQuery.addEventListener('change', updateMobileLayout);
-
-      this.destroyRef.onDestroy(() => {
-        mediaQuery.removeEventListener('change', updateMobileLayout);
-      });
+      this.registerMobileLayoutListener();
     }
 
     effect(() => {
-      const recipe = this.selectedRecipe();
-
-      if (!recipe || typeof window === 'undefined') {
-        this.isLiked.set(false);
-        return;
-      }
-
-      this.isLiked.set(window.localStorage.getItem(this.getLikedRecipeStorageKey(recipe.title)) === 'true');
+      this.syncLikedState();
     });
   }
 
@@ -172,15 +97,8 @@ export class PreparationPageComponent {
     }
 
     const nextValue = !this.isLiked();
-    this.isLiked.set(nextValue);
-
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(this.getLikedRecipeStorageKey(recipe.title), String(nextValue));
-    }
-
-    if (nextValue) {
-      void this.cookbookStore.likeRecipe(recipe);
-    }
+    this.applyLikeState(recipe.title, nextValue);
+    this.persistRecipeLike(recipe, nextValue);
   }
 
   /** Toggles the mobile ingredient accordion. */
@@ -197,6 +115,135 @@ export class PreparationPageComponent {
   private getLikedRecipeStorageKey(recipeTitle: string): string {
     return `liked-recipe:${recipeTitle.trim().toLowerCase()}`;
   }
+
+  /** Subscribes to the mobile breakpoint and tears the listener down on destroy. */
+  private registerMobileLayoutListener(): void {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    const updateMobileLayout = (event: MediaQueryList | MediaQueryListEvent): void =>
+      this.isMobileLayout.set(event.matches);
+    updateMobileLayout(mediaQuery);
+    mediaQuery.addEventListener('change', updateMobileLayout);
+    this.destroyRef.onDestroy(() => mediaQuery.removeEventListener('change', updateMobileLayout));
+  }
+
+  /** Synchronizes the current recipe's liked state from localStorage. */
+  private syncLikedState(): void {
+    const recipe = this.selectedRecipe();
+    const isLiked = !!recipe && typeof window !== 'undefined' && this.isRecipeLiked(recipe.title);
+    this.isLiked.set(isLiked);
+  }
+
+  /** Checks localStorage for the persisted like state of a recipe title. */
+  private isRecipeLiked(recipeTitle: string): boolean {
+    return window.localStorage.getItem(this.getLikedRecipeStorageKey(recipeTitle)) === 'true';
+  }
+
+  /** Persists the liked state for the active recipe title in localStorage. */
+  private persistLikedState(recipeTitle: string, nextValue: boolean): void {
+    window.localStorage.setItem(this.getLikedRecipeStorageKey(recipeTitle), String(nextValue));
+  }
+
+  /** Updates the local liked state and mirrors it to localStorage when available. */
+  private applyLikeState(recipeTitle: string, nextValue: boolean): void {
+    this.isLiked.set(nextValue);
+
+    if (typeof window !== 'undefined') {
+      this.persistLikedState(recipeTitle, nextValue);
+    }
+  }
+
+  /** Persists a positive like toggle to Firestore. */
+  private persistRecipeLike(recipe: GeneratedRecipe, nextValue: boolean): void {
+    if (nextValue) {
+      void this.cookbookStore.likeRecipe(recipe);
+    }
+  }
+}
+
+type NutritionFact = { label: string; value: string };
+type IngredientColumns = { yourIngredients: string[]; extraIngredients: string[] };
+
+/** Builds the visible preference tags for the preparation page. */
+function buildPreparationPreferenceTags(
+  recipe: GeneratedRecipe | null,
+  preferences: ReturnType<RecipeGenerationService['lastUsedPreferences']>,
+): string[] {
+  const tags: string[] = recipe?.dietTag ? [recipe.dietTag] : [];
+  tags.push(getCookingTimeCategory(recipe?.prepTime ?? ''));
+  return appendCuisineTag(tags, preferences?.cuisine);
+}
+
+/** Appends the selected cuisine tag when it is meaningful. */
+function appendCuisineTag(tags: string[], cuisine: string | null | undefined): string[] {
+  const trimmedCuisine = cuisine?.trim();
+  return trimmedCuisine && trimmedCuisine !== 'No preferences' ? [...tags, trimmedCuisine] : tags;
+}
+
+/** Builds the nutrition sidebar values from the selected recipe. */
+function buildNutritionFacts(recipeNutrition: RecipeNutrition['perPortion'] | null): NutritionFact[] {
+  if (!recipeNutrition) {
+    return createEmptyNutritionFacts();
+  }
+
+  return [
+    createNutritionFact('Energie', recipeNutrition.calories, 'kcal'),
+    createNutritionFact('Protein', recipeNutrition.protein_g, 'g'),
+    createNutritionFact('Fat', recipeNutrition.fat_g, 'g'),
+    createNutritionFact('Carbs', recipeNutrition.carbs_g, 'g'),
+  ];
+}
+
+/** Builds a single labeled nutrition display value. */
+function createNutritionFact(label: string, value: number | null, unit: string): NutritionFact {
+  return { label, value: formatNutritionValue(value, unit) };
+}
+
+/** Builds the empty nutrition placeholder values. */
+function createEmptyNutritionFacts(): NutritionFact[] {
+  return ['Energie', 'Protein', 'Fat', 'Carbs'].map((label) =>
+    createNutritionFact(label, null, label === 'Energie' ? 'kcal' : 'g'),
+  );
+}
+
+/** Limits the cook labels to the number of active cooks. */
+function getCookLabelSources(cookingPersons: number): string[] {
+  return AVAILABLE_COOK_LABELS.slice(0, Math.min(cookingPersons, AVAILABLE_COOK_LABELS.length));
+}
+
+/** Maps recipe steps into the preparation-page display rows. */
+function buildPreparationDirections(recipe: GeneratedRecipe | null, activeCookLabels: string[]) {
+  return (recipe?.steps ?? []).map((step, index) => ({
+    number: index + 1,
+    title: `Step ${index + 1}`,
+    text: step.trim(),
+    cookLabelSource: activeCookLabels[index % activeCookLabels.length] ?? AVAILABLE_COOK_LABELS[0],
+  }));
+}
+
+/** Splits the ingredient display into user and extra columns. */
+function buildIngredientColumns(recipe: GeneratedRecipe | null): IngredientColumns {
+  if (hasExplicitIngredientColumns(recipe)) {
+    return {
+      yourIngredients: recipe?.userIngredients ?? [],
+      extraIngredients: recipe?.extraIngredients ?? [],
+    };
+  }
+
+  return splitRecipeIngredients(recipe?.ingredients ?? []);
+}
+
+/** Checks whether the recipe already separates user and extra ingredients. */
+function hasExplicitIngredientColumns(recipe: GeneratedRecipe | null): boolean {
+  return !!(recipe?.userIngredients || recipe?.extraIngredients);
+}
+
+/** Splits a single ingredient list into two display columns. */
+function splitRecipeIngredients(ingredients: string[]): IngredientColumns {
+  const splitIndex = Math.min(4, Math.ceil(ingredients.length / 2));
+  return {
+    yourIngredients: ingredients.slice(0, splitIndex),
+    extraIngredients: ingredients.slice(splitIndex),
+  };
 }
 /** Maps a raw preparation time string to the three UI-facing time categories. */
 function getCookingTimeCategory(prepTime: string): 'Quick' | 'Medium' | 'Complex' {
