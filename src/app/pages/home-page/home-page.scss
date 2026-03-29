@@ -394,8 +394,8 @@
 
 @media (max-width: 360px) and (min-height: 900px) {
   :host {
-    --mobile-visual-gap-top: 56px;
-    --mobile-visual-safe-width: 164px;
+    --mobile-visual-gap-top: 28px;
+    --mobile-visual-safe-width: 170px;
   }
 
   .page-shell {
@@ -417,7 +417,7 @@
   }
 
   .hero-cta {
-    margin-top: 28px;
+    margin-top: 56px;
   }
 
   .hero-links {
@@ -431,9 +431,10 @@
   }
 
   .hero-visual {
-    top: 76px;
-    right: -172px;
-    width: 228px;
+    top: 28px;
+    right: -186px;
+    width: auto;
+    height: calc(100% - 16px);
   }
 }
 
