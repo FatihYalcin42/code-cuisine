@@ -2,6 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { CookbookStoreService } from './cookbook-store.service';
+import { getApiConfig } from '../config/api.config';
 import {
   getRecipeGenerationErrorMessage,
   hasExpectedRecipeCount,
@@ -35,7 +36,7 @@ type RecipeGenerationStatus = 'idle' | 'loading' | 'success' | 'error';
 export class RecipeGenerationService {
   private readonly http = inject(HttpClient);
   private readonly cookbookStore = inject(CookbookStoreService);
-  private readonly webhookUrl = '/api/generate-recipe-v2';
+  private readonly webhookUrl = getApiConfig().recipeWebhookUrl;
 
   readonly generationStatus = signal<RecipeGenerationStatus>('idle');
   readonly generatedRecipes = signal<GeneratedRecipe[]>([]);

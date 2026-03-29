@@ -19,6 +19,13 @@ This folder contains the exported n8n workflow definitions used by Code a Cuisin
 3. Select `n8n/workflows/generate-recipe-v2.json`.
 4. Reconnect local credentials in n8n.
 
+### Frontend endpoint configuration
+
+- Local development uses `/api/generate-recipe-v2` together with `proxy.conf.json`.
+- Production can override the webhook URL through `public/api-config.js`.
+- Example:
+  - `recipeWebhookUrl: 'https://YOUR-N8N-DOMAIN/webhook/generate-recipe-v2'`
+
 ### Required external credentials
 
 These credentials must be created locally in n8n and are not stored in this repository:
