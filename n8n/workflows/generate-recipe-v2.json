@@ -1,0 +1,946 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-recipe-v2",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "230d0579-4d2f-48b5-a49d-8094ae556836",
+      "name": "Webhook",
+      "webhookId": "65cca097-1fd4-45b9-a292-fa30630438e4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3a76fe8c-23b5-4d4d-85e4-a73667be0230",
+              "name": "ingredients",
+              "value": "={{$json.body.ingredients}}",
+              "type": "string"
+            },
+            {
+              "id": "1c00da6d-589e-4385-af31-e12a90c4c7e8",
+              "name": "servings",
+              "value": "={{$json.body.preferences.portions}}",
+              "type": "string"
+            },
+            {
+              "id": "4c739c8f-42fb-496a-a7e6-3911e8a618b1",
+              "name": "helpers",
+              "value": "={{$json.body.preferences.persons}}",
+              "type": "string"
+            },
+            {
+              "id": "80d88ead-f953-404d-b8c7-5036dcf7996b",
+              "name": "timeCategoryRaw",
+              "value": "={{ $json.body.preferences.cookingTime?.toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "2c97eb66-1a5e-4435-80f8-e687fab9d911",
+              "name": "cuisineRaw",
+              "value": "={{ $json.body.preferences.cuisine?.toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "84876991-3f12-41fe-9c66-6b37fc02a44d",
+              "name": "dietRaw",
+              "value": "={{ $json.body.preferences.diet?.toLowerCase() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "5f4bd8c7-30ca-4ccd-82f1-a3a601e1a741",
+      "name": "Extract Input"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d5727e72-1311-4bc9-9a5a-e5de61cbc85e",
+              "name": "ingredients",
+              "value": "={{$json.ingredients}}",
+              "type": "array"
+            },
+            {
+              "id": "1138cb65-b19d-47e1-a889-5ba6093dbbae",
+              "name": "servings",
+              "value": "={{ Number($json.servings) }}",
+              "type": "number"
+            },
+            {
+              "id": "6a7dc8f8-258b-448c-8fde-dcaa2c9484bd",
+              "name": "helpers",
+              "value": "={{ Number($json.helpers) }}",
+              "type": "number"
+            },
+            {
+              "id": "d386291e-04a2-49a9-8326-9dd133583d4e",
+              "name": "cuisine",
+              "value": "={{ ({ italian: 'it', german: 'de', japanese: 'jp', indian: 'in', gourmet: 'gourmet', fusion: 'fusion' })[($json.cuisineRaw || '').trim().toLowerCase()] || 'fusion' }}",
+              "type": "string"
+            },
+            {
+              "id": "df9aa680-d3bd-41af-995f-77abd7175701",
+              "name": "diet",
+              "value": "={{ ({ vegetarian: 'vegetarian', vegan: 'vegan', keto: 'keto', none: 'none', 'no restriction': 'none', unrestricted: 'none' })[($json.dietRaw || '').trim().toLowerCase()] || 'none' }}",
+              "type": "string"
+            },
+            {
+              "id": "51a7a5b4-b309-47af-aaa7-450269ba69d2",
+              "name": "timeCategory",
+              "value": "={{ ({ quick: 'quick', short: 'quick', medium: 'medium', elaborate: 'elaborate', long: 'elaborate' })[($json.timeCategoryRaw || '').trim().toLowerCase()] || 'medium' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "801e3ee7-8397-4ade-a888-aa72b8c340bc",
+      "name": "Map Input"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a24279da-bc81-4ab2-ab0d-aad7fd5b1184",
+              "leftValue": "={{$json.valid}}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        832,
+        0
+      ],
+      "id": "e8e98222-b728-4155-a8bd-5143ec3ed188",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nconst errors = [];\n\nconst validCuisines = ['de', 'it', 'jp', 'in', 'gourmet', 'fusion'];\nconst validDiets = ['vegetarian', 'vegan', 'keto', 'none'];\nconst validTimeCategories = ['quick', 'medium', 'elaborate'];\n\nconst ingredients = Array.isArray(item.ingredients) ? item.ingredients : [];\n\nconst normalizedIngredients = ingredients\n  .map((ingredient) => {\n    const name = String(ingredient?.name ?? '').trim();\n    return {\n      ...ingredient,\n      name,\n    };\n  })\n  .filter((ingredient) => {\n    const name = ingredient.name.toLowerCase();\n    return (\n      name.length >= 2 &&\n      /[a-zA-ZäöüÄÖÜß]/.test(name) &&\n      !/^\\d+$/.test(name) &&\n      name !== 'test' &&\n      name !== 'asdf' &&\n      name !== 'qwe'\n    );\n  });\n\nif (normalizedIngredients.length === 0) {\n  errors.push('At least one valid ingredient is required');\n}\n\nif (typeof item.servings !== 'number' || item.servings < 1 || item.servings > 12) {\n  errors.push('servings must be between 1 and 12');\n}\n\nif (typeof item.helpers !== 'number' || item.helpers < 1 || item.helpers > 4) {\n  errors.push('helpers must be between 1 and 4');\n}\n\nif (!validCuisines.includes(item.cuisine)) {\n  errors.push('cuisine is invalid');\n}\n\nif (!validTimeCategories.includes(item.timeCategory)) {\n  errors.push('timeCategory is invalid');\n}\n\nconst diet = item.diet || 'none';\nif (!validDiets.includes(diet)) {\n  errors.push('diet is invalid');\n}\n\nreturn [\n  {\n    json: {\n      ...item,\n      ingredients: normalizedIngredients,\n      diet,\n      valid: errors.length === 0,\n      errors\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "0abd14a2-8481-4416-a586-36287792a9a2",
+      "name": "Validate Input"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c9dc316b-1805-4cfa-963b-a0924a6cca15",
+              "name": "=success",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "d4bef5bf-2b40-4bf5-9c0e-b0d67f42e97f",
+              "name": "=error",
+              "value": "validation_failed",
+              "type": "string"
+            },
+            {
+              "id": "f467182e-3d53-4806-b815-df43933befba",
+              "name": "=message",
+              "value": "Invalid input",
+              "type": "string"
+            },
+            {
+              "id": "2b62a703-750f-41d0-8710-0880770113ba",
+              "name": "=details",
+              "value": "={{$json.errors}}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        96
+      ],
+      "id": "10787416-4db4-4f87-b816-ef326f9360c9",
+      "name": "Build Validation Error"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nconst headers = $('Webhook').first().json.headers || {};\n\nconst forwardedFor = headers['x-forwarded-for'];\nconst realIp = headers['x-real-ip'];\n\nlet ip = 'unknown';\n\nif (typeof forwardedFor === 'string' && forwardedFor.trim()) {\n  ip = forwardedFor.split(',')[0].trim();\n} else if (typeof realIp === 'string' && realIp.trim()) {\n  ip = realIp.trim();\n} else if (typeof headers.host === 'string' && headers.host.includes('localhost')) {\n  ip = '127.0.0.1';\n}\n\nconst now = new Date();\nconst dateKey = now.toISOString().slice(0, 10);\nconst quotaKey = `${ip}_${dateKey}`;\n\nreturn [\n  {\n    json: {\n      ...item,\n      quota: {\n        ip,\n        dateKey,\n        quotaKey,\n        limitPerDay: 3\n      }\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        -96
+      ],
+      "id": "aaf3d204-2080-4f9b-9719-1c50e20dc573",
+      "name": "Prepare Quota Data"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4d09a798-3028-4efe-a24a-faad82555d19",
+              "leftValue": "={{$json.quota.allowed}}",
+              "rightValue": "=true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1632,
+        -128
+      ],
+      "id": "7524238a-2bd3-4e11-80f5-08f9e9fe6490",
+      "name": "Quota Allowed?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e98dc823-905b-40e4-87b8-822f70ba52fd",
+              "name": "=success",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "7a06d1fb-66d2-4e2d-bf11-4f9f423b62ec",
+              "name": "=error",
+              "value": "quota_exceeded",
+              "type": "string"
+            },
+            {
+              "id": "2013bced-3f7e-4e9f-87fa-5c7feaa9408b",
+              "name": "=message",
+              "value": "Daily recipe limit reached",
+              "type": "string"
+            },
+            {
+              "id": "1bf3dfcb-e81d-4f08-85cc-e0ea055262b5",
+              "name": "=details",
+              "value": "={{$json.quota}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1760,
+        64
+      ],
+      "id": "a1583390-60b1-4301-89a0-46c995d5ea39",
+      "name": "Build Quota Error"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nreturn [\n  {\n    json: {\n      ...item,\n      generationPlan: {\n        includeLibraryRecipe: false,\n        generateCount: 3\n      }\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2080,
+        -176
+      ],
+      "id": "8b7e9f30-f34f-4021-97c6-a44f626d2a19",
+      "name": "Plan Generation"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nconst promptData = {\n  ingredients: item.ingredients || [],\n  servings: item.servings,\n  helpers: item.helpers,\n  timeCategory: item.timeCategory,\n  cuisine: item.cuisine,\n  diet: item.diet,\n  generateCount: 3,\n  libraryContext: null\n};\n\nreturn [\n  {\n    json: {\n      ...item,\n      promptData\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2288,
+        -176
+      ],
+      "id": "531d27d4-d27d-4c04-b0e1-09ff77e9196e",
+      "name": "Prepare Prompt Data"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst data = item.promptData;\n\nconst ingredientsText = (data.ingredients || [])\n  .map((ingredient) => {\n    const amount = ingredient.amount ?? '';\n    const unit = ingredient.unit ?? '';\n    const name = ingredient.name ?? '';\n    return `- ${amount} ${unit} ${name}`.trim();\n  })\n  .join('\\n');\n\nconst libraryContextText = data.libraryContext\n  ? `\nExisting library recipe already found:\n- id: ${data.libraryContext.id}\n- title: ${data.libraryContext.title}\n- ingredients: ${(data.libraryContext.ingredients || []).join(', ')}\n- cuisine: ${data.libraryContext.cuisine}\n- diet: ${data.libraryContext.diet}\n- timeCategory: ${data.libraryContext.timeCategory}\n\nGenerate new alternatives that are meaningfully different from this existing recipe.\n`\n  : `No existing library recipe was found.`;\n\nconst prompt = `\nYou are a recipe generation system.\n\nGenerate exactly ${data.generateCount} new recipe alternatives.\n\nUser constraints:\n- servings: ${data.servings}\n- helpers: ${data.helpers}\n- timeCategory: ${data.timeCategory}\n- cuisine: ${data.cuisine}\n- diet: ${data.diet}\n\nUser ingredients:\n${ingredientsText}\n\n${libraryContextText}\n\nRules:\n- Return valid JSON only.\n- Do not return markdown.\n- Generate exactly ${data.generateCount} recipes.\n- Each recipe should use at least 70% of the provided user ingredients when possible.\n- Each recipe may add at most 3 extra basic ingredients.\n- The recipes must be clearly distinct from each other.\n- If a library recipe is provided, the new recipes must be different from it.\n- Steps must be chronological and easy to follow.\n- Include helper task assignment for up to ${data.helpers} people.\n- Include nutrition estimates.\n- Nutrition must contain perPortion and total.\n- Each nutrition object must include:\n  calories, protein_g, carbs_g, fat_g\n\nReturn this JSON shape:\n{\n  \"recipes\": [\n    {\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"servings\": number,\n      \"cookTimeMinutes\": number,\n      \"timeCategory\": \"quick | medium | elaborate\",\n      \"cuisine\": \"de | it | jp | in | gourmet | fusion\",\n      \"diet\": \"vegetarian | vegan | keto | none\",\n      \"difficulty\": \"easy | medium | hard\",\n      \"tags\": [\"string\"],\n      \"ingredients\": [\n        {\n          \"name\": \"string\",\n          \"amount\": number,\n          \"unit\": \"string\",\n          \"source\": \"user | extra\"\n        }\n      ],\n      \"extraIngredients\": [\n        {\n          \"name\": \"string\",\n          \"amount\": number,\n          \"unit\": \"string\",\n          \"reason\": \"basic\"\n        }\n      ],\n      \"steps\": [\n        {\n          \"index\": number,\n          \"title\": \"string\",\n          \"description\": \"string\",\n          \"durationMinutes\": number,\n          \"parallelizable\": true,\n          \"assignedTo\": [\"cook_1\"]\n        }\n      ],\n      \"helperAssignments\": [\n        {\n          \"person\": \"cook_1\",\n          \"stepIndexes\": [1, 2]\n        }\n      ],\n      \"nutrition\": {\n        \"perPortion\": {\n          \"calories\": number,\n          \"protein_g\": number,\n          \"carbs_g\": number,\n          \"fat_g\": number\n        },\n        \"total\": {\n          \"calories\": number,\n          \"protein_g\": number,\n          \"carbs_g\": number,\n          \"fat_g\": number\n        }\n      }\n    }\n  ]\n}\n`.trim();\n\nreturn [\n  {\n    json: {\n      ...item,\n      aiPrompt: prompt\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2480,
+        -160
+      ],
+      "id": "671ff905-4351-4e28-839d-cd1502167267",
+      "name": "Build AI Prompt"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{$json.aiPrompt}}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        2704,
+        -176
+      ],
+      "id": "1538c055-6550-4e2b-a15a-ac9124c089bb",
+      "name": "Generate Recipes AI",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "4NFP1et839qNDXg2",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nconst rawText =\n  item.content?.parts?.[0]?.text ||\n  item.text ||\n  item.output ||\n  '';\n\nif (!rawText || typeof rawText !== 'string') {\n  throw new Error('No AI text response found');\n}\n\nlet parsed;\n\ntry {\n  parsed = JSON.parse(rawText);\n} catch (error) {\n  throw new Error(`Failed to parse AI JSON response: ${error.message}`);\n}\n\nreturn [\n  {\n    json: {\n      ...item,\n      aiRawText: rawText,\n      aiParsed: parsed\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3024,
+        -176
+      ],
+      "id": "5db80254-6fd8-4a89-955d-fa6bd7885fea",
+      "name": "Parse AI Response"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nconst recipes = Array.isArray(item.aiParsed?.recipes) ? item.aiParsed.recipes : [];\n\nconst generatedRecipes = recipes.map((recipe, index) => {\n  const normalizedIngredients = Array.isArray(recipe.ingredients)\n    ? recipe.ingredients.map((ingredient) => ({\n        name: String(ingredient.name || '').trim(),\n        amount: ingredient.amount ?? null,\n        unit: ingredient.unit ?? '',\n        source: ingredient.source === 'extra' ? 'extra' : 'user'\n      }))\n    : [];\n\n  const normalizedExtraIngredients = Array.isArray(recipe.extraIngredients)\n    ? recipe.extraIngredients.map((ingredient) => ({\n        name: String(ingredient.name || '').trim(),\n        amount: ingredient.amount ?? null,\n        unit: ingredient.unit ?? '',\n        reason: ingredient.reason || 'basic'\n      }))\n    : [];\n\n  const normalizedSteps = Array.isArray(recipe.steps)\n    ? recipe.steps.map((step, stepIndex) => ({\n        index: step.index ?? stepIndex + 1,\n        title: String(step.title || '').trim(),\n        description: String(step.description || '').trim(),\n        durationMinutes: step.durationMinutes ?? null,\n        parallelizable: Boolean(step.parallelizable),\n        assignedTo: Array.isArray(step.assignedTo) ? step.assignedTo : []\n      }))\n    : [];\n\n  const helperAssignments = Array.isArray(recipe.helperAssignments)\n    ? recipe.helperAssignments.map((assignment) => ({\n        person: assignment.person || 'cook_1',\n        stepIndexes: Array.isArray(assignment.stepIndexes) ? assignment.stepIndexes : []\n      }))\n    : [];\n\n  return {\n    source: 'generated',\n    tempId: `generated_${index + 1}`,\n    title: String(recipe.title || '').trim(),\n    description: String(recipe.description || '').trim(),\n    servings: recipe.servings ?? item.servings,\n    cookTimeMinutes: recipe.cookTimeMinutes ?? null,\n    timeCategory: recipe.timeCategory || item.timeCategory,\n    cuisine: recipe.cuisine || item.cuisine,\n    diet: recipe.diet || item.diet,\n    difficulty: recipe.difficulty || 'medium',\n    tags: Array.isArray(recipe.tags) ? recipe.tags : [],\n    ingredients: normalizedIngredients,\n    extraIngredients: normalizedExtraIngredients,\n    steps: normalizedSteps,\n    helperAssignments,\n    nutrition: recipe.nutrition || {\n      perPortion: {\n        calories: null,\n        protein_g: null,\n        carbs_g: null,\n        fat_g: null\n      },\n      total: {\n        calories: null,\n        protein_g: null,\n        carbs_g: null,\n        fat_g: null\n      }\n    }\n  };\n});\n\nreturn [\n  {\n    json: {\n      ...item,\n      generatedRecipes\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3632,
+        -176
+      ],
+      "id": "2579d37c-dc13-4624-9b19-94546e0a6528",
+      "name": "Normalize Generated Recipes"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nreturn [\n  {\n    json: {\n      ...item,\n      recipes: Array.isArray(item.generatedRecipes) ? item.generatedRecipes : []\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3824,
+        -176
+      ],
+      "id": "42c9edf7-ff44-4a2b-afb1-73ab7574e5cb",
+      "name": "Build Final Recipes List"
+    },
+    {
+      "parameters": {
+        "jsCode": "const recipesItem = $('Build Final Recipes List').first().json;\nconst quotaItem = $('Normalize Quota Counter').first().json;\n\nreturn [\n  {\n    json: {\n      success: true,\n      libraryMatch: {\n        hasMatch: recipesItem.libraryMatch?.hasMatch ?? false,\n        bestMatchId: recipesItem.libraryMatch?.bestMatch?.id ?? null\n      },\n      quota: quotaItem.quota || null,\n      recipes: recipesItem.recipes || []\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4400,
+        -176
+      ],
+      "id": "2d42d934-9dc4-485b-b5d9-162b21f584a6",
+      "name": "Build Final Success Response"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1248,
+        96
+      ],
+      "id": "e838c524-324b-45b5-9a59-96ff54f8ab2c",
+      "name": "Return Validation Error"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2064,
+        16
+      ],
+      "id": "7f9875c4-c624-4fd3-ba2f-68fc449ca847",
+      "name": "Return Quota Error"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        4576,
+        -176
+      ],
+      "id": "dfcc3514-d7ec-40e0-9b54-2cf4663db082",
+      "name": "Return Success"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nconst recipes = Array.isArray(item.aiParsed?.recipes) ? item.aiParsed.recipes : [];\nconst expectedCount = item.generationPlan?.generateCount ?? 3;\n\nconst valid = recipes.length === expectedCount;\n\nreturn [\n  {\n    json: {\n      ...item,\n      generationCountCheck: {\n        expected: expectedCount,\n        actual: recipes.length,\n        valid\n      }\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3216,
+        -176
+      ],
+      "id": "4c3fd44e-47c9-4cc9-bf7b-3274f2201ca3",
+      "name": "Validate Generated Count"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cacaf354-3e6c-488e-b4ba-71ade7bcd264",
+              "leftValue": "={{$json.generationCountCheck.valid}}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3424,
+        -176
+      ],
+      "id": "83b9fd4a-dd34-4655-9662-ba4d163beff9",
+      "name": "Generated Count Valid?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e1bd2e35-106b-496b-ad1e-4a9f41d349e3",
+              "name": "=success",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "26c6cd03-fd4f-4dd2-ae6f-df8fff4f9956",
+              "name": "=error",
+              "value": "invalid_recipe_count",
+              "type": "string"
+            },
+            {
+              "id": "e2c62622-51d8-44a3-8ce3-b3fe9c222ba6",
+              "name": "=message",
+              "value": "The AI did not return the required number of recipes.",
+              "type": "string"
+            },
+            {
+              "id": "f0c5542b-4297-483e-9e28-4f2c584df319",
+              "name": "=details",
+              "value": "={{$json.generationCountCheck}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3680,
+        96
+      ],
+      "id": "30de274e-f1f2-42f1-9271-e8fa301c823e",
+      "name": "Build Recipe Count Error"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        3888,
+        96
+      ],
+      "id": "83660ca0-312a-4634-9a7b-ccf960421fd2",
+      "name": "Return Recipe Count Error"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "query",
+        "projectId": "=code-a-cuisine-beec5",
+        "query": "={{ JSON.stringify({\n  structuredQuery: {\n    from: [{ collectionId: 'recipeQuota' }],\n    where: {\n      fieldFilter: {\n        field: { fieldPath: 'quotaKey' },\n        op: 'EQUAL',\n        value: { stringValue: $json.quota.quotaKey }\n      }\n    },\n    limit: 1\n  }\n}) }}"
+      },
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1.1,
+      "position": [
+        1200,
+        -96
+      ],
+      "id": "183e3512-3e1a-495b-be7c-878b3dfb4a1f",
+      "name": "Read Quota Counter",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleApi": {
+          "id": "oYirBC8ALqV1VrZh",
+          "name": "Google Firebase Cloud Firestore account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const sourceItem = $('Prepare Quota Data').first().json;\nconst firestoreDoc = $('Read Quota Counter').first()?.json ?? null;\n\nconst parsedCount = Number(firestoreDoc?.count ?? 0);\nconst usedToday = Number.isFinite(parsedCount) ? parsedCount : 0;\n\nconst existingQuota = sourceItem.quota || {};\nconst limitPerDay = existingQuota.limitPerDay ?? 3;\nconst remainingToday = Math.max(0, limitPerDay - usedToday);\nconst allowed = usedToday < limitPerDay;\n\nreturn [\n  {\n    json: {\n      ...sourceItem,\n      quota: {\n        ...existingQuota,\n        usedToday,\n        remainingToday,\n        allowed\n      }\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1408,
+        -96
+      ],
+      "id": "3d26ca62-68f3-4d73-b377-554b933e3c8c",
+      "name": "Normalize Quota Counter"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "upsert",
+        "projectId": "=code-a-cuisine-beec5",
+        "collection": "=recipeQuota",
+        "updateKey": "quotaKey",
+        "columns": "quotaKey,ip,dateKey,count,updatedAt"
+      },
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1.1,
+      "position": [
+        4224,
+        -176
+      ],
+      "id": "d4e4a6c7-4ff0-4e08-8599-e0347287cc2b",
+      "name": "Write Quota Counter",
+      "credentials": {
+        "googleApi": {
+          "id": "oYirBC8ALqV1VrZh",
+          "name": "Google Firebase Cloud Firestore account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const quota = $('Normalize Quota Counter').first().json.quota;\n\nreturn [\n  {\n    json: {\n      quotaKey: quota.quotaKey,\n      ip: quota.ip,\n      dateKey: quota.dateKey,\n      count: (quota.usedToday || 0) + 1,\n      updatedAt: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4032,
+        -176
+      ],
+      "id": "4104be1a-a5d8-46cf-8569-7c7546f0aca8",
+      "name": "Prepare Quota Write"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Input": {
+      "main": [
+        [
+          {
+            "node": "Map Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Input": {
+      "main": [
+        [
+          {
+            "node": "Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Prepare Quota Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Validation Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Input": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Quota Data": {
+      "main": [
+        [
+          {
+            "node": "Read Quota Counter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quota Allowed?": {
+      "main": [
+        [
+          {
+            "node": "Plan Generation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Quota Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plan Generation": {
+      "main": [
+        [
+          {
+            "node": "Prepare Prompt Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Prompt Data": {
+      "main": [
+        [
+          {
+            "node": "Build AI Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build AI Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Recipes AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Recipes AI": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Response": {
+      "main": [
+        [
+          {
+            "node": "Validate Generated Count",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Generated Recipes": {
+      "main": [
+        [
+          {
+            "node": "Build Final Recipes List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Final Recipes List": {
+      "main": [
+        [
+          {
+            "node": "Prepare Quota Write",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Validation Error": {
+      "main": [
+        [
+          {
+            "node": "Return Validation Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Quota Error": {
+      "main": [
+        [
+          {
+            "node": "Return Quota Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Final Success Response": {
+      "main": [
+        [
+          {
+            "node": "Return Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Generated Count": {
+      "main": [
+        [
+          {
+            "node": "Generated Count Valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generated Count Valid?": {
+      "main": [
+        [
+          {
+            "node": "Normalize Generated Recipes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Recipe Count Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Recipe Count Error": {
+      "main": [
+        [
+          {
+            "node": "Return Recipe Count Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Quota Counter": {
+      "main": [
+        [
+          {
+            "node": "Normalize Quota Counter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Quota Counter": {
+      "main": [
+        [
+          {
+            "node": "Quota Allowed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Quota Counter": {
+      "main": [
+        [
+          {
+            "node": "Build Final Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Quota Write": {
+      "main": [
+        [
+          {
+            "node": "Write Quota Counter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "e404a1b7-7bff-46d8-9fc7-f620c40f5ba1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "608fa63116c98f9d62875c6e35e5a3f95c3e6a433f17942740a54c584f25b473"
+  },
+  "id": "iohOxL53CGDRDQLb",
+  "tags": []
+}
