@@ -50,7 +50,6 @@ export class CookbookStoreService {
   readonly topLikedRecipes = computed(() =>
     [...this.recipesState()].sort((left, right) => right.likes - left.likes).slice(0, 5),
   );
-  readonly isUsingFallback = signal(this.db === null);
 
   constructor() {
     void this.refreshRecipes();
@@ -64,7 +63,6 @@ export class CookbookStoreService {
   /** Reloads the cookbook recipes from Firestore and keeps the store empty when none exist yet. */
   async refreshRecipes(): Promise<void> {
     if (!this.db) {
-      this.isUsingFallback.set(true);
       this.recipesState.set([]);
       return;
     }
@@ -78,14 +76,12 @@ export class CookbookStoreService {
 
       if (recipes.length > 0) {
         this.recipesState.set(recipes);
-        this.isUsingFallback.set(false);
         return;
       }
     } catch (error) {
       console.error('Failed to load cookbook recipes from Firestore.', error);
     }
 
-    this.isUsingFallback.set(true);
     this.recipesState.set([]);
   }
 
