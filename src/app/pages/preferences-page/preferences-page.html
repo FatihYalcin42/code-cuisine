@@ -227,20 +227,32 @@
       </section>
     </section>
 
-    <button
-      class="preferences-generate-button"
-      type="button"
-      aria-label="Generate a recipe"
-      (click)="generateRecipe()"
-    >
-      <img
-        src="Icons/generate-recept.svg"
-        width="351"
-        height="84"
-        alt=""
-        aria-hidden="true"
-      />
-    </button>
+    <div class="preferences-generate-actions">
+      <button
+        class="preferences-generate-button"
+        [class.preferences-generate-button-disabled]="!hasAllRequiredPreferences()"
+        type="button"
+        aria-label="Generate a recipe"
+        [attr.aria-disabled]="!hasAllRequiredPreferences()"
+        (click)="generateRecipe()"
+      >
+        <img
+          src="Icons/generate-recept.svg"
+          width="351"
+          height="84"
+          alt=""
+          aria-hidden="true"
+        />
+      </button>
+
+      <p
+        class="preferences-validation-message"
+        [class.preferences-validation-message-visible]="preferenceValidationMessage().length > 0"
+        aria-live="polite"
+      >
+        {{ preferenceValidationMessage() }}
+      </p>
+    </div>
   </section>
 </main>
 

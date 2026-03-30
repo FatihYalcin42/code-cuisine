@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { IngredientDraftStateService } from '../../services/ingredient-draft-state.service';
 import { RecipeGenerationService } from '../../services/recipe-generation.service';
@@ -23,6 +23,13 @@ export class PreferencesPageComponent {
   protected readonly selectedCuisine = signal<string | null>(null);
   protected readonly selectedDietPreference = signal<string | null>(null);
   protected readonly isQuantityPopupOpen = signal(false);
+  protected readonly preferenceValidationMessage = signal('');
+  protected readonly hasAllRequiredPreferences = computed(
+    () =>
+      this.selectedCookingTime() !== null &&
+      this.selectedCuisine() !== null &&
+      this.selectedDietPreference() !== null,
+  );
 
   /** Decreases the requested portion count without dropping below one portion. */
   protected decreasePortions(): void {
@@ -47,25 +54,36 @@ export class PreferencesPageComponent {
   /** Toggles the selected cooking-time preference. */
   protected selectCookingTime(option: string): void {
     this.selectedCookingTime.update((currentValue) => (currentValue === option ? null : option));
+    this.clearPreferenceValidationMessageIfReady();
   }
 
   /** Toggles the selected cuisine preference. */
   protected selectCuisine(option: string): void {
     this.selectedCuisine.update((currentValue) => (currentValue === option ? null : option));
+    this.clearPreferenceValidationMessageIfReady();
   }
 
   /** Toggles the selected diet preference. */
   protected selectDietPreference(option: string): void {
     this.selectedDietPreference.update((currentValue) => (currentValue === option ? null : option));
+    this.clearPreferenceValidationMessageIfReady();
   }
 
   /** Validates the current request and queues recipe generation when all requirements are met. */
   protected async generateRecipe(): Promise<void> {
+    if (!this.hasAllRequiredPreferences()) {
+      this.preferenceValidationMessage.set(
+        'Select one option in cooking time, cuisine, and diet preferences before generating a recipe.',
+      );
+      return;
+    }
+
     if (this.hasInsufficientIngredientQuantities()) {
       this.isQuantityPopupOpen.set(true);
       return;
     }
 
+    this.preferenceValidationMessage.set('');
     this.recipeGeneration.queueRecipeGeneration(this.buildRecipeRequest());
     await this.router.navigateByUrl('/loading');
   }
@@ -95,16 +113,25 @@ export class PreferencesPageComponent {
 
   /** Builds the normalized generation payload that is sent to the recipe service. */
   private buildRecipeRequest(): RecipeGenerationRequest {
+    const cookingTime = this.selectedCookingTime();
+    const cuisine = this.selectedCuisine();
+    const diet = this.selectedDietPreference();
+
+    if (!cookingTime || !cuisine || !diet) {
+      throw new Error('Recipe generation requires cooking time, cuisine, and diet preferences.');
+    }
+
     return {
       ingredients: mapDraftEntriesToRequestIngredients(this.ingredientDraftState.ingredientEntries()),
-      preferences: createRequestPreferences(
-        this.portions(),
-        this.persons(),
-        this.selectedCookingTime(),
-        this.selectedCuisine(),
-        this.selectedDietPreference(),
-      ),
+      preferences: createRequestPreferences(this.portions(), this.persons(), cookingTime, cuisine, diet),
     };
+  }
+
+  /** Clears the validation hint once all required preferences are available again. */
+  private clearPreferenceValidationMessageIfReady(): void {
+    if (this.hasAllRequiredPreferences()) {
+      this.preferenceValidationMessage.set('');
+    }
   }
 }
 
@@ -151,9 +178,9 @@ function mapDraftEntriesToRequestIngredients(
 function createRequestPreferences(
   portions: number,
   persons: number,
-  cookingTime: string | null,
-  cuisine: string | null,
-  diet: string | null,
+  cookingTime: string,
+  cuisine: string,
+  diet: string,
 ) {
   return { portions, persons, cookingTime, cuisine, diet };
 }
