@@ -17,7 +17,7 @@ export class LoadingPageComponent {
   protected readonly generatedRecipes = this.recipeGeneration.generatedRecipes;
   protected readonly generationErrorMessage = this.recipeGeneration.generationErrorMessage;
   protected readonly loadingVisualSrc = new URL(
-    'Icons/4be39aa692622a05b3efe4b4f37bd0f590d35cd5.gif',
+    'Icons/loading-recipe.gif?v=1',
     this.document.baseURI,
   ).toString();
   protected readonly hasGeneratedRecipes = computed(() => this.generatedRecipes().length > 0);
