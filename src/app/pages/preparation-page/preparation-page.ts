@@ -170,13 +170,42 @@ function buildPreparationPreferenceTags(
 ): string[] {
   const tags: string[] = recipe?.dietTag ? [recipe.dietTag] : [];
   tags.push(getCookingTimeCategory(recipe?.prepTime ?? ''));
-  return appendCuisineTag(tags, preferences?.cuisine);
+  return appendCuisineTag(tags, resolveCuisineTag(recipe, preferences?.cuisine));
+}
+
+/** Resolves the visible cuisine tag from the recipe itself before falling back to request preferences. */
+function resolveCuisineTag(
+  recipe: GeneratedRecipe | null,
+  preferredCuisine: string | null | undefined,
+): string | null {
+  const recipeCuisineTag = mapCuisineSlugToLabel(recipe?.cuisineSlug);
+  return recipeCuisineTag ?? preferredCuisine ?? null;
 }
 
 /** Appends the selected cuisine tag when it is meaningful. */
 function appendCuisineTag(tags: string[], cuisine: string | null | undefined): string[] {
   const trimmedCuisine = cuisine?.trim();
   return trimmedCuisine && trimmedCuisine !== 'No preferences' ? [...tags, trimmedCuisine] : tags;
+}
+
+/** Maps stored cookbook cuisine slugs back to the UI labels used in the badges. */
+function mapCuisineSlugToLabel(cuisineSlug: string | null | undefined): string | null {
+  switch (cuisineSlug) {
+    case 'italian':
+      return 'Italian';
+    case 'german':
+      return 'German';
+    case 'japanese':
+      return 'Japanese';
+    case 'indian':
+      return 'Indian';
+    case 'gourmet':
+      return 'Gourmet';
+    case 'fusion':
+      return 'Fusion';
+    default:
+      return null;
+  }
 }
 
 /** Builds the nutrition sidebar values from the selected recipe. */
