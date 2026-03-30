@@ -59,10 +59,12 @@
 .loading-visual {
   display: block;
   width: 253px;
-  height: 291px;
+  height: 309px;
   max-width: 100%;
   object-fit: contain;
   opacity: 1;
+  border-radius: 20px;
+  background: #c4d0c4;
 }
 
 .loading-title {
@@ -237,6 +239,7 @@
   .loading-visual {
     width: min(253px, 100%);
     height: auto;
+    aspect-ratio: 253 / 309;
   }
 
   .loading-actions {
