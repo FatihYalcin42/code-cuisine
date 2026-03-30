@@ -158,6 +158,56 @@
   display: none;
 }
 
+@media (max-width: 950px) {
+  .preparation-intro {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: 16px;
+  }
+
+  .preparation-intro-main {
+    max-width: none;
+    gap: 14px;
+  }
+
+  .preparation-intro-side {
+    display: block;
+    flex: 0 0 auto;
+  }
+
+  .preparation-intro-side-panel {
+    justify-items: start;
+    align-content: start;
+    gap: 14px;
+  }
+
+  .preparation-title {
+    max-width: none;
+  }
+
+  .preparation-tags {
+    justify-content: flex-start;
+    gap: 8px;
+    order: 2;
+  }
+
+  .preparation-tag {
+    min-width: auto;
+  }
+
+  .preparation-nutrition {
+    gap: 12px;
+    order: 1;
+  }
+
+  .preparation-nutrition-grid {
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    justify-content: start;
+    gap: 12px 20px;
+  }
+}
+
 .preparation-intro,
 .preparation-card {
   box-sizing: border-box;
