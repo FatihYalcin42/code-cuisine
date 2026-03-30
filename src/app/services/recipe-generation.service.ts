@@ -350,9 +350,14 @@ function buildRecipeClassification(
   recipe: GeneratedRecipe & { cuisine?: string; diet?: string },
   preferences: RecipeGenerationPreferences,
 ): Pick<GeneratedRecipe, 'dietTag' | 'cuisineSlug'> {
+  const preferredCuisine =
+    recipe.source === 'library'
+      ? recipe.cuisine ?? null
+      : preferences.cuisine ?? recipe.cuisine ?? null;
+
   return {
     dietTag: recipe.dietTag ?? normalizeDietTag(recipe.diet ?? preferences.diet),
-    cuisineSlug: recipe.cuisineSlug ?? mapCuisineToSlug(recipe.cuisine ?? preferences.cuisine),
+    cuisineSlug: recipe.cuisineSlug ?? mapCuisineToSlug(preferredCuisine),
   };
 }
 
