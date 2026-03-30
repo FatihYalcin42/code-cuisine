@@ -69,8 +69,13 @@
       @for (category of cuisineCategories; track category.title) {
         <article class="cookbook-cuisine-card">
           <h2 class="cookbook-cuisine-title">
-            <span>{{ category.title }}</span>
-            <span aria-hidden="true">{{ category.emoji }}</span>
+            <span class="cookbook-cuisine-title-copy">
+              <span class="cookbook-cuisine-title-name">
+                {{ category.title.replace(' cuisine', '') }}
+              </span>
+              <span class="cookbook-cuisine-title-suffix">cuisine</span>
+            </span>
+            <span class="cookbook-cuisine-title-emoji" aria-hidden="true">{{ category.emoji }}</span>
           </h2>
 
           <a

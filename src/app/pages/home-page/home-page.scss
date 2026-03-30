@@ -1,5 +1,7 @@
 :host {
   --desktop-page-gutter: clamp(40px, 3vw, 52px);
+  --desktop-visual-width: clamp(370px, 34.75vw, 500px);
+  --desktop-content-gap: clamp(32px, 2.8vw, 48px);
   display: block;
   position: relative;
   height: 100dvh;
@@ -64,7 +66,7 @@
 .hero-copy {
   display: grid;
   gap: 0;
-  width: min(100%, 680px);
+  width: min(680px, calc(100% - var(--desktop-visual-width) - var(--desktop-content-gap)));
   position: relative;
   z-index: 1;
 }
@@ -145,8 +147,9 @@
 }
 
 .hero-prompt {
+  grid-area: prompt;
   width: 342px;
-  height: 34px;
+  height: auto;
   margin: 0;
   color: #faf0e6;
   font-family: 'Ubuntu', sans-serif;
@@ -158,22 +161,23 @@
 }
 
 .hero-links {
-  display: flex;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-template-areas:
+    'prompt cookbook'
+    'impressum .';
   align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  position: fixed;
-  left: max(var(--desktop-page-gutter), calc(50vw - 720px + var(--desktop-page-gutter)));
+  column-gap: 2rem;
+  row-gap: 12px;
+  position: absolute;
+  left: var(--desktop-page-gutter);
   bottom: clamp(30px, 5vh, 48px);
-  width: max-content;
-  max-width: min(
-    calc(100vw - (var(--desktop-page-gutter) * 2)),
-    calc(var(--page-max-width) - (var(--desktop-page-gutter) * 2))
-  );
+  width: min(620px, calc(100% - var(--desktop-visual-width) - var(--desktop-content-gap)));
   z-index: 3;
 }
 
 .hero-cookbook-link {
+  grid-area: cookbook;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -208,34 +212,82 @@
 }
 
 .hero-impressum-link {
+  grid-area: impressum;
+  display: inline-flex;
+  align-items: center;
   color: #faf0e6;
   font-family: 'Quicksand', sans-serif;
   font-size: 1rem;
+  font-style: normal;
   font-weight: 500;
+  line-height: 1;
   text-decoration: underline;
   text-underline-offset: 0.18em;
 }
 
-.hero-visual {
+.hero-visual-wrap {
   position: absolute;
-  right: clamp(20px, 4.6vw, 72px);
-  top: 0;
-  bottom: auto;
-  width: min(500px, 38vw);
-  height: 100%;
-  display: block;
-  background-image: url('/angular-projects/code-cuisine/Icons/Visuals.svg');
-  background-repeat: no-repeat;
-  background-position: top right;
-  background-size: min(500px, 38vw) auto;
+  right: clamp(12px, 2.3vw, 32px);
+  top: auto;
+  bottom: -4px;
+  width: var(--desktop-visual-width);
+  aspect-ratio: 500 / 1072;
   pointer-events: none;
   user-select: none;
+  z-index: 0;
 }
 
-@media (max-width: 999px) {
+.hero-visual {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1240px) and (min-width: 1050px) {
+  :host {
+    --desktop-visual-width: clamp(350px, 33vw, 430px);
+    --desktop-content-gap: clamp(24px, 2.2vw, 36px);
+  }
+
+  .hero-copy {
+    width: min(620px, calc(100% - var(--desktop-visual-width) - var(--desktop-content-gap)));
+  }
+
+  .hero-kicker {
+    font-size: clamp(1.8rem, 3.6vw, 42px);
+  }
+
+  .hero-title {
+    font-size: clamp(3.8rem, 5vw, 72px);
+  }
+
+  .hero-links {
+    width: min(560px, calc(100% - var(--desktop-visual-width) - var(--desktop-content-gap)));
+    column-gap: 1.5rem;
+    row-gap: 10px;
+  }
+
+  .hero-prompt {
+    width: auto;
+    max-width: 260px;
+    font-size: clamp(24px, 2.6vw, 28px);
+  }
+
+  .hero-cookbook-link {
+    min-width: auto;
+    min-height: auto;
+    padding: 4px 8px;
+    font-size: 18px;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 1049px) {
   :host {
     --mobile-page-gutter: 14px;
-    --mobile-visual-width: clamp(148px, 42vw, 176px);
+    --mobile-copy-width: clamp(132px, 31vw, 168px);
+    --mobile-visual-width: clamp(238px, 67vw, 300px);
+    --mobile-visual-shift: 12%;
     height: 100svh;
     min-height: 100svh;
   }
@@ -268,8 +320,7 @@
   }
 
   .hero-copy {
-    min-width: 0;
-    width: calc(100% - var(--mobile-visual-width) - (var(--mobile-page-gutter) * 2));
+    width: min(var(--mobile-copy-width), calc(100% - (var(--mobile-page-gutter) * 2)));
     padding: 0 0 0 var(--mobile-page-gutter);
     gap: 0;
     box-sizing: border-box;
@@ -279,7 +330,7 @@
 
   .hero-kicker {
     width: auto;
-    max-width: 170px;
+    max-width: 100%;
     font-size: clamp(18px, 5.7vw, 24px);
     font-weight: 600;
     line-height: 1.12;
@@ -287,7 +338,7 @@
 
   .hero-title {
     margin-top: 10px;
-    max-width: 170px;
+    max-width: 100%;
     font-size: clamp(44px, 11.8vw, 56px);
     font-weight: 700;
     line-height: 0.94;
@@ -298,10 +349,14 @@
     left: auto;
     bottom: auto;
     display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'prompt'
+      'cookbook'
+      'impressum';
     justify-items: start;
     gap: 16px;
-    width: calc(100% - var(--mobile-visual-width) - (var(--mobile-page-gutter) * 2));
-    min-width: 0;
+    width: min(var(--mobile-copy-width), calc(100% - (var(--mobile-page-gutter) * 2)));
     margin-top: 0;
     padding-left: var(--mobile-page-gutter);
     box-sizing: border-box;
@@ -320,7 +375,7 @@
   }
 
   .hero-prompt {
-    width: min(100%, 160px);
+    width: 100%;
     height: auto;
     font-size: clamp(18px, 5.8vw, 24px);
     font-weight: 600;
@@ -337,26 +392,35 @@
   }
 
   .hero-impressum-link {
+    font-family: 'Quicksand', sans-serif;
     font-size: 14px;
   }
 
-  .hero-visual {
+  .hero-visual-wrap {
     position: absolute;
-    top: 0;
+    top: 8px;
+    bottom: 0;
     right: 0;
     width: var(--mobile-visual-width);
+    overflow: clip;
+  }
+
+  .hero-visual {
+    width: auto;
     height: 100%;
-    background-position: top right 12px;
-    background-size: auto 100%;
-    pointer-events: none;
-    user-select: none;
+    margin-left: auto;
+    object-fit: contain;
+    object-position: top right;
+    transform: translateX(var(--mobile-visual-shift));
   }
 }
 
 @media (max-width: 360px) {
   :host {
     --mobile-page-gutter: 12px;
-    --mobile-visual-width: 144px;
+    --mobile-copy-width: 124px;
+    --mobile-visual-width: clamp(214px, 63vw, 246px);
+    --mobile-visual-shift: 14%;
   }
 
   .page-shell {
@@ -364,7 +428,7 @@
   }
 
   .hero-copy {
-    width: calc(100% - var(--mobile-visual-width) - (var(--mobile-page-gutter) * 2));
+    width: min(var(--mobile-copy-width), calc(100% - (var(--mobile-page-gutter) * 2)));
   }
 
   .hero-kicker {
@@ -388,7 +452,7 @@
   }
 
   .hero-links {
-    width: calc(100% - var(--mobile-visual-width) - (var(--mobile-page-gutter) * 2));
+    width: min(var(--mobile-copy-width), calc(100% - (var(--mobile-page-gutter) * 2)));
     gap: 14px;
   }
 
@@ -402,22 +466,28 @@
   }
 
   .hero-impressum-link {
+    font-family: 'Quicksand', sans-serif;
     font-size: 12px;
   }
 
-  .hero-visual {
-    top: 0;
+  .hero-visual-wrap {
+    top: 8px;
+    bottom: 0;
     right: 0;
     width: var(--mobile-visual-width);
+  }
+
+  .hero-visual {
+    width: auto;
     height: 100%;
-    background-position: top right 10px;
-    background-size: auto 100%;
+    transform: translateX(var(--mobile-visual-shift));
   }
 }
 
 @media (max-width: 360px) and (min-height: 900px) {
   :host {
-    --mobile-visual-width: 160px;
+    --mobile-visual-width: 252px;
+    --mobile-visual-shift: 10%;
   }
 
   .page-shell {
@@ -425,7 +495,7 @@
   }
 
   .hero-copy {
-    width: calc(100% - var(--mobile-visual-width) - (var(--mobile-page-gutter) * 2));
+    width: min(var(--mobile-copy-width), calc(100% - (var(--mobile-page-gutter) * 2)));
   }
 
   .hero-kicker {
@@ -442,7 +512,7 @@
   }
 
   .hero-links {
-    width: calc(100% - var(--mobile-visual-width) - (var(--mobile-page-gutter) * 2));
+    width: min(var(--mobile-copy-width), calc(100% - (var(--mobile-page-gutter) * 2)));
     padding-bottom: 8px;
   }
 
@@ -450,12 +520,16 @@
     width: min(100%, 124px);
   }
 
-  .hero-visual {
-    top: 0;
+  .hero-visual-wrap {
+    top: 10px;
+    bottom: 0;
     right: 0;
     width: var(--mobile-visual-width);
+  }
+
+  .hero-visual {
+    width: auto;
     height: 100%;
-    background-position: top right 12px;
-    background-size: auto 100%;
+    transform: translateX(var(--mobile-visual-shift));
   }
 }

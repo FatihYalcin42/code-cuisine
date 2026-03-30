@@ -122,11 +122,23 @@
   margin: 0 0 8px;
   color: #1e5515;
   font-family: 'Quicksand', sans-serif;
-  font-size: 28px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0;
+}
+
+.cookbook-cuisine-title-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.cookbook-cuisine-title-name,
+.cookbook-cuisine-title-suffix,
+.cookbook-cuisine-title-emoji {
+  display: block;
 }
 
 .cookbook-cuisine-image {
@@ -339,6 +351,17 @@
   line-height: 10px;
   letter-spacing: 0;
   text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .cookbook-cuisine-title {
+    align-items: flex-start;
+  }
+
+  .cookbook-cuisine-title-copy {
+    display: grid;
+    gap: 0;
+  }
 }
 
 @media (max-width: 768px) {
