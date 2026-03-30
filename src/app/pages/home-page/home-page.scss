@@ -53,6 +53,7 @@
   padding: clamp(168px, 20vh, 218px) 40px 40px 65px;
   position: relative;
   box-sizing: border-box;
+  background: #396039;
 }
 
 .hero-copy {
@@ -210,15 +211,15 @@
 .hero-visual {
   position: absolute;
   right: 0;
-  bottom: 0;
-  top: auto;
-  width: min(420px, calc((100dvh - 24px) * 0.4192));
-  height: min(1002px, calc(100dvh - 24px));
+  top: clamp(72px, 10vh, 120px);
+  bottom: auto;
+  width: 420px;
+  height: min(1002px, calc(100dvh - clamp(72px, 10vh, 120px) - 24px));
   display: block;
   background-image: url('/angular-projects/code-cuisine/Icons/Visuals.svg');
   background-repeat: no-repeat;
-  background-position: bottom right;
-  background-size: 100% 100%;
+  background-position: top right;
+  background-size: 420px 1002px;
   pointer-events: none;
   user-select: none;
 }
@@ -254,6 +255,7 @@
     width: 100%;
     padding: 96px 0 28px;
     box-sizing: border-box;
+    background: #396039;
   }
 
   .hero-copy {
@@ -326,11 +328,12 @@
 
   .hero-visual {
     position: absolute;
-    top: var(--mobile-visual-gap-top);
-    right: -158px;
-    width: clamp(244px, 80vw, 308px);
-    height: calc(100% - var(--mobile-visual-gap-top) + 92px);
-    background-size: 100% 100%;
+    top: 0;
+    right: -120px;
+    width: min(272px, 72vw);
+    height: 100%;
+    background-position: top right;
+    background-size: auto 100%;
     pointer-events: none;
     user-select: none;
   }
@@ -390,11 +393,12 @@
   }
 
   .hero-visual {
-    top: 42px;
-    right: -164px;
-    width: 236px;
-    height: calc(100% - 42px + 76px);
-    background-size: 236px 100%;
+    top: 0;
+    right: -118px;
+    width: min(236px, 70vw);
+    height: 100%;
+    background-position: top right;
+    background-size: auto 100%;
   }
 }
 
@@ -437,10 +441,11 @@
   }
 
   .hero-visual {
-    top: 28px;
-    right: -186px;
-    width: 236px;
-    height: calc(100% - 16px);
-    background-size: 236px 100%;
+    top: 0;
+    right: -118px;
+    width: min(248px, 72vw);
+    height: 100%;
+    background-position: top right;
+    background-size: auto 100%;
   }
 }
