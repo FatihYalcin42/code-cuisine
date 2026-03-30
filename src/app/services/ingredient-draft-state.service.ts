@@ -46,4 +46,10 @@ export class IngredientDraftStateService {
       entries.filter((entry) => entry.id !== entryId),
     );
   }
+
+  /** Clears the current ingredient draft list after a successful recipe submission. */
+  resetIngredients(): void {
+    this.ingredientEntries.set([]);
+    this.nextEntryId = 1;
+  }
 }

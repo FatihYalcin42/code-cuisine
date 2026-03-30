@@ -47,6 +47,7 @@
               type="text"
               maxlength="40"
               [value]="ingredientName()"
+              (focus)="openIngredientAutocomplete()"
               (input)="updateIngredientName($any($event.target).value)"
               autocomplete="off"
             />

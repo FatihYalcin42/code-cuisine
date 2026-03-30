@@ -2,6 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { CookbookStoreService } from './cookbook-store.service';
+import { IngredientDraftStateService } from './ingredient-draft-state.service';
 import { getApiConfig } from '../config/api.config';
 import {
   getRecipeGenerationErrorMessage,
@@ -36,6 +37,7 @@ type RecipeGenerationStatus = 'idle' | 'loading' | 'success' | 'error';
 export class RecipeGenerationService {
   private readonly http = inject(HttpClient);
   private readonly cookbookStore = inject(CookbookStoreService);
+  private readonly ingredientDraftState = inject(IngredientDraftStateService);
   private readonly webhookUrl = getApiConfig().recipeWebhookUrl;
 
   readonly generationStatus = signal<RecipeGenerationStatus>('idle');
@@ -163,6 +165,7 @@ export class RecipeGenerationService {
     this.selectedRecipe.set(null);
     this.generationStatus.set('success');
     this.pendingRequest.set(null);
+    this.ingredientDraftState.resetIngredients();
     void this.cookbookStore.saveGeneratedRecipes(recipes, preferences);
   }
 

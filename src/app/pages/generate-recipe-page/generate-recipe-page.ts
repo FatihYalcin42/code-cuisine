@@ -54,6 +54,7 @@ export class GenerateRecipePageComponent {
   private readonly ingredientDraftState = inject(IngredientDraftStateService);
   protected readonly selectedUnit = signal('gram');
   protected readonly isUnitMenuOpen = signal(false);
+  protected readonly isIngredientAutocompleteOpen = signal(false);
   protected readonly ingredientName = signal('');
   protected readonly servingSizeValue = signal('');
   protected readonly ingredientEntries = this.ingredientDraftState.ingredientEntries;
@@ -61,7 +62,7 @@ export class GenerateRecipePageComponent {
   protected readonly hasIngredientNameError = signal(false);
   protected readonly hasServingSizeError = signal(false);
   protected readonly highlightedIngredientSuggestions = computed(() =>
-    getIngredientSuggestions(this.ingredientName()),
+    this.isIngredientAutocompleteOpen() ? getIngredientSuggestions(this.ingredientName()) : [],
   );
   protected readonly ingredientGhostSuggestionSuffix = computed(() =>
     getIngredientSuggestionSuffix(this.ingredientName(), this.highlightedIngredientSuggestions()),
@@ -91,8 +92,14 @@ export class GenerateRecipePageComponent {
   /** Stores the current ingredient name input value. */
   protected updateIngredientName(value: string): void {
     this.ingredientName.set(normalizeIngredientNameInput(value));
+    this.isIngredientAutocompleteOpen.set(true);
     this.hasIngredientNameError.set(false);
     this.clearFormFeedbackIfNeeded();
+  }
+
+  /** Reopens the ingredient autocomplete when the field becomes active again. */
+  protected openIngredientAutocomplete(): void {
+    this.isIngredientAutocompleteOpen.set(true);
   }
 
   /** Stores the current serving-size input value. */
@@ -138,6 +145,7 @@ export class GenerateRecipePageComponent {
   /** Applies one of the suggested ingredient names to the active input field. */
   protected applyIngredientSuggestion(ingredient: string): void {
     this.ingredientName.set(ingredient);
+    this.isIngredientAutocompleteOpen.set(false);
     this.hasIngredientNameError.set(false);
     this.clearFormFeedbackIfNeeded();
   }
@@ -149,6 +157,7 @@ export class GenerateRecipePageComponent {
     this.selectedUnit.set(entry.unit);
     this.editingEntryId.set(entry.id);
     this.isUnitMenuOpen.set(false);
+    this.isIngredientAutocompleteOpen.set(false);
   }
 
   /** Removes an ingredient entry from the generated list. */
@@ -175,6 +184,7 @@ export class GenerateRecipePageComponent {
     this.servingSizeValue.set('');
     this.editingEntryId.set(null);
     this.isUnitMenuOpen.set(false);
+    this.isIngredientAutocompleteOpen.set(false);
     this.clearFormFeedback();
   }
 
