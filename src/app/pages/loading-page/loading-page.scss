@@ -56,6 +56,15 @@
   gap: 24px;
 }
 
+.loading-visual {
+  display: block;
+  width: 253px;
+  height: 291px;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 1;
+}
+
 .loading-title {
   display: inline-flex;
   align-items: baseline;
@@ -223,6 +232,11 @@
 
   .loading-content {
     width: 100%;
+  }
+
+  .loading-visual {
+    width: min(253px, 100%);
+    height: auto;
   }
 
   .loading-actions {
