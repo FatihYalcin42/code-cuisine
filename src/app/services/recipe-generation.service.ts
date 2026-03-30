@@ -372,10 +372,11 @@ function buildRecipeIngredients(
 ): IngredientCollections {
   const explicitUserIngredients = recipe.userIngredients?.filter(Boolean) ?? [];
   const explicitExtraIngredients = normalizedExtraIngredients.filter(Boolean);
+  const requestUserIngredients = normalizeRequestIngredients(request.ingredients);
 
   if (explicitUserIngredients.length || explicitExtraIngredients.length) {
     return {
-      userIngredients: explicitUserIngredients,
+      userIngredients: explicitUserIngredients.length ? explicitUserIngredients : requestUserIngredients,
       extraIngredients: explicitExtraIngredients,
     };
   }
@@ -390,8 +391,6 @@ function buildRecipeIngredients(
       extraIngredients: sourceSeparatedIngredients.extraIngredients,
     };
   }
-
-  const requestUserIngredients = normalizeRequestIngredients(request.ingredients);
 
   return {
     userIngredients: requestUserIngredients,
