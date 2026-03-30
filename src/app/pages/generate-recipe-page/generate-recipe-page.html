@@ -20,7 +20,11 @@
 
 <main class="generate-page-content" aria-label="Generate recipe page">
   <div class="generate-panels">
-    <section class="ingredient-panel" aria-labelledby="ingredient-panel-title">
+    <section
+      class="ingredient-panel"
+      [class.ingredient-panel-unit-menu-open]="isUnitMenuOpen()"
+      aria-labelledby="ingredient-panel-title"
+    >
       <div class="ingredient-panel-header">
         <label class="ingredient-label" id="ingredient-panel-title" for="ingredient-input">
           Ingredient:

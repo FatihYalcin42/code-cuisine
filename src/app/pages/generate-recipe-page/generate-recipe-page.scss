@@ -697,6 +697,9 @@
     display: grid;
     grid-template-columns: max-content max-content minmax(0, 1fr);
     gap: 12px;
+    transition:
+      min-height 180ms ease,
+      padding-bottom 180ms ease;
   }
 
   .ingredient-panel-header,
@@ -740,6 +743,23 @@
     grid-column: 1;
     margin-left: 0;
     justify-self: start;
+  }
+
+  .serving-size-dropdown {
+    display: grid;
+    align-items: start;
+    gap: 6px;
+  }
+
+  .serving-size-menu {
+    position: static;
+    justify-items: center;
+    width: 100%;
+    padding: 0 0 2px;
+  }
+
+  .ingredient-panel-unit-menu-open {
+    padding-bottom: 28px;
   }
 
   .ingredient-add {
