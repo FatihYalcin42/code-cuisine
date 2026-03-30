@@ -380,7 +380,7 @@
   left: 0;
   z-index: 2;
   display: grid;
-  width: max-content;
+  width: 72px;
   gap: 2px;
   padding: 0;
   background: transparent;
@@ -391,10 +391,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  justify-self: start;
-  min-height: 16px;
+  justify-self: stretch;
+  width: 100%;
+  min-height: 24px;
   min-width: 0;
-  padding: 0 4px;
+  padding: 4px 8px;
   border-radius: 48px;
   background: transparent;
   color: #10310b;
@@ -753,8 +754,8 @@
 
   .serving-size-menu {
     position: static;
-    justify-items: center;
-    width: 100%;
+    justify-items: stretch;
+    width: 72px;
     padding: 0 0 2px;
   }
 
