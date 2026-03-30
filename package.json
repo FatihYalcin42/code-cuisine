@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:ftp": "ng build --base-href /angular-projects/code-cuisine/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
