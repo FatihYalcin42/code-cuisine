@@ -292,7 +292,8 @@
   :host {
     --mobile-page-gutter: 14px;
     --mobile-copy-width: clamp(132px, 31vw, 168px);
-    --mobile-visual-width: 122px;
+    --mobile-visual-height-offset: 64px;
+    --mobile-visual-max-width: 122px;
     height: 100svh;
     min-height: 100svh;
   }
@@ -392,13 +393,13 @@
     min-width: auto;
     min-height: auto;
     padding: 0;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1;
   }
 
   .hero-impressum-link {
     font-family: 'Quicksand', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .hero-visual-wrap {
@@ -407,7 +408,7 @@
     bottom: 0;
     right: 0;
     left: auto;
-    width: var(--mobile-visual-width);
+    width: auto;
     height: auto;
     overflow: visible;
     z-index: 1;
@@ -420,27 +421,126 @@
   .hero-visual-mobile {
     display: block;
     position: static;
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: min(calc(100svh - var(--mobile-visual-height-offset)), calc(var(--mobile-visual-max-width) * 4.975));
+    max-width: none;
   }
 }
 
 @media (max-width: 950px) {
   :host {
-    --mobile-visual-width: 118px;
+    --mobile-visual-max-width: 118px;
   }
 }
 
 @media (max-width: 768px) {
   :host {
     --mobile-copy-width: 146px;
-    --mobile-visual-width: 112px;
+    --mobile-visual-max-width: 112px;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 899px) {
+  :host {
+    --mobile-copy-width: 240px;
+    --mobile-visual-height-offset: 24px;
+    --mobile-visual-max-width: clamp(188px, 24.5vw, 210px);
+  }
+
+  .hero-visual-wrap {
+    top: auto;
+    bottom: 0;
+  }
+
+  .hero-kicker {
+    font-size: 34px;
+    line-height: 1.04;
+  }
+
+  .hero-title {
+    margin-top: 8px;
+    font-size: 58px;
+    line-height: 0.94;
+  }
+
+  .hero-cta {
+    width: 142px;
+    height: 52px;
+    font-size: 20px;
+  }
+
+  .hero-links {
+    width: 240px;
+    gap: 12px;
+  }
+
+  .hero-prompt {
+    font-size: 30px;
+    line-height: 1.04;
+  }
+
+  .hero-cookbook-link {
+    font-size: 20px;
+  }
+
+  .hero-impressum-link {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1049px) {
+  :host {
+    --mobile-copy-width: 300px;
+    --mobile-visual-height-offset: 24px;
+    --mobile-visual-max-width: 258px;
+  }
+
+  .hero-visual-wrap {
+    top: auto;
+    bottom: 0;
+  }
+
+  .hero-kicker {
+    font-size: 46px;
+    line-height: 1.04;
+  }
+
+  .hero-title {
+    margin-top: 8px;
+    font-size: 84px;
+    line-height: 0.94;
+  }
+
+  .hero-cta {
+    margin-top: 40px;
+    width: 150px;
+    height: 54px;
+    font-size: 22px;
+  }
+
+  .hero-links {
+    width: 300px;
+    gap: 12px;
+  }
+
+  .hero-prompt {
+    font-size: 40px;
+    line-height: 1.04;
+  }
+
+  .hero-cookbook-link {
+    font-size: 26px;
+  }
+
+  .hero-impressum-link {
+    font-size: 16px;
   }
 }
 
 @media (max-width: 480px) {
   :host {
-    --mobile-visual-width: 126px;
+    --mobile-visual-height-offset: 64px;
+    --mobile-visual-max-width: 126px;
   }
 }
 
@@ -448,7 +548,8 @@
   :host {
     --mobile-page-gutter: 12px;
     --mobile-copy-width: 124px;
-    --mobile-visual-width: 96px;
+    --mobile-visual-height-offset: 56px;
+    --mobile-visual-max-width: 96px;
   }
 
   .page-shell {
@@ -476,7 +577,7 @@
     width: 96px;
     height: 42px;
     padding: 10px 12px;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .hero-links {
@@ -490,12 +591,12 @@
   }
 
   .hero-cookbook-link {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .hero-impressum-link {
     font-family: 'Quicksand', sans-serif;
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .hero-visual-wrap {
@@ -503,19 +604,20 @@
     bottom: 0;
     right: 0;
     left: auto;
-    width: var(--mobile-visual-width);
+    width: auto;
     height: auto;
   }
 
   .hero-visual-mobile {
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: min(calc(100svh - var(--mobile-visual-height-offset)), calc(var(--mobile-visual-max-width) * 4.975));
   }
 }
 
 @media (max-width: 360px) and (min-height: 900px) {
   :host {
-    --mobile-visual-width: 100px;
+    --mobile-visual-height-offset: 64px;
+    --mobile-visual-max-width: 100px;
   }
 
   .page-shell {
@@ -553,12 +655,12 @@
     bottom: 0;
     right: 0;
     left: auto;
-    width: var(--mobile-visual-width);
+    width: auto;
     height: auto;
   }
 
   .hero-visual-mobile {
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: min(calc(100svh - var(--mobile-visual-height-offset)), calc(var(--mobile-visual-max-width) * 4.975));
   }
 }
