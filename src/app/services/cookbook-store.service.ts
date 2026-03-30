@@ -88,12 +88,18 @@ export class CookbookStoreService {
 
   /** Increments the like counter for a persisted cookbook recipe. */
   async likeRecipe(recipe: GeneratedRecipe): Promise<void> {
-    if (!this.db || !recipe.id) {
+    if (!this.db) {
       return;
     }
 
-    await this.incrementRecipeLike(recipe.id);
-    this.applyLocalLike(recipe.id);
+    const recipeId = recipe.id ?? (await this.resolveStoredRecipeId(recipe));
+
+    if (!recipeId) {
+      return;
+    }
+
+    await this.incrementRecipeLike(recipeId);
+    this.applyLocalLike(recipeId);
   }
 
   /** Loads the cookbook recipes ordered by likes from Firestore. */
@@ -167,6 +173,32 @@ export class CookbookStoreService {
   /** Checks whether the prepared Firestore payload already exists as a stored recipe. */
   private isDuplicateRecipe(recipe: FirestoreRecipeDocument): Promise<boolean> {
     return this.recipeExists(recipe.titleNormalized, recipe.cuisineSlug);
+  }
+
+  /** Resolves the persisted Firestore id for a generated recipe that has not been reloaded yet. */
+  private async resolveStoredRecipeId(recipe: GeneratedRecipe): Promise<string | null> {
+    const titleNormalized = normalizeTitle(recipe.title);
+    const cuisineSlug = recipe.cuisineSlug ?? mapCuisinePreferenceToSlug(null);
+
+    if (!titleNormalized) {
+      return null;
+    }
+
+    const localMatch = this.recipesState().find(
+      (entry) => entry.titleNormalized === titleNormalized && entry.cuisineSlug === cuisineSlug,
+    );
+
+    if (localMatch) {
+      return localMatch.id;
+    }
+
+    await this.refreshRecipes();
+
+    const refreshedMatch = this.recipesState().find(
+      (entry) => entry.titleNormalized === titleNormalized && entry.cuisineSlug === cuisineSlug,
+    );
+
+    return refreshedMatch?.id ?? null;
   }
 
   /** Persists the like increment in Firestore. */
