@@ -12,6 +12,7 @@ import {
 } from './recipe-generation-response.utils';
 import {
   GeneratedRecipe,
+  RecipeGenerationIngredient,
   RecipeGenerationPreferences,
   RecipeGenerationRequest,
   type RecipeNutrition,
@@ -32,6 +33,7 @@ type PartialGeneratedRecipeResponse = GeneratedRecipe & {
 };
 
 type RecipeGenerationStatus = 'idle' | 'loading' | 'success' | 'error';
+type IngredientCollections = { userIngredients: string[]; extraIngredients: string[] };
 
 @Injectable({ providedIn: 'root' })
 export class RecipeGenerationService {
@@ -143,7 +145,7 @@ export class RecipeGenerationService {
     }
 
     if (!this.hasValidRecipeCount(response.recipes)) return null;
-    return this.ensureRecipesExist(normalizeRecipesFromResponse(response.recipes, request.preferences));
+    return this.ensureRecipesExist(normalizeRecipesFromResponse(response.recipes, request.preferences, request));
   }
 
   /** Checks the recipe count and raises the standardized mismatch error when needed. */
@@ -198,12 +200,17 @@ export class RecipeGenerationService {
 function normalizeRecipesFromResponse(
   recipes: GeneratedRecipe[],
   preferences: RecipeGenerationPreferences,
+  request: RecipeGenerationRequest,
 ): GeneratedRecipe[] {
-  return recipes.map((recipe) => normalizeRecipe(recipe, preferences));
+  return recipes.map((recipe) => normalizeRecipe(recipe, preferences, request));
 }
 
 /** Fills missing generated-recipe fields from the current request preferences and defaults. */
-function normalizeRecipe(recipe: PartialGeneratedRecipeResponse, preferences: RecipeGenerationPreferences): GeneratedRecipe {
+function normalizeRecipe(
+  recipe: PartialGeneratedRecipeResponse,
+  preferences: RecipeGenerationPreferences,
+  request: RecipeGenerationRequest,
+): GeneratedRecipe {
   const normalizedIngredients = normalizeIngredientList(recipe.ingredients ?? []);
   const normalizedExtraIngredients = normalizeIngredientList(recipe.extraIngredients ?? []);
   const normalizedSteps = normalizeStepList(recipe.steps ?? []);
@@ -212,6 +219,7 @@ function normalizeRecipe(recipe: PartialGeneratedRecipeResponse, preferences: Re
     recipe,
     normalizedIngredients,
     normalizedExtraIngredients,
+    request,
   );
   return buildNormalizedRecipe(recipe, defaults, ingredientCollections, normalizedIngredients, normalizedSteps);
 }
@@ -311,7 +319,7 @@ function buildRecipeLists(
 /** Builds the final normalized recipe object from the prepared recipe parts. */
 function buildNormalizedRecipe(
   recipe: PartialGeneratedRecipeResponse, defaults: Partial<GeneratedRecipe>,
-  ingredientCollections: Pick<GeneratedRecipe, 'userIngredients' | 'extraIngredients'>,
+  ingredientCollections: IngredientCollections,
   normalizedIngredients: string[], normalizedSteps: string[],
 ): GeneratedRecipe {
   return {
@@ -350,14 +358,98 @@ function buildRecipeClassification(
 
 /** Builds the normalized ingredient collections for a generated recipe. */
 function buildRecipeIngredients(
-  recipe: GeneratedRecipe,
+  recipe: GeneratedRecipe & {
+    ingredients?: Array<string | { name?: string; amount?: number; unit?: string; source?: string }>;
+  },
   normalizedIngredients: string[],
   normalizedExtraIngredients: string[],
-): Pick<GeneratedRecipe, 'userIngredients' | 'extraIngredients'> {
+  request: RecipeGenerationRequest,
+): IngredientCollections {
+  const explicitUserIngredients = recipe.userIngredients?.filter(Boolean) ?? [];
+  const explicitExtraIngredients = normalizedExtraIngredients.filter(Boolean);
+
+  if (explicitUserIngredients.length || explicitExtraIngredients.length) {
+    return {
+      userIngredients: explicitUserIngredients,
+      extraIngredients: explicitExtraIngredients,
+    };
+  }
+
+  const sourceSeparatedIngredients = splitIngredientsBySource(recipe.ingredients ?? []);
+
+  if (sourceSeparatedIngredients.userIngredients.length || sourceSeparatedIngredients.extraIngredients.length) {
+    return {
+      userIngredients: sourceSeparatedIngredients.userIngredients.length
+        ? sourceSeparatedIngredients.userIngredients
+        : normalizeRequestIngredients(request.ingredients),
+      extraIngredients: sourceSeparatedIngredients.extraIngredients,
+    };
+  }
+
+  const requestUserIngredients = normalizeRequestIngredients(request.ingredients);
+
   return {
-    userIngredients: recipe.userIngredients ?? normalizedIngredients.filter(Boolean),
-    extraIngredients: normalizedExtraIngredients.filter(Boolean),
+    userIngredients: requestUserIngredients,
+    extraIngredients: filterOutRequestIngredients(normalizedIngredients, request.ingredients),
   };
+}
+
+/** Formats the original request ingredients for the "Your ingredients" column. */
+function normalizeRequestIngredients(ingredients: RecipeGenerationIngredient[]): string[] {
+  return ingredients.map((ingredient) => formatRichIngredientLine(ingredient)).filter(Boolean);
+}
+
+/** Splits ingredient objects by their declared source when the backend provides it. */
+function splitIngredientsBySource(
+  ingredients: Array<string | { name?: string; amount?: number; unit?: string; source?: string }>,
+): IngredientCollections {
+  return ingredients.reduce<IngredientCollections>(
+    (collections, ingredient) => {
+      if (typeof ingredient === 'string') {
+        return collections;
+      }
+
+      const normalizedLine = formatRichIngredientLine(ingredient);
+
+      if (!normalizedLine) {
+        return collections;
+      }
+
+      if (ingredient.source === 'extra') {
+        collections.extraIngredients.push(normalizedLine);
+      } else {
+        collections.userIngredients.push(normalizedLine);
+      }
+
+      return collections;
+    },
+    { userIngredients: [], extraIngredients: [] },
+  );
+}
+
+/** Removes request ingredients from the full recipe list so only added extras remain. */
+function filterOutRequestIngredients(
+  ingredients: string[],
+  requestIngredients: RecipeGenerationIngredient[],
+): string[] {
+  const requestIngredientNames = new Set(
+    requestIngredients.map((ingredient) => normalizeIngredientName(ingredient.name)),
+  );
+
+  return ingredients.filter((ingredient) => !requestIngredientNames.has(normalizeIngredientName(extractIngredientName(ingredient))));
+}
+
+/** Extracts the probable ingredient name from a display line such as "200 g spinach". */
+function extractIngredientName(ingredientLine: string): string {
+  return ingredientLine
+    .replace(/^[\d.,/]+\s*/u, '')
+    .replace(/^(g|gram|grams|kg|ml|l|piece|pieces|teaspoon|teaspoons|tablespoon|tablespoons)\s+/iu, '')
+    .trim();
+}
+
+/** Normalizes ingredient names for reliable comparison across request and response payloads. */
+function normalizeIngredientName(name: string): string {
+  return name.trim().toLowerCase();
 }
 
 /** Normalizes a mixed ingredient value into the app's line-based representation. */
