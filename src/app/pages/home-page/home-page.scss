@@ -249,6 +249,25 @@
   display: none;
 }
 
+@media (min-width: 1150px) {
+  .hero-visual-wrap {
+    top: 0;
+    left: auto;
+    right: 0;
+    width: var(--desktop-visual-width);
+    height: 100vh;
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+
+  .hero-visual-desktop {
+    flex: 0 0 auto;
+    width: auto;
+    height: 100vh;
+  }
+}
+
 @media (max-width: 1240px) and (min-width: 1050px) {
   :host {
     --desktop-visual-width: clamp(350px, 33vw, 430px);

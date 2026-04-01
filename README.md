@@ -20,7 +20,7 @@ npm install
 2. Start the Angular app:
 
 ```bash
-ng serve
+npm start
 ```
 
 3. Start n8n locally on port `5678`.
