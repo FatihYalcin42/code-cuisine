@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build && cp public/.htaccess dist/code-cuisine/browser/.htaccess",
     "build:ftp": "ng build --base-href /angular-projects/code-cuisine/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
